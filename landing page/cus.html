@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riderly - Admin Dashboard</title>
+    <link rel="stylesheet" href="manage_customers.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div id="logo-container">
+                <img src="../images/logo.jpg" alt="Riderly Logo" width="80px">
+                <p>Riderly</p>
+            </div>
+            <ul class="heading">
+                <h1 class="dashboard-title">Manage Customers</h1>
+
+            </ul>
+
+            <div class="buttons">
+                <div class="riderly-button buttons">
+                    <a href="home.html" class="button signin-button">Home</a>
+                    <a href="home.html" class="button signin-button">Bikes</a>
+                    <a href="home.html" class="button signin-button">Rentals</a>
+                    <a href="home.html" class="button signin-button">Reports</a>
+                    <a href="li.html" class="button signin-button">Log Out</a>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <button id="addCustomerBtn" class="add-button">Add Customer</button>
+            <div class="search-bar">
+                <input type="number" id="ID_search" placeholder="Search by ID">
+                <input type="text" id="UName_search" placeholder="Search by Name">
+                <button id="search_btn" onclick="searchCustomer()">Search</button>
+                <br>
+                <div id="user_table"></div>
+            </div>
+        </aside>
+<!-- Popup for Search Results -->
+<div id="searchResultsPopup" class="popup">
+    <div class="popup-content">
+        <span id="searchResultsCloseBtn" class="close-btn">&times;</span>
+        <h2>Search Results</h2>
+        <div id="searchResultsContent"></div>
+
+    </div>
+</div>
+
+        <!-- Main Content -->
+        <section class="content">
+
+            <!-- <div id="Bike_results"></div> -->
+
+
+
+        </section>
+    </div>
+
+    <!-- Popup Form for Adding Motorbikes -->
+    <div id="customerPopup" class="popup" style="display:none;">
+        <div class="popup-content">
+            <span id="motorbikeCloseBtn" class="close-btn">&times;</span>
+            <h2>Add Customer</h2>
+            <form id="motorbikeForm">
+                <table id="bike_container">
+                    <tr>
+                        <td>
+                            <label for="bike_reg">Registration Number</label>
+                            <input type="text" id="bike_reg" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="bike_type">Type</label>
+                            <select name="type" id="bike_type" required>
+                                <option value="Standard">Standard</option>
+                                <option value="Cruisers">Cruisers</option>
+                                <option value="Sport Bikes">Sport Bikes</option>
+                                <option value="Touring Bikes">Touring Bikes</option>
+                                <option value="Adventure">Adventure</option>
+                                <option value="Dual-Sport Bikes">Dual-Sport Bikes</option>
+                                <option value="Dirt Bikes">Dirt Bikes</option>
+                                <option value="Scramblers">Scramblers</option>
+                                <option value="Scooters">Scooters</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="bike_brand">Brand</label>
+                            <select name="brand" id="bike_brand" required>
+                                <option value="Honda">Honda</option>
+                                <option value="Yamaha">Yamaha</option>
+                                <option value="Kawasaki">Kawasaki</option>
+                                <option value="Suzuki">Suzuki</option>
+                                <option value="Royal Enfield">Royal Enfield</option>
+                                <option value="KTM">KTM</option>
+                                <option value="Triumph">Triumph</option>
+                                <option value="Ducati">Ducati</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="bike_model">Model</label>
+                            <input type="text" id="bike_model" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="bike_year">Year</label>
+                            <input type="text" id="bike_year" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="bike_price">Rent Price</label>
+                            <input type="number" id="bike_price" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="bike_img">Image</label>
+                            <input type="file" id="bike_img" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-actions">
+                                <input type="submit" value="Submit" class="btn submit-btn">
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <script src="manage_bikes.js"></script>
+</body>
+
+</html>

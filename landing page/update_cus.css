@@ -1,0 +1,149 @@
+/* General Page Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar #logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.navbar #logo-container img {
+    margin-right: 10px;
+}
+
+.navbar p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.navbar .dashboard-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    margin-left: 20px;
+}
+
+.navbar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.navbar .buttons {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .riderly-button {
+    margin-left: 20px;
+}
+
+.navbar .riderly-button a {
+    text-decoration: none;
+    padding: 8px 15px;
+    background-color: #ff8800;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar .riderly-button a:hover {
+    background-color: #ff6600;
+}
+
+/* Form Container */
+#update_customer {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+#update_form {
+    display: flex;
+    flex-direction: column;
+}
+
+#update_form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+#update_form input[type="text"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#update_form input[type="submit"],
+#update_form input[type="button"] {
+    padding: 10px 15px;
+    background-color: #ff8800;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#update_form input[type="submit"]:hover,
+#update_form input[type="button"]:hover {
+    background-color: #ff6600;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    #update_customer {
+        padding: 20px;
+        margin: 20px;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar ul li {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .navbar .riderly-button {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}

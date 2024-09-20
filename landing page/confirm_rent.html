@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riderly - Admin Dashboard</title>
+    <link rel="stylesheet" href="confirm_rent.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div id="logo-container">
+                <img src="../images/logo.jpg" alt="Riderly Logo" width="80px">
+                <p>Riderly</p>
+            </div>
+            <ul class="heading">
+                <h1 class="dashboard-title">Confirm Rent</h1>
+
+            </ul>
+
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="explore.html">Explore Motorbikes</a></li>
+                <li><a href="about_us.html">About Us</a></li>
+            </ul>
+            <div class="buttons">
+                <div id="welcomeMessage"></div>
+                <div class="riderly-button buttons">
+                  <a href="terms.html" class="button signup-button">Terms</a>
+                  <a href="../About us/about_us.html" class="button signin-button">About</a>
+              </div>
+        </nav>
+    </header>
+    <body>
+        <div id="rent_bike_details"></div>
+        
+        <!-- <form action="" id="rentalForm">
+           <p  style="color: red;">Maximum rental time is 24 hours</p>
+            <label for="bikeName">Bike name</label>
+            <input type="textBox" id="bikeInfoBox" >
+            <label for="from">From :</label>
+            <input type="text" id="startDate" onfocus="(this.type='date')" onblur="{this.type='text'}" name="startDate" placeholder="Start Date(yyyy-mm-dd)"/>
+            <label for="end">End :</label>
+            <input type="text" id="endDate" onfocus="(this.type='date')" onblur="{this.type='text'}" name="endDate" placeholder="End Date(yyyy-mm-dd)"/> -->
+    <br><form action="" id="rentalForm">
+        <p style="color: red; font-size: 20px;">Maximum rental time is 24 hours</p>
+        <label for="bikeName">Bike name</label>
+        <input type="textBox" id="bikeInfoBox" readonly>
+        
+        <label for="hourlyPrice">Hourly Price</label>
+        <input type="text" id="hourlyPrice" readonly>
+    
+        <label for="from">From:</label>
+    <input type="datetime-local" id="startDate" name="startDate" placeholder="Start Date and Time" />
+    
+    <label for="end">End:</label>
+    <input type="datetime-local" id="endDate" name="endDate" placeholder="End Date and Time" />
+    
+    
+        <!-- <label for="from">From :</label>
+        <input type="datetime-local" id="startDate" onfocus="(this.type='date')" onblur="{this.type='text'}" name="startDate" placeholder="Start Date (yyyy-mm-dd)"/>
+        
+        <label for="end">End :</label>
+        <input type="datetime-local" id="endDate" onfocus="(this.type='date')" onblur="{this.type='text'}" name="endDate" placeholder="End Date (yyyy-mm-dd)"/> -->
+        
+        <label for="totalPrice">Total Price</label>
+        <input type="text" id="totalPrice" readonly>
+    
+    <br>
+            <!-- <label for="rent_time">How Much Rent Hour :</label>
+            <input type="text" name="rent_time">
+            <br><br>
+            <button>Calculate the Amount</button>
+            <br><br>
+            <label for="amount">Your Amount</label>
+            <input type="text" name="amount"> -->
+            <br><br>
+            <button class="btn" type="submit" id="submitBtn">Confirm Rent</button>
+    
+            <p id="rent_Confirm_message"></p>
+        </form>
+    
+    
+        <div class="container">
+            <h1>Rental Status</h1>
+            <div id="statusMessage"></div>
+            <!-- The rest of your customer page content -->
+        </div>
+    
+    
+        
+        <script src="confirm_rent.js"></script>
+    </body>
+    </html>

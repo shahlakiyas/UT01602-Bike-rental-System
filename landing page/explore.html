@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riderly - Admin Dashboard</title>
+    <link rel="stylesheet" href="explore1.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div id="logo-container">
+                <img src="../images/logo.jpg" alt="Riderly Logo" width="80px">
+                <p>Riderly</p>
+            </div>
+            <ul class="heading">
+                <h1 class="dashboard-title">Explore Motorbikes</h1>
+
+            </ul>
+
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="../customer/terms.html">Terms</a></li>
+                <li><a href="../About us/about_us.html">About Us</a></li>
+            </ul>
+            <div class="buttons">
+                <div id="welcomeMessage"></div>
+                <div class="riderly-button buttons">
+                  <a href="../customer/sign_up.html" class="button signup-button">Sign Up</a>
+                  <a href="li.html" class="button signin-button">Sign In</a>
+              </div>
+        </nav>
+    </header>
+    <div class="container">
+        <!-- Sidebar for Filters -->
+        <aside class="sidebar">
+            <h2>Filters</h2>
+            <form id="filterForm">
+                <label for="type">Type:</label>
+                <select id="type" name="type">
+                 
+                    <option value="type">Type</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Cruisers">Cruisers</option>
+                    <option value="Sport Bikes">Standard</option>
+                    <option value="Touring Bikes">StanSport Bikesdard</option>
+                    <option value="Adventure">Adventure</option>
+                    <option value="Dual-Sport Bikes">Dual-Sport Bikes</option>
+                    <option value="Dirt Bikes">Dirt Bikes</option>
+                    <option value="Scramblers">Scramblers</option>
+                    <option value="Scooters">Scooters</option>
+                    
+                </select>
+                </select>
+                
+                <label for="brand">Brand:</label>
+                <select id="brand" name="brand">
+                    <option value="brand">Brand</option>
+                        <option value="Honda">Honda</option>
+                        <option value="Yamaha">Yamaha</option>
+                        <option value="Kawasaki">Kawasaki</option>
+                        <option value="Suzuki">Suzuki</option>
+                        <option value="Royal Enfield">Royal Enfield</option>
+                        <option value="KTM">KTM</option>
+                        <option value="Triumph">Triumph</option>
+                        <option value="Ducati">Ducati</option>
+                </select>
+                
+                <label for="year">Year:</label>
+                <input type="number" id="year" name="year" placeholder="Enter year">
+                
+                <button type="button" onclick="applyFilters()">Apply Filters</button>
+            </form>
+        </aside>
+
+        <!-- Bike Cards -->
+        <main id="bike_details" class="bike-container">
+            <!-- Bikes will be displayed here -->
+        </main>
+    </div>
+
+    <script src="explore_bikes.js"></script>
+</body>
+</html>

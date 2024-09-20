@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Riderly</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div id="logo-container">
+                <img src="../images/logo.jpg" alt="Riderly Logo" width="80px">
+                <p>Riderly</p>
+            </div>
+            <ul class="heading">
+                <h1 class="dashboard-title" style="color: white;">User Profile</h1>
+
+            </ul>
+
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="terms.html">Terms</a></li>
+                <li><a href="../About us/about_us.html">About Us</a></li>
+            </ul>
+            <div class="buttons">
+                <!-- <div id="welcomeMessage"></div> -->
+                <div class="riderly-button buttons">
+                  <a href="explore.html" class="button signup-button">Explore</a>
+                  <!-- <a href="li.html" class="button signin-button">Sign In</a> -->
+              </div>
+        </nav>
+    </header>
+    <div class="profile-box">
+        <form id="profile-form">
+            <table>
+                <tr>
+                    <td><label for="nic">NIC Number</label></td>
+                    <td><input type="text" id="nic" name="nic" disabled></td>
+                </tr>
+                <tr>
+                    <td><label for="fullname">Name</label></td>
+                    <td><input type="text" id="fullname" name="fullname" disabled></td>
+                </tr>
+                <tr>
+                    <td><label for="email">Email</label></td>
+                    <td><input type="email" id="email" name="email" disabled></td>
+                </tr>
+                <tr>
+                    <td><label for="phone">Phone</label></td>
+                    <td><input type="tel" id="phone" name="phone" disabled></td>
+                </tr>
+                <tr>
+                    <td><label for="address">Address</label></td>
+                    <td><input type="text" id="address" name="address" disabled></td>
+                </tr>
+                <tr>
+                    <td><label for="drivingLicense">Driving License</label></td>
+                    <td><input type="text" id="drivingLicense" name="drivingLicense" disabled></td>
+                </tr>
+            </table>
+
+            <div id="button-container">
+                <button type="button" class="main-btn" id="update-button">Update Profile</button>
+                <button type="button" class="main-btn" id="save-button" style="display:none;">Save</button>
+                <button type="button" class="main-btn" id="cancel-button" style="display:none;">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <section class="main-password-change">
+        <div class="heading">
+            <h1 style="color: white;">Change Password</h1>
+        </div>
+        <div class="password-box">
+            <form id="password-form">
+                <table>
+                    <tr>
+                        <td><label for="oldPassword">Old Password</label></td>
+                        <td><input type="password" id="oldPassword" name="oldPassword"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="newPassword">New Password</label></td>
+                        <td><input type="password" id="newPassword" name="newPassword"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="confirmPassword">Confirm Password</label></td>
+                        <td><input type="password" id="confirmPassword" name="confirmPassword"></td>
+                    </tr>
+                </table>
+                <div id="button-container">
+                    <button type="button" class="main-btn" id="update-password">Update Password</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <h2>Rental Status</h2>
+    <div id="rentalStatus">
+        <!-- Rental status will be dynamically inserted here -->
+    </div>
+    <script src="profile.js"></script>
+</body>
+</html>
