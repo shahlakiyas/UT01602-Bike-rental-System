@@ -53,6 +53,13 @@ namespace BikeRentalApplication.Controllers
             return NoContent();
         }
 
+        [HttpGet("Get-All-bikes-With-Images")]
+        public async Task<IActionResult> GetAllBikesWithIamges()
+        {
+            var bikes = await _bikesRepository.GetAllBikesWithAsync();
+            return Ok(bikes);
+        }
+
 
 
     }

@@ -13,7 +13,8 @@ namespace BikeRentalApplication.Repositories
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<int> AddBikeAsync(Images image)
+        //Add Image
+        public async Task<int> AddImageAsync(Image image)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -25,7 +26,31 @@ namespace BikeRentalApplication.Repositories
                 var id = await command.ExecuteScalarAsync();
                 return Convert.ToInt32(id);
             }
+        }
 
+        //Get Image By BikeId
+        public async Task<List<Image>> GetProductByIdAsync(int bikeId)
+        {
+            var images = new List<Image>();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("select * from images where BikeId=@BikeId", connection);
+                command.Parameters.AddWithValue("@BikeId", bikeId);
+
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                if (reader.Read())
+                {
+                    images.Add(new Image
+                    {
+                        ImageId = (int)reader["ImageId"],
+                        ImagePath = reader["ImagePath"].ToString(),
+                        BikeId = (int)reader["ImageId"]
+                    });
+
+                }
+                return images;
+            }
         }
 
 
