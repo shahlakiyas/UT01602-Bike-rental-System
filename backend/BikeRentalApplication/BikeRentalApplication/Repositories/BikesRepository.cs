@@ -7,10 +7,12 @@ namespace BikeRentalApplication.Repositories
     public class BikesRepository
     {
         private readonly string _connectionString;
+        private readonly ImagesRepository _imageRepository;
 
-        public BikesRepository(IConfiguration configuration)
+        public BikesRepository(IConfiguration configuration , ImagesRepository imagesRepository)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _imageRepository = imagesRepository;
         }
 
         public async Task<int> AddBikeAsync(Bike bike)
@@ -107,6 +109,33 @@ namespace BikeRentalApplication.Repositories
                 var result = await command.ExecuteNonQueryAsync();
                 return result > 0;
             }
+        }
+         //Get Bikes with Images
+        public async Task<List<BikeImage>> GetAllBikesWithAsync()
+        {
+            var bikeImages = new List<Image>(); 
+            var bikesWithImages = new List<BikeImage>();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(" select * from Bikes inner join Images  on Bikes.Id = Images.BikeId;", connection);
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                {
+                    var images = await _imageRepository.GetProductByIdAsync((int)reader["Id"]);
+                    bikesWithImages.Add(new BikeImage
+                    {
+                        BikeId = (int)reader["Id"],
+                        Brand = reader["Brand"].ToString(),
+                        Modal = reader["Modal"].ToString(),
+                        Type = reader["Type"].ToString(),
+                        RatePerHour = (decimal)reader["RatePerHour"],
+                        BikeImages = images
+                    });   
+                
+                }
+            }
+            return bikesWithImages;
         }
 
     }

@@ -17,11 +17,18 @@ namespace BikeRentalApplication.Controllers
         }
 
         // Create Bike
-        [HttpPost]
-        public async Task<IActionResult> CreateProduct(Images image)
+        [HttpPost("Add-Image")]
+        public async Task<IActionResult> AddImage(Image image)
         {
-            var productId = await _imagesRepository.AddBikeAsync(image);
+            var productId = await _imagesRepository.AddImageAsync(image);
             return Ok(productId);
+        }
+
+        [HttpGet("Get-All-bikes-With-Images")]
+        public async Task<IActionResult> GetAllBikesWithIamges()
+        {
+            var bikes = await _imagesRepository.GetProductByIdAsync(2);
+            return Ok(bikes);
         }
     }
 }
