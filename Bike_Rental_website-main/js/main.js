@@ -79,43 +79,7 @@ bikeData.forEach((bike) => {
   const bikeBoxHtml = createBikeBox(bike);
   bikeContent.insertAdjacentHTML("beforeend", bikeBoxHtml);
 });
-// // Swiper
-// var swiper = new Swiper(".destination-container", {
-//   slidePerView: 1,
-//   spaceBetween: 10,
-//   autoplay: {
-//     delay: 2500,
-//     disableOnInteraction: false,
-//   },
-//   pagination: {
-//     el: ".swiper-pagination",
-//     dynamicBullets: true,
-//     clickable: true,
-//   },
-//   breakpoints: {
-//     280: {
-//       slidesPerView: 1,
-//       spaceBetween: 10,
-//     },
-//     320: {
-//       slidesPerView: 1,
-//       spaceBetween: 10,
-//     },
-//     510: {
-//       slidesPerView: 2,
-//       spaceBetween: 10,
-//     },
-//     750: {
-//       slidesPerView: 3,
-//       spaceBetween: 15,
-//     },
-//     900: {
-//       slidesPerView: 4,
-//       spaceBetween: 20,
-//     },
 
-//   }
-// });
 
 
 //slide show
@@ -169,19 +133,98 @@ window.onclick = function (event) {
     modal.style.display = "none";
   }
 }
-let modalForm = document.querySelector(".modal-form");
+let modalFormDiv = document.querySelector(".form-div");
+loadLogInModal();
 let signUpBtn = document.querySelector('#signUpBtn');
-signUpBtn.addEventListener('click' , loadSignUpModal);
+signUpBtn.addEventListener('click' , loadLogInModal);
 
 
 let logInBtn = document.querySelector('#logInBtn');
-logInBtn.addEventListener('click' , loadLogInModal)
+logInBtn.addEventListener('click' , loadSignUpModal)
 function loadSignUpModal(){
-  modalForm.innerHTML = "";
-  modalForm.innerHTML = ``
+  modalFormDiv.innerHTML = "";
+  modalFormDiv.innerHTML = `
+  <form action="" class="modal-form" id="signUpForm">
+  <h2>Register</h2>
+  <div class="tab-1" id="registerUser">
+      <p id="message1"></p>
+      <div class='form-item'>
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" placeholder="Enter your first name" required>
+      </div>
+      <div class='form-item'>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" placeholder="Enter your last name" required>
+      </div>
+      <div class='form-item'>
+      <label for="userNIC" class="required-field">National Identity Card Number:</label>
+      <input type="text" id="userNIC" placeholder="9********V/199********" required>
+      </div>
+      <div class='form-item'>
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="example@gmail.com" required>
+      </div>
+      <div class='form-item'>
+      <label for="userRole">I am a</label>
+      <select name="role" id="userRole" required>
+          <option value="">Select Your Role</option>
+          <a>
+              <option value="customer">Customer</option>
+          </a>
+          <a>
+              <option value="manager">Manager</option>
+          </a>
+
+      </select>
+      </div>
+  </div>
+  <button type="submit" id="nextTabBtn" class="btn">Next &nbsp; ></button>
+</form>
+<form id="verificationForm" class="modal-form">
+  <div class="tab-2" id="verification">
+    
+   <h2>Setup Your Account</h2>
+      <div id="info"></div>
+      <div class='form-item'>
+      <label for="userName">Username:</label>
+      <input type="text" id="userName" required>
+      </div>
+      <div class='form-item'>
+      <label for="userPassword">
+          Password:
+      </label>
+      <input type="password" id="userPassword" required>
+      </div>
+      <div class='form-item'>
+      <label for="repeatUserPassword">
+        Confirm Password:
+      </label>
+      <input type="password" id="repeatUserPassword" required>
+      </div>
+      <button type="submit" class="btn" >Submit</button>
+  </div>
+</form>
+  `
 }
 
 function loadLogInModal(){
-  modalForm.innerHTML = "";
-  modalForm.innerHTML = ``
+  modalFormDiv.innerHTML = "";
+  modalFormDiv.innerHTML = ` 
+  <form action="" class="modal-form" id="logInForm">
+      <h2>Login</h2>
+      <div class='form-item'>
+      <label for="userName">Username:</label>
+  <input type="text" id="userName" placeholder="Enter your username">
+  </div>
+  <div class='form-item'>
+  <label for="userPassword">
+      Password:
+  </label>
+  
+  <input type="password" id="userPassword" placeholder="Enter your password">
+  </div>
+  <h4 id="msg"></h4>
+  <button type="submit" class="btn">Submit</button>
+  </form>
+  `
 }
