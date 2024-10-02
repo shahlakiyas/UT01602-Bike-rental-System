@@ -39,7 +39,18 @@ namespace BikeRentalApplication.Controllers
             var updated = await _bikesRepository.UpdateBike(bike);
             var updatedBike = await _bikesRepository.GetBikeById(id);
             return Ok(updatedBike);
+        }
+        // Delete Bike
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var deleted = await _bikesRepository.DeleteBikeAsync(id);
+            if (!deleted)
+            {
+                return NotFound();
+            }
 
+            return NoContent();
         }
 
 

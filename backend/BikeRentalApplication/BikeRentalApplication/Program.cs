@@ -32,6 +32,7 @@ namespace BikeRentalApplication
             // Register your ADO.NET repository for dependency injection
             builder.Services.AddSingleton<ProductRepository>();
             builder.Services.AddSingleton<BikesRepository>();
+            builder.Services.AddSingleton<ImagesRepository>();
 
             // Build the application
             var app = builder.Build();

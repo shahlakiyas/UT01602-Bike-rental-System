@@ -37,7 +37,6 @@ namespace BikeRentalApplication.Repositories
             {
                 SqlCommand command = new SqlCommand("SELECT * FROM Bikes", connection);
                 await connection.OpenAsync();
-                var data = await command.ExecuteReaderAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 while (reader.Read())
                 {
@@ -45,8 +44,8 @@ namespace BikeRentalApplication.Repositories
                     {
                         Id = (int)reader["Id"],
                         Brand = reader["Brand"].ToString(),
-                        Type = reader["Type"].ToString(),
                         Modal = reader["Modal"].ToString(),
+                        Type = reader["Type"].ToString(),
                         RatePerHour = (decimal)reader["RatePerHour"]
                     });
                 }
@@ -89,6 +88,20 @@ namespace BikeRentalApplication.Repositories
                 command.Parameters.AddWithValue("@Modal", bike.Modal);
                 command.Parameters.AddWithValue("@Type", bike.Type);
                 command.Parameters.AddWithValue("@RatePerHour", bike.RatePerHour);
+
+                await connection.OpenAsync();
+                var result = await command.ExecuteNonQueryAsync();
+                return result > 0;
+            }
+        }
+
+        //Delete Bike By Id 
+        public async Task<bool> DeleteBikeAsync(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("DELETE FROM Bikes WHERE Id = @Id", connection);
+                command.Parameters.AddWithValue("@Id", id);
 
                 await connection.OpenAsync();
                 var result = await command.ExecuteNonQueryAsync();
