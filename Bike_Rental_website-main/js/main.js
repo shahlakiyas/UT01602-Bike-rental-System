@@ -1,5 +1,6 @@
 const bikeData = [
   {
+    id: 1,
     name: "BMW G 310 RR",
     type: "ADVENTURE",
     price: 250,
@@ -7,6 +8,7 @@ const bikeData = [
     tag: "Free Cancellation",
   },
   {
+    id: 2,
     name: "BMW G 310 R",
     type: "ADVENTURE",
     price: 280,
@@ -14,6 +16,7 @@ const bikeData = [
     tag: "Free Cancellation",
   },
   {
+    id: 3,
     name: "BMW G 310 GS",
     type: "ADVENTURE",
     price: 400,
@@ -21,6 +24,7 @@ const bikeData = [
     tag: "Free Cancellation",
   },
   {
+    id: 4,
     name: "BMW R 1250 GS",
     type: "ADVENTURE",
     price: 500,
@@ -28,6 +32,7 @@ const bikeData = [
     tag: "Free Cancellation",
   },
   {
+    id: 5,
     name: "BMW M 1000 RR",
     type: "ADVENTURE",
     price: 560,
@@ -35,6 +40,7 @@ const bikeData = [
     tag: "Free Cancellation",
   },
   {
+    id: 6,
     name: "BMW F 850 GS",
     type: "ADVENTURE",
     price: 780,
@@ -42,6 +48,7 @@ const bikeData = [
     tag: "Free Cancellation",
   },
   {
+    id: 7,
     name: "BMW C 400 GT",
     type: "ADVENTURE",
     price: 890,
@@ -49,6 +56,7 @@ const bikeData = [
     tag: "Free Cancellation",
   },
   {
+    id: 8,
     name: "BMW R 1300 GS",
     type: "ADVENTURE",
     price: 900,
@@ -57,9 +65,14 @@ const bikeData = [
   },
 ];
 
+const users = [
+
+]
+
 // Function to create bike box Element
 const createBikeBox = (bike) => `
 <div class="bike-box">
+                <p style=display:none;>${bike.id}</p>
                 <img src="${bike.image}" alt="" class="box-img" />
                 <div class="title-price">
                     <div class="title-data">
@@ -68,7 +81,7 @@ const createBikeBox = (bike) => `
                     </div>
                     <h3 class="bike-price">₹${bike.price}<span>/hour</span></h3>
                 </div>
-                <a href="#" class="book-btn">Book Bike</a>
+                <a href="#" class="book-btn" onclick="bikeView()">Book Bike</a>
                 <span class="tag">${bike.tag}</span>
             </div>
 `;
@@ -93,8 +106,8 @@ function showSlides() {
     slides[i].style.display = "none";
   }
   slideIndex++;
-  if (slideIndex > slides.length) {slideIndex = 1}
-  slides[slideIndex-1].style.display = "block";
+  if (slideIndex > slides.length) { slideIndex = 1 }
+  slides[slideIndex - 1].style.display = "block";
   setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
 //slide show end
@@ -136,12 +149,22 @@ window.onclick = function (event) {
 let modalFormDiv = document.querySelector(".form-div");
 loadLogInModal();
 let signUpBtn = document.querySelector('#signUpBtn');
-signUpBtn.addEventListener('click' , loadLogInModal);
+signUpBtn.addEventListener('click', loadLogInModal);
 
 
 let logInBtn = document.querySelector('#logInBtn');
-logInBtn.addEventListener('click' , loadSignUpModal)
-function loadSignUpModal(){
+logInBtn.addEventListener('click', loadSignUpModal)
+
+
+
+
+let verificationForm = document.getElementById("verificationForm");
+let userName = document.getElementById("userName");
+let userPassword = document.getElementById("userPassword");
+let submitBtn = document.getElementById("submitBtn");
+
+
+function loadSignUpModal() {
   modalFormDiv.innerHTML = "";
   modalFormDiv.innerHTML = `
   <form action="" class="modal-form" id="signUpForm">
@@ -205,9 +228,30 @@ function loadSignUpModal(){
   </div>
 </form>
   `
+  let nextTabBtn = document.getElementById("nextTabBtn");
+  let signUpForm = document.getElementById("signUpForm");
+  let firstName = document.getElementById("firstName");
+  let lastName = document.getElementById("lastName");
+  let userNIC = document.getElementById("userNIC");
+  let email = document.getElementById("email");
+  let userRole = document.getElementById("userRole");
+  nextTabBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    let userData = {
+      firstName,
+      lastName,
+      userNIC,
+      email,
+      userRole
+    }
+    getUserData(userData);
+    signUpForm.reset();
+
+    // console.log(getUserData);
+  })
 }
 
-function loadLogInModal(){
+function loadLogInModal() {
   modalFormDiv.innerHTML = "";
   modalFormDiv.innerHTML = ` 
   <form action="" class="modal-form" id="logInForm">
@@ -224,7 +268,60 @@ function loadLogInModal(){
   <input type="password" id="userPassword" placeholder="Enter your password">
   </div>
   <h4 id="msg"></h4>
-  <button type="submit" class="btn">Submit</button>
+  <button type="submit" class="btn" id="submitBtn">Submit</button>
   </form>
   `
 }
+
+
+function getUserData(userData) {
+  console.log(userData);
+
+  userData.firstName.value.trim() == "";
+  userData.lastName.value.trim() == "";
+  console.log(userData.userNIC.value.length);
+  if (userData.email.value.trim() == "") {
+    alert("Please fill in the your email address")
+    return "Please fill in the your email address"
+  }
+
+    if (isNaN(userData.userNIC.value) || userData.userNIC.value.length < 1 || userData.userNIC.value.length > 10) {
+      alert("Input not valid")
+      return "Input not valid"
+    } else {
+      alert("Input OK")
+      // return "Input OK"
+    }
+    
+  // userData.userNIC.value.trim() == "";
+  userData.userRole.value.trim() == "";
+    if (userData.userRole.value == "customer") {
+      alert ("are you customer")
+    }
+    else if(userData.userRole.value == "manager"){
+        alert("are you manager")
+    }
+ 
+  let U_firstName = firstName.value;
+  let U_lastName = lastName.value;
+  let U_userNIC = userNIC.value;
+  let U_email = email.value;
+  let U_userRole = userRole.value;
+
+  let user = {
+    FirstName: U_firstName,
+    lastName: U_lastName,
+    UserNIC: U_userNIC,
+    Email: U_email,
+    UserRole: U_userRole
+  }
+  console.log(user);
+}
+
+
+function bikeView(){
+  
+}
+
+
+// console.log(getUserData);
