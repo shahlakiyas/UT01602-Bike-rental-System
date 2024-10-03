@@ -158,8 +158,17 @@ section {
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 30%; /* Could be more or less, depending on screen size */
+   /* Could be more or less, depending on screen size */
 }
+
+.signUp{
+  width: 30%;
+}
+
+.bikeModal{
+  width:60%;
+}
+
 .modal-top{
   display:flex;
   justify-content: space-around;
