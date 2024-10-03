@@ -117,7 +117,7 @@ namespace BikeRentalApplication.Repositories
             var bikesWithImages = new List<BikeImage>();
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(" select * from Bikes inner join Images  on Bikes.Id = Images.BikeId;", connection);
+                SqlCommand command = new SqlCommand("select * from Bikes inner join Images  on Bikes.Id = Images.BikeId;", connection);
                 await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 while (reader.Read())
@@ -137,6 +137,33 @@ namespace BikeRentalApplication.Repositories
             }
             return bikesWithImages;
         }
+        // Get Bike By Id with images
+        public async Task<BikeImage> GetBikeByIdWithImages(int id)
+        {
+            var bikeWithImages = new BikeImage();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("select * from Bikes inner join Images  on Bikes.Id = Images.BikeId;", connection);
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                if (reader.Read())
+                {
+                    var images = await _imageRepository.GetProductByIdAsync(id);
+                    return new BikeImage
+                    {
+                        BikeId = (int)reader["Id"],
+                        Brand = reader["Brand"].ToString(),
+                        Type = reader["Type"].ToString(),
+                        Modal = reader["Modal"].ToString(),
+                        RatePerHour = (decimal)reader["RatePerHour"],
+                        BikeImages = images
+                    };
+                }
+                return null;
+            }
+        }
+
+
 
     }
 
