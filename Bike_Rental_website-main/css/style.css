@@ -21,6 +21,8 @@
   --container-color: #faeee4;
 }
 
+
+
 img {
   width: 100%;
 }
@@ -204,6 +206,29 @@ section {
 .close:hover,
 .close:focus {
   color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+/* rent confirm model */
+/* The Close Button */
+.closeModel {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  width: 100%;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  margin-left: 75vw;
+  
+}
+
+.closeModel:hover,
+.closeModel:focus {
+  color: red;
   text-decoration: none;
   cursor: pointer;
 }
@@ -434,6 +459,7 @@ section {
   font-size: 0.9rem;
   font-weight: 500;
   margin-top: 1rem;
+  width: 100%;
 }
 
 .book-btn:hover {
@@ -868,4 +894,14 @@ section {
   .navbar {
     width: 100%;
   }
+}
+
+
+
+/* ........................................................................... */
+.rent-img{
+  width: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 40%;
 }
