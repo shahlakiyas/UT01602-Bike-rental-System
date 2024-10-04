@@ -20,9 +20,10 @@ body {
 }
 
 .top-3{
-  position:absolute;
+  position:fixed;
   top:14vh;
   z-index:3;
+  width: 70%;
 }
 
 table {
