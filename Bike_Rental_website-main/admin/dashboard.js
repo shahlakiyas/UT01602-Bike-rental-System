@@ -7,6 +7,37 @@ document.querySelectorAll('.sidebar ul li a').forEach(link => {
     });
 });
 
+const apiBaseUrl = "http://localhost:5263/api/Bikes/Get-All-bikes-With-Images";
+
+let dispalySection = document.getElementById('dispalySection');
+let dispalySectionHead = document.getElementById('dispalySectionHead');
+let dispalySectionBody = document.getElementById('dispalySectionBody');
+
+let viewBikesBtn = document.getElementById('viewBikes');
+viewBikesBtn.addEventListener('click' , displayBikes);
+
+async function displayBikes(){
+  const response = await fetch(apiBaseUrl);
+  const bikes = await response.json();
+  console.log(bikes);
+  dispalySectionHead.innerHTML = "";
+  dispalySectionHead.innerHTML = `<td>Brand</td>
+  <td>Modal</td>
+  <td>Type</td>
+  <td>Rate per Hour</td>` 
+  dispalySectionBody.innerHTML = "";
+  bikes.forEach(bike => {
+    dispalySectionBody.innerHTML += `<tr>
+    <td>${bike.bikeId}</td>
+    <td>${bike.brand}</td>
+    <td>${bike.modal}</td>
+    <td>${bike.ratePerHour}</td>
+   
+    </tr>`
+  });
+  // dispalySectionHead.innerHTML = ''
+
+}
 
 //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
 var dropdown = document.getElementsByClassName("dropdown-btn");

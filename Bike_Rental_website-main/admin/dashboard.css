@@ -19,6 +19,33 @@ body {
     padding-top: 50px;
 }
 
+.top-3{
+  position:absolute;
+  top:14vh;
+  z-index:3;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  padding: 10px;
+  text-align: left;
+}
+thead{
+  background-color: #ffffff;
+}
+
+tbody tr:nth-child(odd){
+  background-color: #68e0bc;
+}
+
 .navbar {
     width: 100%;
     display: flex;

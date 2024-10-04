@@ -39,34 +39,34 @@
       </button>
       <div class="dropdown-container">
         <a href="#" id="myBtn" class="add-btn">Add Bike</a>
-        <a href="#">View Bike</a>
+        <a href="#" id="viewBikes">View Bike</a>
       </div>
       <button class="dropdown-btn">
         Customers
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="#">Link 1</a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
+        <a href="#">View Customers</a>
+        <a href="#"></a>
+       
       </div>
       <button class="dropdown-btn">
         Rentals
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="#">Link 1</a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
+        <a href="#">Rental Requests</a>
+        <a href="#">Rental Portal</a>
+        <a href="#">Rental Returns</a>
       </div>
       <button class="dropdown-btn">
         Reports
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="#">Link 1</a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
+        <a href="#">Inventory</a>
+        <a href="#">Customers</a>
+        <a href="#">Rentals</a>
       </div>
 
       <div>
@@ -74,10 +74,18 @@
       </div>
     </div>
 
-   
 
-    <!-- Trigger/Open The Modal -->
-    <!-- <button id="myBtn" class="btn">Add Bike</button> -->
+    <!-- section to display table -->
+   <section class="top-3">
+    <table id="dispalySection">
+      <thead>
+        <tr id="dispalySectionHead">
+          
+        </tr>
+      </thead>
+      <tbody id="dispalySectionBody"></tbody>
+    </table>
+   </section>
 
     <!-- The Modal -->
     <div id="myModal" class="modal">
@@ -88,18 +96,17 @@
             <div class="container">
                 <div class="card">
                     <div class="inputBox1">
-                        <input type="text" placeholder="Brand..........">
+                        <input type="text" placeholder="Brand.........." id="bikeBrand">
+                    </div>
+                    <div class="inputBox">
+                        <input type="text" placeholder="Type.........." id="bikeType">
                     </div>
         
                     <div class="inputBox">
-                        <input type="text" placeholder="Type..........">
-                    </div>
-        
-                    <div class="inputBox">
-                        <input type="text" placeholder="Model..........">
+                        <input type="text" placeholder="Model.........." id="bikeModel">
                     </div>
                     <div class="inputBox">
-                        <input type="file" placeholder="image..........">
+                        <input type="file" placeholder="image.........." id="bikeImage">
                     </div>
         
                     <button class="enter">Submit</button>
@@ -110,16 +117,7 @@
       </div>
     </div>
 
-    
-  
 
-
-
-    <!-- <div class="grid-container">
-      <div class="grid">
-        <h1>Sample</h1>
-      </div>
-    </div> -->
 
     <script src="./dashboard.js"></script>
   </body>
