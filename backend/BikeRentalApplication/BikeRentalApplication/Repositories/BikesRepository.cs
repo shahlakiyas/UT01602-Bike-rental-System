@@ -113,7 +113,7 @@ namespace BikeRentalApplication.Repositories
          //Get Bikes with Images
         public async Task<List<BikeImage>> GetAllBikesWithAsync()
         {
-            var bikeImages = new List<Image>(); 
+          
             var bikesWithImages = new List<BikeImage>();
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

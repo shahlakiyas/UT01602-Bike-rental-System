@@ -1,4 +1,5 @@
-﻿using BikeRentalApplication.Entities;
+﻿using BikeRentalApplication.Dbset;
+using BikeRentalApplication.Entities;
 using BikeRentalApplication.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace BikeRentalApplication.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly ProductRepository _productsRepository;
+        private bikeRentalDBset _dbset;
 
-        public ProductsController(ProductRepository productsRepository)
+        public ProductsController(ProductRepository productsRepository , bikeRentalDBset rentalDBset)
         {
             _productsRepository = productsRepository;
+            _dbset = rentalDBset;
         }
 
         // Create Product
@@ -73,6 +76,13 @@ namespace BikeRentalApplication.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost("DB-set")]
+        public async Task<IActionResult> setupDb(string tableName)
+        {
+            var dBname = await _dbset.CreateTable(tableName);
+            return Ok(dBname);
         }
     }
 }

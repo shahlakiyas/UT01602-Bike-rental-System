@@ -14,7 +14,7 @@ let bikes = [
     bikeId: 2,
     brand: "Yamaha",
     type: "sports",
-    modal: "FZ",
+    model: "FZ",
     ratePerHour: 300,
     bikeImages: [
       {
@@ -83,9 +83,9 @@ async function displayBikes() {
   bikes.forEach((bike) => {
     dispalySectionBody.innerHTML += `
           <tr>
-              <td>${bike.bikeId}</td>
               <td>${bike.brand}</td>
               <td>${bike.model}</td>
+              <td>${bike.type}</td>
               <td>${bike.ratePerHour}</td>
               <td>
                   <button type="button" id="addBike_Btn" data-index="${bike.bikeId}">Add</button>
