@@ -1,4 +1,5 @@
 
+using BikeRentalApplication.Dbset;
 using BikeRentalApplication.Repositories;
 
 namespace BikeRentalApplication
@@ -30,9 +31,12 @@ namespace BikeRentalApplication
             builder.Services.AddSwaggerGen();
 
             // Register your ADO.NET repository for dependency injection
+            builder.Services.AddSingleton<bikeRentalDBset>();
             builder.Services.AddSingleton<ProductRepository>();
             builder.Services.AddSingleton<BikesRepository>();
             builder.Services.AddSingleton<ImagesRepository>();
+            builder.Services.AddSingleton<InventoryRepository>();
+
 
             // Build the application
             var app = builder.Build();
