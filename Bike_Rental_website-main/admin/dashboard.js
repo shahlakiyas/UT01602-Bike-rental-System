@@ -1,10 +1,10 @@
-document.querySelectorAll('.sidebar ul li a').forEach(link => {
-    link.addEventListener('click', function() {
-        document.querySelectorAll('.sidebar ul li a').forEach(item => {
-            item.classList.remove('active');
-        });
-        this.classList.add('active');
+document.querySelectorAll(".sidebar ul li a").forEach((link) => {
+  link.addEventListener("click", function () {
+    document.querySelectorAll(".sidebar ul li a").forEach((item) => {
+      item.classList.remove("active");
     });
+    this.classList.add("active");
+  });
 });
 
 const apiBaseUrl = "http://localhost:5263/api/Bikes/Get-All-bikes-With-Images";
@@ -27,34 +27,74 @@ let bikes = [
   },
 ];
 
-let dispalySection = document.getElementById('dispalySection');
-let dispalySectionHead = document.getElementById('dispalySectionHead');
-let dispalySectionBody = document.getElementById('dispalySectionBody');
+let dispalySection = document.getElementById("dispalySection");
+let dispalySectionHead = document.getElementById("dispalySectionHead");
+let dispalySectionBody = document.getElementById("dispalySectionBody");
 
-let viewBikesBtn = document.getElementById('viewBikes');
-viewBikesBtn.addEventListener('click' , displayBikes);
+let viewBikesBtn = document.getElementById("viewBikes");
+viewBikesBtn.addEventListener("click", displayBikes);
 
-async function displayBikes(){
+// async function displayBikes(){
+//   // const response = await fetch(apiBaseUrl);
+//   // const bikes = await response.json();
+//   console.log(bikes);
+//   dispalySectionHead.innerHTML = "";
+//   dispalySectionHead.innerHTML = `<th>Brand</th>
+//   <th>Modal</th>
+//   <th>Type</th>
+//   <th>Rate per Hour</th>
+//   <th>Actions</th>
+//   `
+//   dispalySectionBody.innerHTML = "";
+//   bikes.forEach(bike => {
+//     dispalySectionBody.innerHTML += `<tr>
+//     <td>${bike.bikeId}</td>
+//     <td>${bike.brand}</td>
+//     <td>${bike.modal}</td>
+//     <td>${bike.ratePerHour}</td>
+//     <td>
+//     <button type="button" id="addBike_Btn" data-index=${bike.bikeId}>Add</button>
+//     <button type="button">Edit</button>
+//     <button type="button">Delete</button>
+//     </td>
+//     </tr>`
+//   });
+//   // dispalySectionHead.innerHTML = ''
+
+// }
+
+// Function to display bikes (as an example)
+async function displayBikes() {
+  // Example API call (uncomment and adjust as needed)
   // const response = await fetch(apiBaseUrl);
   // const bikes = await response.json();
+
   console.log(bikes);
   dispalySectionHead.innerHTML = "";
-  dispalySectionHead.innerHTML = `<td>Brand</td>
-  <td>Modal</td>
-  <td>Type</td>
-  <td>Rate per Hour</td>` 
-  dispalySectionBody.innerHTML = "";
-  bikes.forEach(bike => {
-    dispalySectionBody.innerHTML += `<tr>
-    <td>${bike.bikeId}</td>
-    <td>${bike.brand}</td>
-    <td>${bike.modal}</td>
-    <td>${bike.ratePerHour}</td>
-   
-    </tr>`
-  });
-  // dispalySectionHead.innerHTML = ''
+  dispalySectionHead.innerHTML = `
+      <th>Brand</th>
+      <th>Model</th>
+      <th>Type</th>
+      <th>Rate per Hour</th>
+      <th>Actions</th>
+  `;
 
+  dispalySectionBody.innerHTML = "";
+  bikes.forEach((bike) => {
+    dispalySectionBody.innerHTML += `
+          <tr>
+              <td>${bike.bikeId}</td>
+              <td>${bike.brand}</td>
+              <td>${bike.model}</td>
+              <td>${bike.ratePerHour}</td>
+              <td>
+                  <button type="button" id="addBike_Btn" data-index="${bike.bikeId}">Add</button>
+                  <button type="button">Edit</button>
+                  <button type="button">Delete</button>
+              </td>
+          </tr>
+      `;
+  });
 }
 
 //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
@@ -62,7 +102,7 @@ var dropdown = document.getElementsByClassName("dropdown-btn");
 var i;
 
 for (i = 0; i < dropdown.length; i++) {
-  dropdown[i].addEventListener("click", function() {
+  dropdown[i].addEventListener("click", function () {
     this.classList.toggle("active");
     var dropdownContent = this.nextElementSibling;
     if (dropdownContent.style.display === "block") {
@@ -73,7 +113,6 @@ for (i = 0; i < dropdown.length; i++) {
   });
 }
 
-
 // Get the modal
 var modal = document.getElementById("myModal");
 
@@ -83,19 +122,96 @@ var btn = document.getElementById("myBtn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
+// When the user clicks the button, open the modal
+btn.onclick = function () {
   modal.style.display = "block";
-}
+};
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+span.onclick = function () {
   modal.style.display = "none";
-}
+};
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
+};
+
+// ......................................................................................................................................................
+
+// // Get the modal
+// var AddBikeModel = document.getElementById("AddBikeModel");
+
+// // Get the button that opens the modal
+// var addBikeBtn = document.getElementById("addBike_Btn");
+
+// // Get the <span> element that closes the modal
+// var span = document.getElementsByClassName("closeModel")[0];
+
+// // When the user clicks the button, open the modal
+// // addBikeBtn.onclick = function() {
+// //   AddBikeModel.style.display = "block";
+// // }
+
+// addBikeBtn.addEventListener("click", (event) => addBikeDeatils(event));
+// function addBikeDeatils(event) {
+//   AddBikeModel.style.display = "block";
+//   let bikeId = event.target.getAttribute("data-index");
+//   console.log(bikeId);
+//   AddBike();
+// }
+
+// // When the user clicks on <span> (x), close the modal
+// span.onclick = function () {
+//   AddBikeModel.style.display = "none";
+// };
+
+// // When the user clicks anywhere outside of the modal, close it
+// window.onclick = function (event) {
+//   if (event.target == AddBikeModel) {
+//     AddBikeModel.style.display = "none";
+//   }
+// };
+
+// async function AddBike() {
+//   // const response = await fetch(`${apiBaseUrl}${id}`);
+//   // const bike = await response.json();
+
+//   let modelContent = document.getElementById("modelContent");
+//   console.log(modelContent);
+// }
+
+
+// Get the modal
+var AddBikeModel = document.getElementById("AddBikeModel");
+
+// Get the button that opens the modal
+var addBikeBtn = document.getElementById("addBike_Btn");
+
+// Get the <span> element that closes the modal
+// var span = document.getElementsByClassName("closeModel")[0];
+
+// Add event listener to the button
+addBikeBtn.addEventListener("click", (event) => addBikeDetails(event));
+
+// Function to open the modal and handle bike details
+function addBikeDetails(event) {
+    AddBikeModel.style.display = "block";
+    let bikeId = event.target.getAttribute("data-index");
+    console.log("Selected Bike ID:", bikeId);
+    AddBike(bikeId); // Pass the bikeId to the function
+}
+
+// When the user clicks on <span> (x), close the modal
+// span.onclick = function() {
+//     AddBikeModel.style.display = "none";
+// }
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == AddBikeModel) {
+        AddBikeModel.style.display = "none";
+    }
 }
