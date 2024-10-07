@@ -1,12 +1,13 @@
 
 using BikeRentalApplication.Dbset;
 using BikeRentalApplication.Repositories;
+using Microsoft.Extensions.Configuration;
 
 namespace BikeRentalApplication
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -30,16 +31,32 @@ namespace BikeRentalApplication
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            // Register your ADO.NET repository for dependency injection
-            builder.Services.AddSingleton<bikeRentalDBset>();
+
+            // Configure services (no ConfigureServices method, just use builder.Services)
+            builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+            // Register the bikeRentalDBset as a scoped service
+            builder.Services.AddScoped<bikeRentalDBset>();
+
+
             builder.Services.AddSingleton<ProductRepository>();
             builder.Services.AddSingleton<BikesRepository>();
             builder.Services.AddSingleton<ImagesRepository>();
             builder.Services.AddSingleton<InventoryRepository>();
+            builder.Services.AddSingleton<UserRepository>();
+            builder.Services.AddSingleton<RentalRequestRepository>();
 
 
             // Build the application
             var app = builder.Build();
+
+            // Access bikeRentalDBset and invoke the CreateTable method
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbSet = scope.ServiceProvider.GetRequiredService<bikeRentalDBset>();
+                var result = await dbSet.CreateTable();
+        
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
