@@ -427,3 +427,28 @@
     gap: 50px 100px;
     background-color: aliceblue;
   }
+
+
+  .block-elem{
+    width: 100%;
+    display: block;
+    z-index:8;
+    float: right;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    align-items: center;
+/* 
+    display: flex;  */
+   
+  }
+
+  .inline-elem{
+    display: inline;
+    padding: 8px;
+    text-decoration: none;
+    margin-right: 10px;
+  }
