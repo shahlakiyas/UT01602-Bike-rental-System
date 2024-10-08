@@ -1,4 +1,5 @@
-﻿using BikeRentalApplication.Entities;
+﻿using BikeRentalApplication.DTOs.RequestDTOs;
+using BikeRentalApplication.Entities;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -14,13 +15,13 @@ namespace BikeRentalApplication.Repositories
         }
 
         //Add Image
-        public async Task<int> AddImageAsync(Image image)
+        public async Task<int> AddImageAsync(ImageRequest imageRequest)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand("INSERT INTO Images (ImagePath,BikeId) VALUES (@ImagePath,@BikeId); SELECT SCOPE_IDENTITY();", connection);
-                command.Parameters.AddWithValue("@ImagePath", image.ImagePath);
-                command.Parameters.AddWithValue("@BikeId", image.BikeId);
+                command.Parameters.AddWithValue("@ImagePath", imageRequest.ImagePath);
+                command.Parameters.AddWithValue("@BikeId", imageRequest.BikeId);
 
                 await connection.OpenAsync();
                 var id = await command.ExecuteScalarAsync();

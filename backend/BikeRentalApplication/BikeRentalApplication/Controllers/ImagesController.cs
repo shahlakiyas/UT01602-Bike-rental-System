@@ -1,4 +1,5 @@
-﻿using BikeRentalApplication.Entities;
+﻿using BikeRentalApplication.DTOs.RequestDTOs;
+using BikeRentalApplication.Entities;
 using BikeRentalApplication.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,9 @@ namespace BikeRentalApplication.Controllers
 
         // Create Bike
         [HttpPost("Add-Image")]
-        public async Task<IActionResult> AddImage(Image image)
+        public async Task<IActionResult> AddImage(ImageRequest imageRequest)
         {
-            var productId = await _imagesRepository.AddImageAsync(image);
+            var productId = await _imagesRepository.AddImageAsync(imageRequest);
             return Ok(productId);
         }
 

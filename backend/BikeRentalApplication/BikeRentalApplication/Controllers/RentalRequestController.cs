@@ -1,4 +1,5 @@
-﻿using BikeRentalApplication.Entities;
+﻿using BikeRentalApplication.DTOs.RequestDTOs;
+using BikeRentalApplication.Entities;
 using BikeRentalApplication.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,9 @@ namespace BikeRentalApplication.Controllers
 
         // Create Product
         [HttpPost]
-        public async Task<IActionResult> SendRentalRequest(RentalRequest rentalRequest)
+        public async Task<IActionResult> SendRentalRequest(RentalRequestRequest rentalRequestRequest)
         {
-            var productId = await _rentalRequestRepository.CreateRequestAsync(rentalRequest);
+            var productId = await _rentalRequestRepository.CreateRequestAsync(rentalRequestRequest);
             return Ok(productId);
         }
     }

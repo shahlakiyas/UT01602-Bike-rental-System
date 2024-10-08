@@ -1,4 +1,6 @@
-﻿namespace BikeRentalApplication.Entities
+﻿using BikeRentalApplication.Entities;
+
+namespace BikeRentalApplication.DTOs.ResponseDTOs
 {
     public class BikeImage
     {

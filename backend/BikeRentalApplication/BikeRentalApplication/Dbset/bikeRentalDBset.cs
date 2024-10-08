@@ -87,6 +87,19 @@ namespace BikeRentalApplication.Dbset
                   NICNumber NvarChar(50) NOT NULL,
                   FOREIGN KEY (BikeId) REFERENCES Bikes(Id),
                   FOREIGN KEY (NICNumber) REFERENCES Users(NICNumber)
+                );
+                 IF NOT EXISTS(
+		                select * from sys.tables t 
+		                join sys.schemas s ON (t.schema_id = s.schema_id)
+		                WHERE s.name = 'BikeRentalDB' AND t.name = 'RentalRecords')
+                  CREATE TABLE RentalRecords
+                (
+                  RecordId INT primary key IDENTITY(1,1),
+                  RentalOut DATE NOT NULL,
+                  RentalReturn DATE NOT NULL,
+                  Payment DECIMAL(18, 2) NOT NULL,
+                  RentalId INT NOT NULL,
+                  FOREIGN KEY (RentalId) REFERENCES RentalRequests(RentalId)
                 );", connection);
 
                 await connection.OpenAsync();
