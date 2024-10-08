@@ -1,4 +1,5 @@
-﻿using BikeRentalApplication.Entities;
+﻿using BikeRentalApplication.DTOs.ResponseDTOs;
+using BikeRentalApplication.Entities;
 using System.Data.SqlClient;
 using System.Reflection;
 
