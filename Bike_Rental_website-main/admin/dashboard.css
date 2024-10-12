@@ -27,7 +27,7 @@
   }
   
   table {
-    width: 100%;
+    width: 92%;
     border-collapse: collapse;
     margin-bottom: 20px;
   }
@@ -452,3 +452,16 @@
     text-decoration: none;
     margin-right: 10px;
   }
+
+.add-units-input{
+  width: 46%;
+  height:28px;
+}
+
+.btn2{
+  background-color: #127a18;
+  color: rgba(255, 255, 255, 0.911);
+  width:40px;
+  border-radius: 12px;
+  padding:4px;
+}

@@ -141,7 +141,7 @@ namespace BikeRentalApplication.Repositories
         // Get Bike By Id with images
         public async Task<BikeImage> GetBikeByIdWithImages(int id)
         {
-            var bikeWithImages = new BikeImage();
+         
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand("select * from Bikes inner join Images  on Bikes.Id = Images.BikeId;", connection);
