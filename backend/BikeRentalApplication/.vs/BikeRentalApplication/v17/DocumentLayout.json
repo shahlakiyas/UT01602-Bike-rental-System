@@ -44,7 +44,7 @@
               "RelativeDocumentMoniker": "BikeRentalApplication\\Entities\\User.cs",
               "ToolTip": "X:\\MileStone_2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\Entities\\User.cs",
               "RelativeToolTip": "BikeRentalApplication\\Entities\\User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwA0AAAAFAAAA",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAIwA8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-14T04:51:20.414Z",
               "IsPinned": true,
@@ -84,8 +84,7 @@
               "RelativeToolTip": "BikeRentalApplication\\Controllers\\UserController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T04:52:06.456Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-14T04:52:06.456Z"
             },
             {
               "$type": "Document",
@@ -97,8 +96,7 @@
               "RelativeToolTip": "BikeRentalApplication\\Repositories\\UserRepository.cs",
               "ViewState": "AQIAAAsAAAAAAAAAAAAQwCQAAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T04:50:04.17Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-14T04:50:04.17Z"
             },
             {
               "$type": "Document",
@@ -110,8 +108,7 @@
               "RelativeToolTip": "BikeRentalApplication\\DTOs\\RequestDTOs\\UserRequest.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T04:51:31.395Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-14T04:51:31.395Z"
             }
           ]
         }

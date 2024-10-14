@@ -94,7 +94,7 @@ function loadSignUpModal() {
       </div>
       <div class='form-item'>
       <label for="contact">Contact NO:</label>
-      <input type="text" id="contact" placeholder="770000000" required>
+      <input type="text" id="contact" placeholder="770000000" required minlength="10" maxlength="10" required>
       </div>
       <div class='form-item'>
       <label for="address">Address:</label>
@@ -171,8 +171,8 @@ function loadLogInModal() {
   <form action="" class="modal-form" id="logInForm">
       <h2>Login</h2>
       <div class='form-item'>
-      <label for="nic">Username:</label>
-  <input type="text" id="nic" placeholder="Enter your username">
+      <label for="nic">NIC Number:</label>
+  <input type="text" id="nic" placeholder="Enter your NIC Number">
   </div>
   <div class='form-item'>
   <label for="userPassword">
@@ -191,6 +191,14 @@ function loadLogInModal() {
 function getUserData(userData) {
   console.log(userData);
 
+  if (isNaN(userData.userNIC.value) || userData.userNIC.value.length < 1 || userData.userNIC.value.length > 10) {
+    alert("Input not valid")
+    return "Input not valid"
+  } else {
+    alert("Input OK")
+    // return "Input OK"
+  }
+
   userData.firstName.value.trim() == "";
   userData.lastName.value.trim() == "";
   console.log(userData.userNIC.value.length);
@@ -199,15 +207,17 @@ function getUserData(userData) {
     return "Please fill in the your email address"
   }
 
-    if (isNaN(userData.userNIC.value) || userData.userNIC.value.length < 1 || userData.userNIC.value.length > 10) {
-      alert("Input not valid")
-      return "Input not valid"
-    } else {
-      alert("Input OK")
-      // return "Input OK"
-    }
-    
-  // userData.userNIC.value.trim() == "";
+  // userData.email.value = validateEmail();
+  // const validateEmail = (email) => {
+  //   return (email)
+  //     .toLowerCase()
+  //     .match(
+  //       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  //     );
+  // };
+
+  // userData.Address.value.trim() == "";
+
   userData.userRole.value.trim() == "";
     if (userData.userRole.value == "customer") {
       alert ("are you customer")
@@ -216,17 +226,26 @@ function getUserData(userData) {
         alert("are you manager")
     }
  
-  let U_firstName = firstName.value;
-  let U_lastName = lastName.value;
-  let U_userNIC = userNIC.value;
-  let U_email = email.value;
-  let U_userRole = userRole.value;
+
+
+
+  let U_userNIC = userData.userNIC.value;
+  console.log(U_userNIC);
+  console.log(userData.userNIC);
+  let U_firstName = userData.firstName.value;
+  let U_lastName = userData.lastName.value;
+  let U_email = userData.email.value;
+  let U_contactNO = userData.contactNO.value;
+  let U_address = userData.address.value;
+  let U_userRole = userData.userRole.value;
 
   let user = {
+    UserNIC: U_userNIC,
     FirstName: U_firstName,
     lastName: U_lastName,
-    UserNIC: U_userNIC,
     Email: U_email,
+    contactNO : U_contactNO,
+    Address: U_address,
     UserRole: U_userRole
   }
   console.log(user);
