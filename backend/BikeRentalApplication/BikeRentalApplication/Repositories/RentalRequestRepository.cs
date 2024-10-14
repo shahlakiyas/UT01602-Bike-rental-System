@@ -31,5 +31,70 @@ namespace BikeRentalApplication.Repositories
             }
 
         }
+
+
+        // Change Request Status
+        public async Task<bool> ChangeRequestStatus(int RequestID, bool status)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("UPDATE RentalRequests SET Status = @Status WHERE RentalId = @RentalId", connection);
+                command.Parameters.AddWithValue("@RentalId", RequestID);
+                command.Parameters.AddWithValue("@Status", status);
+
+                await connection.OpenAsync();
+                var result = await command.ExecuteNonQueryAsync();
+                return result > 0;
+            }
+        }
+
+        // Read All RentalRequests
+        public async Task<List<RentalRequest>> GetAllRequestsAsync()
+        {
+            var rentalRequests = new List<RentalRequest>();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("SELECT * FROM RentalRequests", connection);
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                {
+                    rentalRequests.Add(new RentalRequest
+                    {
+                        RentalId = (int)reader["RentalId"],
+                        RequestTime = (DateTime)reader["RequestTime"],
+                        Status = (bool)reader["Status"],
+                        BikeId = (int)reader["BikeId"],
+                        NICNumber = reader["NICNumber"].ToString(),
+                    });
+                }
+            }
+            return rentalRequests;
+        }
+
+        // Read Product by ID
+        public async Task<RentalRequest> GetRequestByIdAsync(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("SELECT * FROM RentalRequests WHERE RentalId = @RentalId", connection);
+                command.Parameters.AddWithValue("@RentalId", id);
+
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                if (reader.Read())
+                {
+                    return new RentalRequest
+                    {
+                        RentalId = (int)reader["RentalId"],
+                        RequestTime = (DateTime)reader["RequestTime"],
+                        Status = (bool)reader["Status"],
+                        BikeId = (int)reader["BikeId"],
+                        NICNumber = reader["NICNumber"].ToString(),
+                    };
+                }
+                return null;
+            }
+        }
     }
 }
