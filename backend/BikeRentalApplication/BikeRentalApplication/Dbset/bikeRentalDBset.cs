@@ -68,7 +68,7 @@ namespace BikeRentalApplication.Dbset
                   FirstName VARCHAR(50) NOT NULL,
                   LastName VARCHAR(50) NOT NULL,
                   Email VARCHAR(50) NOT NULL,
-                  ContactNo INT NOT NULL,
+                  ContactNo  VARCHAR(50) NOT NULL,
                   Address VARCHAR(50) NOT NULL,
                   password VARCHAR(50) NOT NULL,
                   role VARCHAR(10) NOT NULL,

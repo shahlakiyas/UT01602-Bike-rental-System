@@ -1,4 +1,5 @@
-﻿using BikeRentalApplication.Entities;
+﻿using BikeRentalApplication.DTOs.RequestDTOs;
+using BikeRentalApplication.Entities;
 using BikeRentalApplication.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace BikeRentalApplication.Controllers
 
         // Create Bike
         [HttpPost]
-        public async Task<IActionResult> AddNewBike(Bike bike)
+        public async Task<IActionResult> AddNewBike(BikeRequest bike)
         {
             var bikeId = await _bikesRepository.AddBikeAsync(bike);
             var addedBike = await _bikesRepository.GetBikeById(bikeId);
