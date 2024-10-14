@@ -46,7 +46,7 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="#">View Customers</a>
+        <a href="#" id="viewCustomers">View Customers</a>
         <a href="#"></a>
       </div>
       <button class="dropdown-btn">
@@ -54,9 +54,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-        <a href="#">Rental Requests</a>
-        <a href="#">Rental Portal</a>
-        <a href="#">Rental Returns</a>
+        <a href="#" id="viewRentalRequests">Rental Requests</a>
+        <a href="#" id="viewRentalPortal">Rental Portal</a>
+        <a href="#" id="viewRentalReturns">Rental Returns</a>
       </div>
       <button class="dropdown-btn">
         Reports
@@ -104,7 +104,9 @@
               <div class="inputBox">
                 <input type="file" placeholder="image.........." id="bikeImage"/>
               </div>
-
+              <div class="inputBox">
+                <input type="number" placeholder="Rate per hour..." id="ratePerHour"/>
+              </div>
               <button class="enter">Submit</button>
             </div>
           </div>

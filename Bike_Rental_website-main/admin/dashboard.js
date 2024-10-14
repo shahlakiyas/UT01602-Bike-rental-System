@@ -51,13 +51,28 @@ let dispalySection = document.getElementById("dispalySection");
 let dispalySectionHead = document.getElementById("dispalySectionHead");
 let dispalySectionBody = document.getElementById("dispalySectionBody");
 
-let viewBikesBtn = document.getElementById("viewBikes");
-viewBikesBtn.addEventListener("click", displayBikes);
 
 let addModalBtn = document.getElementById("addModalBtn");
 addModalBtn.addEventListener("click", () => {
   addBikeModalFunctions();
 });
+
+let viewBikesBtn = document.getElementById("viewBikes");
+viewBikesBtn.addEventListener("click", displayBikes);
+
+let viewCustomersBtn = document.getElementById('viewCustomers');
+viewCustomersBtn.addEventListener('click' , displayCustomers)
+
+let viewRentalRequestsBtn = document.getElementById('viewRentalRequests');
+viewRentalRequestsBtn.addEventListener('click' , displayRentalRequests )
+
+let viewRentalPortalBtn = document.getElementById('viewRentalPortal');
+viewRentalPortalBtn.addEventListener('click' , displayRentalPortal )
+
+let viewRentalReturnsBtn = document.getElementById('viewRentalReturns');
+viewRentalReturnsBtn.addEventListener('click' , displayRentalReturns)
+
+let bikeImg;
 
 function addBikeModalFunctions() {
   const modal = document.getElementById("addBikeModal");
@@ -65,7 +80,10 @@ function addBikeModalFunctions() {
   const closeBtn = document.getElementById("addBikesClose");
 
   let addBikeForm = document.getElementById('addBikeForm');
-  addBikeForm.addEventListener('submit' , (event)=> submitAddForm(event))
+  console.log(addBikeForm);
+  addBikeForm.addEventListener('submit', (event) => postBike(event));
+  const bikeImageInput = document.getElementById("bikeImage");
+  bikeImageInput.addEventListener('change', (event) => getInputImage(event))
   closeBtn.onclick = function () {
     modal.style.display = "none";
   };
@@ -76,22 +94,77 @@ function addBikeModalFunctions() {
   }
 }
 
-function submitAddForm(event){
+
+// Fetch API to add bikes and required images
+async function postBike(event) {
   event.preventDefault();
   const bikeBrand = document.getElementById('bikeBrand').value;
   const bikeType = document.getElementById('bikeType').value;
   const bikeModel = document.getElementById('bikeModel').value;
-  const bikeImageInput = document.getElementById("bikeImage");
-  bikeImageInput.addEventListener('change' ,(event)=> getInputImage(event) )
+  const ratePerHour = document.getElementById('ratePerHour').value;
+  console.log(bikeImg);
+  let bike = {
+    brand: bikeBrand,
+    type: bikeType,
+    modal: bikeModel,
+    ratePerHour: ratePerHour
+  }
+
+  const response = await fetch("http://localhost:5263/api/Bikes", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(bike)
+  });
+  console.log(response)
+  let resposeBikeId = null
+  if (response.ok) {
+    await response.json().then(data => {
+      resposeBikeId = data.id;
+    })
+    postImage(resposeBikeId)
+  }
+
+  async function postImage(resposeBikeId) {
+    let image = {
+      imagePath: bikeImg,
+      bikeId: resposeBikeId
+    }
+    if (resposeBikeId != null) {
+      const response2 = await fetch("http://localhost:5263/api/Images/Add-Image", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(image)
+      });
+      console.log(response2)
+
+      if (response2.ok) {
+        response2.json().then(data => {
+          console.log(data);
+        });
+      }
+
+    } else {
+      alert("error")
+    }
+  }
 }
 
-function getInputImage(){
-  console.log('Hello');
+//Function to convert file image to Base64 string
+function getInputImage(event) {
+
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    console.log(e.target.result);
+    bikeImg = e.target.result;
+  };
+  reader.readAsDataURL(file);
+
 }
 
 //fetch API get method to retrive bikes
 async function displayBikes() {
-  
+
   // const response = await fetch(apiBaseUrl);
   // const bikes = await response.json();
 
@@ -180,30 +253,172 @@ async function fetchbikeById(id) {
     `
   });
   table.append(tableBody);
-  generateRows();
+  generateRows(id);
 }
 
 // function to generate rows on each submission
-function generateRows() {
- let formDiv = document.getElementById('AddtoInventory');
+function generateRows(id) {
+  let formDiv = document.getElementById('AddtoInventory');
   formDiv.innerHTML = `<form id="unitsForm">
-  <input type="text"  placeholder="Enter Registration number" class="add-units-input" id="regNo">
-  <input type="text" placeholder="Enter Manufacture year" class="add-units-input" id="manufacturedYear">
+  <input type="text"  placeholder="Enter Registration number" class="add-units-input" id="regNo" required />
+  <input type="text" placeholder="Enter Manufacture year" class="add-units-input" id="manufacturedYear" required />
   <button type="submit" class="btn2">Add</button>
   </form>`
- 
+
   let unitsForm = document.getElementById('unitsForm');
-  unitsForm.addEventListener('submit' , (event)=> addUnitsToBike(event))
+  unitsForm.addEventListener('submit', (event) => addUnitsToBike(event , id))
 }
- 
 
-//Post previous method to units
- function addUnitsToBike(event){
+
+//Post  method to add units
+async function addUnitsToBike(event , unitBikeId) {
   event.preventDefault();
-    console.log(event.target);
-    let regNo = document.getElementById('regNo').value;
-    let manufacturedYear = document.getElementById('manufacturedYear').value;
-    console.log(regNo);
-    console.log(manufacturedYear);
- }
+  console.log(event.target);
+  let regNo = document.getElementById('regNo').value;
+  let manufacturedYear = document.getElementById('manufacturedYear').value;
 
+  let bikeUnit ={
+    registrationNumber : regNo,
+    yearOfManufacture : manufacturedYear,
+    bikeId : unitBikeId
+  }
+  const response = await fetch("http://localhost:5263/api/Inventory/Create-Inventory-Item", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(bikeUnit)
+  });
+  console.log(response)
+  if (response.ok) {
+    await response.json().then(data => {
+      console.log(data)
+    })
+  }
+
+}
+
+async function displayCustomers(){
+  console.log('hello customers');
+
+   const response = await fetch();
+   const users = await response.json();
+  
+  dispalySectionHead.innerHTML = "";
+  dispalySectionHead.innerHTML = `<th>N.I.C Number</th>
+  <th>Full Name</th>
+  <th>Email</th>
+  <th>Address</th>
+  <th>Telephone Number</th>`
+
+
+  dispalySectionBody.innerHTML = "";
+  users.forEach((user) => {
+    dispalySectionBody.innerHTML += `
+            <tr>
+                <td>${user.brand}</td>
+                <td>${user.model}</td>
+                <td>${user.type}</td>
+                <td>${user.ratePerHour}</td> 
+                <td>
+                    <button type="button" id="" data-index="${user.bikeId}">Add</button>
+                    <button type="button">Edit</button>
+                    <button type="button">Delete</button>
+                </td>
+            </tr>
+        `;
+  });
+  
+}
+
+async function displayRentalRequests(){
+
+  console.log('hello rental requests')
+  const response = await fetch();
+  const rentalRequests = await response.json();
+ 
+ dispalySectionHead.innerHTML = "";
+ dispalySectionHead.innerHTML = `<th>N.I.C Number</th>
+ <th>Full Name</th>
+ <th>Email</th>
+ <th>Address</th>
+ <th>Telephone Number</th>`
+
+
+ dispalySectionBody.innerHTML = "";
+ rentalRequests.forEach((rentalRequest) => {
+   dispalySectionBody.innerHTML += `
+           <tr>
+               <td>${rentalRequest.brand}</td>
+               <td>${rentalRequest.model}</td>
+               <td>${rentalRequest.type}</td>
+               <td>${rentalRequest.ratePerHour}</td> 
+               <td>
+                   <button type="button" id="" data-index="${rentalRequest.bikeId}">Add</button>
+                   <button type="button">Edit</button>
+                   <button type="button">Delete</button>
+               </td>
+           </tr>
+       `;
+ });
+}
+
+async function displayRentalPortal(){
+  console.log('hello rental portal')
+  const response = await fetch();
+  const rentalsPortal = await response.json();
+ 
+ dispalySectionHead.innerHTML = "";
+ dispalySectionHead.innerHTML = `<th>N.I.C Number</th>
+ <th>Full Name</th>
+ <th>Email</th>
+ <th>Address</th>
+ <th>Telephone Number</th>`
+
+
+ dispalySectionBody.innerHTML = "";
+ rentalsPortal.forEach((rentalPortal) => {
+   dispalySectionBody.innerHTML += `
+           <tr>
+               <td>${rentalPortal.brand}</td>
+               <td>${rentalPortal.model}</td>
+               <td>${rentalPortal.type}</td>
+               <td>${rentalPortal.ratePerHour}</td> 
+               <td>
+                   <button type="button" id="" data-index="${rentalPortal.bikeId}">Add</button>
+                   <button type="button">Edit</button>
+                   <button type="button">Delete</button>
+               </td>
+           </tr>
+       `;
+ });
+}
+
+async function displayRentalReturns(){
+  console.log('hello rental returns')
+  const response = await fetch();
+  const rentalReturns = await response.json();
+ 
+ dispalySectionHead.innerHTML = "";
+ dispalySectionHead.innerHTML = `<th>N.I.C Number</th>
+ <th>Full Name</th>
+ <th>Email</th>
+ <th>Address</th>
+ <th>Telephone Number</th>`
+
+
+ dispalySectionBody.innerHTML = "";
+ rentalReturns.forEach((rentalReturn) => {
+   dispalySectionBody.innerHTML += `
+           <tr>
+               <td>${rentalReturn.brand}</td>
+               <td>${rentalReturn.model}</td>
+               <td>${rentalReturn.type}</td>
+               <td>${rentalReturn.ratePerHour}</td> 
+               <td>
+                   <button type="button" id="" data-index="${rentalReturn.bikeId}">Add</button>
+                   <button type="button">Edit</button>
+                   <button type="button">Delete</button>
+               </td>
+           </tr>
+       `;
+ });
+}
