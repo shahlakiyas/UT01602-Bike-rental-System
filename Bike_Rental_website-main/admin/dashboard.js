@@ -60,9 +60,12 @@ addModalBtn.addEventListener("click", () => {
 });
 
 function addBikeModalFunctions() {
-  var modal = document.getElementById("addBikeModal");
+  const modal = document.getElementById("addBikeModal");
   modal.style.display = "block";
-  var closeBtn = document.getElementById("addBikesClose");
+  const closeBtn = document.getElementById("addBikesClose");
+
+  let addBikeForm = document.getElementById('addBikeForm');
+  addBikeForm.addEventListener('submit' , (event)=> submitAddForm(event))
   closeBtn.onclick = function () {
     modal.style.display = "none";
   };
@@ -70,11 +73,25 @@ function addBikeModalFunctions() {
     if (event.target == modal) {
       modal.style.display = "none";
     }
-  };
+  }
 }
 
+function submitAddForm(event){
+  event.preventDefault();
+  const bikeBrand = document.getElementById('bikeBrand').value;
+  const bikeType = document.getElementById('bikeType').value;
+  const bikeModel = document.getElementById('bikeModel').value;
+  const bikeImageInput = document.getElementById("bikeImage");
+  bikeImageInput.addEventListener('change' ,(event)=> getInputImage(event) )
+}
+
+function getInputImage(){
+  console.log('Hello');
+}
+
+//fetch API get method to retrive bikes
 async function displayBikes() {
-  // Example API call (uncomment and adjust as needed)
+  
   // const response = await fetch(apiBaseUrl);
   // const bikes = await response.json();
 
@@ -106,9 +123,12 @@ async function displayBikes() {
   });
   let addUnitsBtn = document.getElementById("addUnitsBtn");
   addUnitsBtn.addEventListener("click", (event) => {
-    addUnitsModalFunctions(event); //Model Display
+    addUnitsModalFunctions(event); //Modal Display
   });
 }
+
+
+// Add units to bike modal functions
 
 function addUnitsModalFunctions(event) {
   let addUnitsModal = document.getElementById("addUnitsModal");
@@ -126,6 +146,8 @@ function addUnitsModalFunctions(event) {
   };
 }
 
+
+//fetch API get METHOD 
 async function fetchbikeById(id) {
   // const response = await fetch(`${apiBaseUrl}${id}`);
   // const bike = await response.json();
@@ -158,15 +180,30 @@ async function fetchbikeById(id) {
     `
   });
   table.append(tableBody);
-  generateRows(tableBody);
+  generateRows();
 }
- function generateRows(tableBody){
 
-  tableBody.innerHTML += `
-  <tr class="block-elem">
-    <td class="inline-elem"><input><input></td>
-    <td class="inline-elem"><button>+</button></td>
-   </tr>
-  `
+// function to generate rows on each submission
+function generateRows() {
+ let formDiv = document.getElementById('AddtoInventory');
+  formDiv.innerHTML = `<form id="unitsForm">
+  <input type="text"  placeholder="Enter Registration number" class="add-units-input" id="regNo">
+  <input type="text" placeholder="Enter Manufacture year" class="add-units-input" id="manufacturedYear">
+  <button type="submit" class="btn2">Add</button>
+  </form>`
+ 
+  let unitsForm = document.getElementById('unitsForm');
+  unitsForm.addEventListener('submit' , (event)=> addUnitsToBike(event))
+}
+ 
+
+//Post previous method to units
+ function addUnitsToBike(event){
+  event.preventDefault();
+    console.log(event.target);
+    let regNo = document.getElementById('regNo').value;
+    let manufacturedYear = document.getElementById('manufacturedYear').value;
+    console.log(regNo);
+    console.log(manufacturedYear);
  }
 
