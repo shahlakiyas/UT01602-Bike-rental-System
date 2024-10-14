@@ -17,7 +17,7 @@ namespace BikeRentalApplication.Repositories
         }
 
         // Add New User
-        public async Task<string> CreateUserAsync(User user)
+        public async Task<string> CreateUserAsync(UserRequest user)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

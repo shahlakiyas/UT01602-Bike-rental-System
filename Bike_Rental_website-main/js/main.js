@@ -76,6 +76,10 @@ function loadSignUpModal() {
   <div class="tab-1" id="registerUser">
       <p id="message1"></p>
       <div class='form-item'>
+      <label for="userNIC" class="required-field">National Identity Card Number:</label>
+      <input type="text" id="userNIC" placeholder="9********V/199********" required>
+      </div>
+      <div class='form-item'>
       <label for="firstName">First Name:</label>
       <input type="text" id="firstName" placeholder="Enter your first name" required>
       </div>
@@ -83,13 +87,18 @@ function loadSignUpModal() {
       <label for="lastName">Last Name:</label>
       <input type="text" id="lastName" placeholder="Enter your last name" required>
       </div>
-      <div class='form-item'>
-      <label for="userNIC" class="required-field">National Identity Card Number:</label>
-      <input type="text" id="userNIC" placeholder="9********V/199********" required>
-      </div>
+      
       <div class='form-item'>
       <label for="email">Email:</label>
       <input type="email" id="email" placeholder="example@gmail.com" required>
+      </div>
+      <div class='form-item'>
+      <label for="contact">Contact NO:</label>
+      <input type="text" id="contact" placeholder="770000000" required>
+      </div>
+      <div class='form-item'>
+      <label for="address">Address:</label>
+      <input type="email" id="address" placeholder="Enter the Address" required>
       </div>
       <div class='form-item'>
       <label for="userRole">I am a</label>
@@ -112,10 +121,7 @@ function loadSignUpModal() {
     
    <h2>Setup Your Account</h2>
       <div id="info"></div>
-      <div class='form-item'>
-      <label for="userName">Username:</label>
-      <input type="text" id="userName" required>
-      </div>
+     
       <div class='form-item'>
       <label for="userPassword">
           Password:
@@ -134,18 +140,22 @@ function loadSignUpModal() {
   `
   let nextTabBtn = document.getElementById("nextTabBtn");
   let signUpForm = document.getElementById("signUpForm");
+  let userNIC = document.getElementById("userNIC");
   let firstName = document.getElementById("firstName");
   let lastName = document.getElementById("lastName");
-  let userNIC = document.getElementById("userNIC");
   let email = document.getElementById("email");
+  let contactNO = document.getElementById("contact");
+  let address = document.getElementById("address");
   let userRole = document.getElementById("userRole");
   nextTabBtn.addEventListener('click', (event) => {
     event.preventDefault();
     let userData = {
+      userNIC,
       firstName,
       lastName,
-      userNIC,
       email,
+      contactNO,
+      address,
       userRole
     }
     getUserData(userData);
@@ -161,8 +171,8 @@ function loadLogInModal() {
   <form action="" class="modal-form" id="logInForm">
       <h2>Login</h2>
       <div class='form-item'>
-      <label for="userName">Username:</label>
-  <input type="text" id="userName" placeholder="Enter your username">
+      <label for="nic">Username:</label>
+  <input type="text" id="nic" placeholder="Enter your username">
   </div>
   <div class='form-item'>
   <label for="userPassword">
