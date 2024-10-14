@@ -35,7 +35,7 @@ namespace BikeRentalApplication.Controllers
         }
 
         //Read Users
-        [HttpGet("GetAll/User")]
+        [HttpGet("Get-All-User")]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllUsersAsync();
@@ -43,7 +43,7 @@ namespace BikeRentalApplication.Controllers
         }
 
         //Update User
-        [HttpPut("Upadate/User")]
+        [HttpPut("Upadate-User")]
         public async Task<IActionResult> UpdateUserAsync(string NIC, UserRequest user)
         {
             try
