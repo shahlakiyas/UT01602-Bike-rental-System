@@ -20,7 +20,7 @@ namespace BikeRentalApplication.Controllers
 
         // Create User
         [HttpPost]
-        public async Task<IActionResult> CreateUser(User user)
+        public async Task<IActionResult> CreateUser(UserRequest user)
         {
             var NICNo = await _userRepository.CreateUserAsync(user);
             return Ok(NICNo);
