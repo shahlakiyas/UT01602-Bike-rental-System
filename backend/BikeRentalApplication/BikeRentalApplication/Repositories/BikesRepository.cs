@@ -1,4 +1,5 @@
-﻿using BikeRentalApplication.DTOs.ResponseDTOs;
+﻿using BikeRentalApplication.DTOs.RequestDTOs;
+using BikeRentalApplication.DTOs.ResponseDTOs;
 using BikeRentalApplication.Entities;
 using System.Data.SqlClient;
 using System.Reflection;
@@ -16,7 +17,7 @@ namespace BikeRentalApplication.Repositories
             _imageRepository = imagesRepository;
         }
 
-        public async Task<int> AddBikeAsync(Bike bike)
+        public async Task<int> AddBikeAsync(BikeRequest bike)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
