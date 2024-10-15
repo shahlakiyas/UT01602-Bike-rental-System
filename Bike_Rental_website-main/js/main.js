@@ -195,47 +195,80 @@ function loadLogInModal() {
 
 function getUserData(userData) {
   console.log(userData);
-  let verificationForm = document.getElementById("verificationForm");
-  verificationForm.addEventListener('submit' , (event) => setupPassword(event))
+  if (
+    userData.firstName.value.trim() === "" &&
+    userData.lastName.value.trim() === "" &&
+    userData.userNIC.value.trim() === "" &&
+    userData.email.value.trim() === "" &&
+    userData.contactNO.value.trim() === "" &&
+    userData.address.value.trim() === "" &&
+    userData.userRole.value.trim() === ""
+  ) {
+    alert('No fields can be empty');
+  } else {
+    let U_userNIC = userData.userNIC.value;
+    let U_firstName = userData.firstName.value;
+    let U_lastName = userData.lastName.value;
+    let U_email = userData.email.value;
+    let U_contactNO = userData.contactNO.value;
+    let U_address = userData.address.value;
+    let U_userRole = userData.userRole.value;
+    let isAdmin;
 
-
- if(userData.firstName.value.trim() == "" &&  userData.lastName.value.trim() == "" && userData.userNIC.value.trim()== "" && userData.email.value.trim()== "" && userData.contactNO.value.trim()== ''
-&& userData.address.value.trim() == '' && userData.userRole.value.trim() == '' ){
-  alert('No fields can be empty')
-} else{
-  let U_userNIC = userData.userNIC.value;
-  let U_firstName = userData.firstName.value;
-  let U_lastName = userData.lastName.value;
-  let U_email = userData.email.value;
-  let U_contactNO = userData.contactNO.value;
-  let U_address = userData.address.value;
-  let U_userRole = userData.userRole.value;
-  let isAdmin;
-  if (U_userRole == "manager") {
-    isAdmin = true
-  } else if (U_userRole == "customer") {
-    isAdmin = false
+    if (U_userRole === "manager") {
+      isAdmin = true;
+    } else if (U_userRole === "customer") {
+      isAdmin = false;
+    }
+    let user = {
+      UserNIC: U_userNIC,
+      FirstName: U_firstName,
+      LastName: U_lastName,
+      Email: U_email,
+      ContactNO: U_contactNO,
+      Address: U_address,
+      isAdmin: isAdmin
+    //  Password: U_password
+    };
+    console.log(user);
+    let verificationForm = document.getElementById("verificationForm");
+    verificationForm.reset();
+      setupPassword(user);
+    
   }
 
 
-    if(U_password.trim() != ''){
-      let user = {
-        UserNIC: U_userNIC,
-        FirstName: U_firstName,
-        lastName: U_lastName,
-        Email: U_email,
-        contactNO: U_contactNO,
-        Address: U_address,
-        isAdmin: isAdmin,
-     
-      }
-      console.log(user);
 
+}
+
+
+function setupPassword(userObj) {
+  console.log(userObj);
+  let passwordFld = document.getElementById("userPassword");
+  let repeatPasswordFld = document.getElementById("repeatUserPassword");
+  repeatPasswordFld.addEventListener('change' , checkPassword);
+
+  function checkPassword(){
+    let U_password = passwordFld.value;
+    let U_repeatPassword = repeatPasswordFld.value;
+  
+    if (U_password === U_repeatPassword) {
+  
+    
+      let verificationForm = document.getElementById("verificationForm");
+      console.log(verificationForm)
+      verificationForm.reset()
+  
+      userObj.password = U_password
+  
+      console.log(userObj);
+      alert("User registration successfull!");
+    } else {
+      alert("Please set up your password correctly.");
     }
- 
-}
-}
+  }
 
+}
 
 
 
