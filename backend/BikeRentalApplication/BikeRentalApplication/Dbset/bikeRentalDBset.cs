@@ -55,6 +55,7 @@ namespace BikeRentalApplication.Dbset
                   Availability Bit NOT NULL,
                   DateAdded DATE NOT NULL,
                   BikeId INT NOT NULL,
+                  isDeleted bit NOT NULL
                   FOREIGN KEY (BikeId) REFERENCES Bikes(Id)
                 );
 		       	IF NOT EXISTS(
@@ -71,8 +72,9 @@ namespace BikeRentalApplication.Dbset
                   ContactNo  VARCHAR(50) NOT NULL,
                   Address VARCHAR(50) NOT NULL,
                   password VARCHAR(50) NOT NULL,
-                  role VARCHAR(10) NOT NULL,
-                  AccountCreated DATE NOT NULL
+                  isAdmin BIT NOT NULL,
+                  AccountCreated DATE NOT NULL,
+                  isBlocked BIT NOT NULL
                 );
                 IF NOT EXISTS(
 		                select * from sys.tables t 

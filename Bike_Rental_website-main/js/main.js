@@ -62,10 +62,9 @@ logInBtn.addEventListener('click', loadSignUpModal)
 
 
 
-let verificationForm = document.getElementById("verificationForm");
-let userName = document.getElementById("userName");
-let userPassword = document.getElementById("userPassword");
-let submitBtn = document.getElementById("submitBtn");
+
+
+
 
 
 function loadSignUpModal() {
@@ -138,6 +137,12 @@ function loadSignUpModal() {
   </div>
 </form>
   `
+
+
+  let verificationForm = document.getElementById("verificationForm");
+  verificationForm.style.display = "none";
+
+
   let nextTabBtn = document.getElementById("nextTabBtn");
   let signUpForm = document.getElementById("signUpForm");
   let userNIC = document.getElementById("userNIC");
@@ -160,8 +165,8 @@ function loadSignUpModal() {
     }
     getUserData(userData);
     signUpForm.reset();
+    verificationForm.style.display = "block";
 
-    // console.log(getUserData);
   })
 }
 
@@ -179,7 +184,7 @@ function loadLogInModal() {
       Password:
   </label>
   
-  <input type="password" id="userPassword" placeholder="Enter your password">
+  <input type="password" id="password" placeholder="Enter your password">
   </div>
   <h4 id="msg"></h4>
   <button type="submit" class="btn" id="submitBtn">Submit</button>
@@ -190,66 +195,48 @@ function loadLogInModal() {
 
 function getUserData(userData) {
   console.log(userData);
-
-  if (isNaN(userData.userNIC.value) || userData.userNIC.value.length < 1 || userData.userNIC.value.length > 10) {
-    alert("Input not valid")
-    return "Input not valid"
-  } else {
-    alert("Input OK")
-    // return "Input OK"
-  }
-
-  userData.firstName.value.trim() == "";
-  userData.lastName.value.trim() == "";
-  console.log(userData.userNIC.value.length);
-  if (userData.email.value.trim() == "") {
-    alert("Please fill in the your email address")
-    return "Please fill in the your email address"
-  }
-
-  // userData.email.value = validateEmail();
-  // const validateEmail = (email) => {
-  //   return (email)
-  //     .toLowerCase()
-  //     .match(
-  //       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  //     );
-  // };
-
-  // userData.Address.value.trim() == "";
-
-  userData.userRole.value.trim() == "";
-    if (userData.userRole.value == "customer") {
-      alert ("are you customer")
-    }
-    else if(userData.userRole.value == "manager"){
-        alert("are you manager")
-    }
- 
+  let verificationForm = document.getElementById("verificationForm");
+  verificationForm.addEventListener('submit' , (event) => setupPassword(event))
 
 
-
+ if(userData.firstName.value.trim() == "" &&  userData.lastName.value.trim() == "" && userData.userNIC.value.trim()== "" && userData.email.value.trim()== "" && userData.contactNO.value.trim()== ''
+&& userData.address.value.trim() == '' && userData.userRole.value.trim() == '' ){
+  alert('No fields can be empty')
+} else{
   let U_userNIC = userData.userNIC.value;
-  console.log(U_userNIC);
-  console.log(userData.userNIC);
   let U_firstName = userData.firstName.value;
   let U_lastName = userData.lastName.value;
   let U_email = userData.email.value;
   let U_contactNO = userData.contactNO.value;
   let U_address = userData.address.value;
   let U_userRole = userData.userRole.value;
-
-  let user = {
-    UserNIC: U_userNIC,
-    FirstName: U_firstName,
-    lastName: U_lastName,
-    Email: U_email,
-    contactNO : U_contactNO,
-    Address: U_address,
-    UserRole: U_userRole
+  let isAdmin;
+  if (U_userRole == "manager") {
+    isAdmin = true
+  } else if (U_userRole == "customer") {
+    isAdmin = false
   }
-  console.log(user);
+
+
+    if(U_password.trim() != ''){
+      let user = {
+        UserNIC: U_userNIC,
+        FirstName: U_firstName,
+        lastName: U_lastName,
+        Email: U_email,
+        contactNO: U_contactNO,
+        Address: U_address,
+        isAdmin: isAdmin,
+     
+      }
+      console.log(user);
+
+    }
+ 
 }
+}
+
+
 
 
 

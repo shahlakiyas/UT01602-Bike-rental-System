@@ -21,8 +21,8 @@ namespace BikeRentalApplication.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(@"INSERT INTO Users (NICNumber,FirstName,LastName , Email , ContactNo, Address , password ,role , AccountCreated) 
-                 VALUES (@NICNumber, @FirstName, @LastName , @Email , @ContactNo, @Address ,  @password , @role , @AccountCreated );", connection);
+                SqlCommand command = new SqlCommand(@"INSERT INTO Users (NICNumber,FirstName,LastName , Email , ContactNo, Address , password ,isAdmin , AccountCreated , isBlocked) 
+                 VALUES (@NICNumber, @FirstName, @LastName , @Email , @ContactNo, @Address ,  @password , @isAdmin , @AccountCreated , @isBlocked );", connection);
                 command.Parameters.AddWithValue("@NICNumber", user.NICNumber);
                 command.Parameters.AddWithValue("@FirstName", user.FirstName);
                 command.Parameters.AddWithValue("@LastName", user.LastName);
@@ -30,8 +30,9 @@ namespace BikeRentalApplication.Repositories
                 command.Parameters.AddWithValue("@ContactNo", user.ContactNo);
                 command.Parameters.AddWithValue("@Address", user.Address);
                 command.Parameters.AddWithValue("@password", user.Password);
-                command.Parameters.AddWithValue("@role", user.Role);
+                command.Parameters.AddWithValue("@isAdmin", user.IsAdmin);
                 command.Parameters.AddWithValue("@AccountCreated", DateTime.Now);
+                command.Parameters.AddWithValue("@isBlocked", false);
 
 
                 await connection.OpenAsync();
@@ -62,7 +63,7 @@ namespace BikeRentalApplication.Repositories
                     user.ContactNo = reader.GetString(4);
                     user.Address = reader.GetString(5);
                     user.Password = reader.GetString(6);
-                    user.Role = reader.GetString(7);
+                    user.IsAdmin = reader.GetBoolean(7);
                     user.AccountCreated = reader.GetDateTime(8);
 
                 }
@@ -98,7 +99,7 @@ namespace BikeRentalApplication.Repositories
                     user.ContactNo= reader.GetString(4);
                     user.Address = reader.GetString(5);
                     user.Password = reader.GetString(6);
-                    user.Role = reader.GetString(7);
+                    user.IsAdmin = reader.GetBoolean(7);
                     user.AccountCreated = reader.GetDateTime(8);
 
                 }
