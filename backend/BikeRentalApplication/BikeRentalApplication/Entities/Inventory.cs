@@ -8,5 +8,7 @@
         public DateTime DateAdded { get; set; }
         public int BikeId { get; set; }
 
+        public bool IsDeleted { get; set; } 
+
     }
 }
