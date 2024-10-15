@@ -11,11 +11,12 @@ namespace BikeRentalApplication.Controllers
     public class RentalRequestController : ControllerBase
     {
         private readonly RentalRequestRepository _rentalRequestRepository;
+        private readonly RentalRecordRepository _rentalRecordRepository;
 
-
-        public RentalRequestController(RentalRequestRepository rentalRequestRepository)
+        public RentalRequestController(RentalRequestRepository rentalRequestRepository , RentalRecordRepository rentalRecordRepository)
         {
             _rentalRequestRepository = rentalRequestRepository;
+            _rentalRecordRepository = rentalRecordRepository;
         }
 
         // Create Rental Request
@@ -45,24 +46,34 @@ namespace BikeRentalApplication.Controllers
             return Ok(data);
         }
 
-        [HttpPut("Change-Request-Status{id}")]
+        [HttpPut("Accept-Rental-Request{id}")]
 
-        public async Task<IActionResult> ChaneRentalRequest(int id)
+        public async Task<IActionResult> AcceptRentalRequest(int id)
         {
             try
             { 
                 var getRequest = await _rentalRequestRepository.GetRequestByIdAsync(id);
-                if (getRequest.Status == true)
+                if (getRequest != null)
                 {
-                  var data = await _rentalRequestRepository.ChangeRequestStatus(id, false);
-                    return Ok(data);
+                    if (getRequest.Status == false)
+                    {
+                        var data = await _rentalRequestRepository.AcceptRequestStatus(id);
+
+
+                        RentalRecordRequest rentalRecord = new RentalRecordRequest()
+                        {
+                            RentalId = id
+                        };
+                        
+                        var record = await _rentalRecordRepository.AddRentalRecord(rentalRecord);
+                        return Ok(data);
+                    }
                 }
-                else if (getRequest.Status == false)
+                else
                 {
-                   var data = await _rentalRequestRepository.ChangeRequestStatus(id, true);
-                    return Ok(data);
+                    return Ok(null);    
                 }
-                
+
             }
             catch (Exception ex) {
                 return BadRequest(ex.Message);
@@ -70,6 +81,10 @@ namespace BikeRentalApplication.Controllers
             
             return NotFound();
         }
+
+        //[HttpPut("Decline-Rental-Request{id}")]
+
+
 
     }
 }
