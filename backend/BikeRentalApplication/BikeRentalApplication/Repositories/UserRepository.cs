@@ -80,18 +80,19 @@ namespace BikeRentalApplication.Repositories
 
         // Read All User
 
-        public async Task<User> GetAllUsersAsync()
+        public async Task<List<User>> GetAllUsersAsync()
         {
             var Users = new List<User>();
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand("SELECT * FROM Users", connection);
                 await connection.OpenAsync();
-                User user = new User();
+               
 
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
+                    User user = new User();
                     user.NICNumber = reader.GetString(0);
                     user.FirstName = reader.GetString(1);
                     user.LastName = reader.GetString(2);
@@ -101,9 +102,9 @@ namespace BikeRentalApplication.Repositories
                     user.Password = reader.GetString(6);
                     user.IsAdmin = reader.GetBoolean(7);
                     user.AccountCreated = reader.GetDateTime(8);
-
+                    Users.Add(user);
                 }
-                return user;
+                return Users;
 
             }
         }

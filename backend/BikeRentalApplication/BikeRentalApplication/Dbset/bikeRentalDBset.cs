@@ -97,9 +97,9 @@ namespace BikeRentalApplication.Dbset
                   CREATE TABLE RentalRecords
                 (
                   RecordId INT primary key IDENTITY(1,1),
-                  RentalOut DATE NOT NULL,
-                  RentalReturn DATE NOT NULL,
-                  Payment DECIMAL(18, 2) NOT NULL,
+                  RentalOut DATE ,
+                  RentalReturn DATE ,
+                  Payment DECIMAL(18, 2),
                   RentalId INT NOT NULL,
                   FOREIGN KEY (RentalId) REFERENCES RentalRequests(RentalId)
                 );", connection);

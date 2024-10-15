@@ -35,7 +35,7 @@ namespace BikeRentalApplication.Controllers
         }
 
         //Read Users
-        [HttpGet("Get-All-User")]
+        [HttpGet("Get-All-Users")]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllUsersAsync();

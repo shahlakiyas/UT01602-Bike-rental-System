@@ -19,13 +19,13 @@ namespace BikeRentalApplication.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Inventory (RegistrationNumber,YearOfManufacture,Availability ,DateAdded, BikeId) VALUES (@RegistrationNumber, @YearOfManufacture, @Availability , @DateAdded , @BikeId);", connection);
+                SqlCommand command = new SqlCommand("INSERT INTO Inventory (RegistrationNumber,YearOfManufacture,Availability ,DateAdded, BikeId , isDeleted) VALUES (@RegistrationNumber, @YearOfManufacture, @Availability , @DateAdded , @BikeId ,@isDeleted);", connection);
                 command.Parameters.AddWithValue("@RegistrationNumber", inventoryRequest.RegistrationNumber);
                 command.Parameters.AddWithValue("@YearOfManufacture", inventoryRequest.YearOfManufacture);
                 command.Parameters.AddWithValue("@BikeId", inventoryRequest.BikeId);
                 command.Parameters.AddWithValue("@DateAdded", DateTime.Now);
                 command.Parameters.AddWithValue("@Availability", true);
-
+                command.Parameters.AddWithValue("@isDeleted" , false);
                 await connection.OpenAsync();
                 var result = await command.ExecuteNonQueryAsync();
                 if (result > 0) {
@@ -40,7 +40,7 @@ namespace BikeRentalApplication.Repositories
 
         }
 
-        // Read Product by ID
+        // Read Bike by Registration number
         public async Task<Inventory> GetInventoryItemByRegNo(string RegNo)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -65,6 +65,34 @@ namespace BikeRentalApplication.Repositories
             }
         }
 
-       
+        // Read Units by Bike ID
+        public async Task<List<Inventory>> GetUnitsByBikeId(int BikeId)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("SELECT * FROM Inventory WHERE BikeId = @BikeId;", connection);
+                command.Parameters.AddWithValue("@BikeId", BikeId);
+                var Units = new List<Inventory>();  
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                {
+
+                    var unit = new Inventory()
+                    {
+                        RegistrationNumber = reader["RegistrationNumber"].ToString(),
+                        YearOfManufacture = (int)reader["YearOfManufacture"],
+                        Availability = (bool)reader["Availability"],
+                        DateAdded = (DateTime)reader["DateAdded"],
+                        BikeId = (int)reader["BikeId"]
+                    };
+                       
+                    Units.Add(unit);
+                }
+                return Units;
+            }
+        }
+
+
     }
 }

@@ -10,11 +10,12 @@ namespace BikeRentalApplication.Repositories
     {
         private readonly string _connectionString;
         private readonly ImagesRepository _imageRepository;
-
-        public BikesRepository(IConfiguration configuration , ImagesRepository imagesRepository)
+        private readonly InventoryRepository _inventoryRepository;
+        public BikesRepository(IConfiguration configuration , ImagesRepository imagesRepository , InventoryRepository inventoryRepository)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
             _imageRepository = imagesRepository;
+            _inventoryRepository = inventoryRepository;
         }
 
         public async Task<int> AddBikeAsync(BikeRequest bike)
@@ -113,52 +114,56 @@ namespace BikeRentalApplication.Repositories
             }
         }
          //Get Bikes with Images
-        public async Task<List<BikeImage>> GetAllBikesWithAsync()
+        public async Task<List<BikeImageUnit>> GetAllBikesWithAsync()
         {
           
-            var bikesWithImages = new List<BikeImage>();
+            var bikesWithImages = new List<BikeImageUnit>();
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand("select * from Bikes inner join Images  on Bikes.Id = Images.BikeId;", connection);
+                SqlCommand command = new SqlCommand("select * from Bikes", connection);
                 await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 while (reader.Read())
                 {
                     var images = await _imageRepository.GetProductByIdAsync((int)reader["Id"]);
-                    bikesWithImages.Add(new BikeImage
+                    var units = await _inventoryRepository.GetUnitsByBikeId((int)reader["Id"]);
+                    bikesWithImages.Add(new BikeImageUnit
                     {
                         BikeId = (int)reader["Id"],
                         Brand = reader["Brand"].ToString(),
                         Modal = reader["Modal"].ToString(),
                         Type = reader["Type"].ToString(),
                         RatePerHour = (decimal)reader["RatePerHour"],
-                        BikeImages = images
-                    });   
+                        BikeImages = images,
+                        Units = units
+                    });  
                 
                 }
             }
             return bikesWithImages;
         }
         // Get Bike By Id with images
-        public async Task<BikeImage> GetBikeByIdWithImages(int id)
+        public async Task<BikeImageUnit> GetBikeByIdWithImages(int id)
         {
          
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand("select * from Bikes inner join Images  on Bikes.Id = Images.BikeId;", connection);
+                SqlCommand command = new SqlCommand("select * from Bikes", connection);
                 await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.Read())
                 {
                     var images = await _imageRepository.GetProductByIdAsync(id);
-                    return new BikeImage
+                    var units = await _inventoryRepository.GetUnitsByBikeId(id);
+                    return new BikeImageUnit
                     {
                         BikeId = (int)reader["Id"],
                         Brand = reader["Brand"].ToString(),
                         Type = reader["Type"].ToString(),
                         Modal = reader["Modal"].ToString(),
                         RatePerHour = (decimal)reader["RatePerHour"],
-                        BikeImages = images
+                        BikeImages = images,
+                        Units= units
                     };
                 }
                 return null;

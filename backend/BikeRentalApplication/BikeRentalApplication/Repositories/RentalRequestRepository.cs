@@ -33,14 +33,14 @@ namespace BikeRentalApplication.Repositories
         }
 
 
-        // Change Request Status
-        public async Task<bool> ChangeRequestStatus(int RequestID, bool status)
+        // Accept Request Status
+        public async Task<bool> AcceptRequestStatus(int RequestID)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand("UPDATE RentalRequests SET Status = @Status WHERE RentalId = @RentalId", connection);
                 command.Parameters.AddWithValue("@RentalId", RequestID);
-                command.Parameters.AddWithValue("@Status", status);
+                command.Parameters.AddWithValue("@Status", true);
 
                 await connection.OpenAsync();
                 var result = await command.ExecuteNonQueryAsync();
@@ -96,5 +96,8 @@ namespace BikeRentalApplication.Repositories
                 return null;
             }
         }
+
+        // Pass to the rental record on update of Status
+       // public async Task<bool>
     }
 }

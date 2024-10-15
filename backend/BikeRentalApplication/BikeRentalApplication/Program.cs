@@ -45,6 +45,7 @@ namespace BikeRentalApplication
             builder.Services.AddSingleton<InventoryRepository>();
             builder.Services.AddSingleton<UserRepository>();
             builder.Services.AddSingleton<RentalRequestRepository>();
+            builder.Services.AddSingleton<RentalRecordRepository>();
 
 
             // Build the application

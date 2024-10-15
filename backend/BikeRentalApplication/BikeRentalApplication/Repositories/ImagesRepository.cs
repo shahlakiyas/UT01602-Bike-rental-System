@@ -40,18 +40,19 @@ namespace BikeRentalApplication.Repositories
 
                 await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
-                if (reader.Read())
+                while (reader.Read())
                 {
-                    images.Add(new Image
+                    var image = new Image()
                     {
                         ImageId = (int)reader["ImageId"],
                         ImagePath = reader["ImagePath"].ToString(),
                         BikeId = (int)reader["ImageId"]
-                    });
-
+                    };
+                    images.Add(image);
                 }
-                return images;
+             
             }
+            return images;
         }
 
 
