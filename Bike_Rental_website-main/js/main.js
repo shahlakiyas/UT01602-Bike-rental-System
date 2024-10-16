@@ -1,4 +1,3 @@
-
 //slide show
 let slideIndex = 0;
 showSlides();
@@ -228,7 +227,6 @@ function getUserData(userData) {
       ContactNO: U_contactNO,
       Address: U_address,
       isAdmin: isAdmin
-    //  Password: U_password
     };
     console.log(user);
     let verificationForm = document.getElementById("verificationForm");
@@ -269,8 +267,3 @@ function setupPassword(userObj) {
   }
 
 }
-
-
-
-
-
