@@ -82,8 +82,32 @@ namespace BikeRentalApplication.Controllers
             return NotFound();
         }
 
-        //[HttpPut("Decline-Rental-Request{id}")]
+        [HttpPut("Decline-Rental-Request{id}")]
+        public async Task<IActionResult> DeclineRentalRequest(int id)
+        {
+            try
+            {
+                var getRequest = await _rentalRequestRepository.GetRequestByIdAsync(id);
+                if (getRequest != null)
+                {
+                    if (getRequest.Status == false)
+                    {
+                        var data = await _rentalRequestRepository.DeclineRentalRequest(id);
+                    }
+                }
+                else
+                {
+                    return Ok(null);
+                }
 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return NotFound();
+        }
 
 
     }

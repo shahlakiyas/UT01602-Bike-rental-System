@@ -19,11 +19,12 @@ namespace BikeRentalApplication.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand("INSERT INTO RentalRequests (RequestTime,Status,BikeId,NICNumber) VALUES (@RequestTime,@Status,@BikeId, @NICNumber); SELECT SCOPE_IDENTITY();", connection);
+                SqlCommand command = new SqlCommand("INSERT INTO RentalRequests (RequestTime,Status,BikeId,NICNumber,UserAlert) VALUES (@RequestTime,@Status,@BikeId, @NICNumber, @UserAlert); SELECT SCOPE_IDENTITY();", connection);
                 command.Parameters.AddWithValue("@RequestTime", rentalRequestRequest.RequestTime);
                 command.Parameters.AddWithValue("@Status", false);
                 command.Parameters.AddWithValue("@BikeId", rentalRequestRequest.BikeId);
                 command.Parameters.AddWithValue("@NICNumber", rentalRequestRequest.NICNumber);
+                command.Parameters.AddWithValue("@UserAlert", false);
 
                 await connection.OpenAsync();
                 var id = await command.ExecuteScalarAsync();
@@ -38,9 +39,26 @@ namespace BikeRentalApplication.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand("UPDATE RentalRequests SET Status = @Status WHERE RentalId = @RentalId", connection);
+                SqlCommand command = new SqlCommand("UPDATE RentalRequests SET Status = @Status , UserAlert=@UserAlert WHERE RentalId = @RentalId", connection);
                 command.Parameters.AddWithValue("@RentalId", RequestID);
                 command.Parameters.AddWithValue("@Status", true);
+                command.Parameters.AddWithValue("@UserAlert", true);
+
+                await connection.OpenAsync();
+                var result = await command.ExecuteNonQueryAsync();
+                return result > 0;
+            }
+        }
+
+        //Decline request Status
+        public async Task<bool> DeclineRentalRequest(int RequestID)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("UPDATE RentalRequests SET Status = @Status , UserAlert=@UserAlert WHERE RentalId = @RentalId", connection);
+                command.Parameters.AddWithValue("@RentalId", RequestID);
+                command.Parameters.AddWithValue("@Status", false);
+                command.Parameters.AddWithValue("@UserAlert", true);
 
                 await connection.OpenAsync();
                 var result = await command.ExecuteNonQueryAsync();

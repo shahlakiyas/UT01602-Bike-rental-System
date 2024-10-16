@@ -126,7 +126,7 @@ namespace BikeRentalApplication.Repositories
                 while (reader.Read())
                 {
                     var images = await _imageRepository.GetProductByIdAsync((int)reader["Id"]);
-                    var units = await _inventoryRepository.GetUnitsByBikeId((int)reader["Id"]);
+                    var Availableunits = await _inventoryRepository.GetAvailableUnitsByBikeId((int)reader["Id"]);
                     bikesWithImages.Add(new BikeImageUnit
                     {
                         BikeId = (int)reader["Id"],
@@ -135,7 +135,7 @@ namespace BikeRentalApplication.Repositories
                         Type = reader["Type"].ToString(),
                         RatePerHour = (decimal)reader["RatePerHour"],
                         BikeImages = images,
-                        Units = units
+                        Units = Availableunits
                     });  
                 
                 }
