@@ -1,132 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Riderly - Admin Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-  </head>
 
-  <body>
-    <header>
-      <nav class="navbar">
-        <div id="logo-container">
-          <img src="../images/logo.jpg" alt="Riderly Logo" width="80px" />
-          <p>Riderly</p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riderly - Admin Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <div id="logo-container">
+        <img src="../images/logo.jpg" alt="Riderly Logo" width="80px" />
+        <p>Riderly</p>
+      </div>
+      <ul class="heading">
+        <h1 class="dashboard-title">Riderly Admin Dashboard</h1>
+      </ul>
+      <div id="welcomeMessage" style="color: white">Welcome Admin</div>
+      <div class="buttons">
+        <div class="riderly-button buttons">
+          <a href="home.html" class="button signin-button">Home</a>
+          <a href="li.html" class="button signin-button">Log Out</a>
         </div>
-        <ul class="heading">
-          <h1 class="dashboard-title">Riderly Admin Dashboard</h1>
-        </ul>
-        <div id="welcomeMessage" style="color: white">Welcome Admin</div>
-        <div class="buttons">
-          <div class="riderly-button buttons">
-            <a href="home.html" class="button signin-button">Home</a>
-            <a href="li.html" class="button signin-button">Log Out</a>
-          </div>
-        </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
+  </header>
 
-    <div class="sidenav">
-      <a href="#Home">Home</a>
-      <button class="dropdown-btn">
-        Inventory
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-        <a href="#" id="addModalBtn" class="add-btn">Add Bike</a>
-        <a href="#" id="viewBikes">View Bike</a>
-      </div>
-      <button class="dropdown-btn">
-        Customers
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-        <a href="#" id="viewCustomers">View Customers</a>
-        <a href="#"></a>
-      </div>
-      <button class="dropdown-btn">
-        Rentals
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-        <a href="#" id="viewRentalRequests">Rental Requests</a>
-        <a href="#" id="viewRentalPortal">Rental Portal</a>
-        <a href="#" id="viewRentalReturns">Rental Returns</a>
-      </div>
-      <button class="dropdown-btn">
-        Reports
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-        <a href="#">Inventory</a>
-        <a href="#">Customers</a>
-        <a href="#">Rentals</a>
-      </div>
-
-      <div>
-        <a href="#logout"><button class="btn">Logout</button></a>
-      </div>
+  <div class="sidenav">
+    <a href="#Home">Home</a>
+    <button class="dropdown-btn">
+      Inventory
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+      <a href="#" id="addModalBtn" class="add-btn">Add Bike</a>
+      <a href="#" id="viewBikes">View Bike</a>
+    </div>
+    <button class="dropdown-btn">
+      Customers
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+      <a href="#" id="viewCustomers">View Customers</a>
+      <a href="#"></a>
+    </div>
+    <button class="dropdown-btn">
+      Rentals
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+      <a href="#" id="viewRentalRequests">Rental Requests</a>
+      <a href="#" id="viewRentalPortal">Rental Portal</a>
+      <a href="#" id="viewRentalReturns">Rental Returns</a>
+    </div>
+    <button class="dropdown-btn">
+      Reports
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+      <a href="#">Inventory</a>
+      <a href="#">Customers</a>
+      <a href="#">Rentals</a>
     </div>
 
-    <!-- section to display table -->
-    <section class="top-3">
-      <table id="dispalySection">
-        <thead>
-          <tr id="dispalySectionHead"></tr>
-        </thead>
-        <tbody id="dispalySectionBody"></tbody>
-      </table>
-    </section>
+    <div>
+      <a href="#logout"><button class="btn">Logout</button></a>
+    </div>
+  </div>
 
-    <!-- The Modal to add Bikes-->
-    <div id="addBikeModal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span class="close" id="addBikesClose">&times;</span>
-        <form id="addBikeForm">
-          <div class="container">
-            <div class="card">
-              <div class="inputBox">
-                <input type="text" placeholder="Brand.........." id="bikeBrand"/>
-              </div>
-              <div class="inputBox">
-                <input type="text" placeholder="Type.........." id="bikeType" />
-              </div>
+  <!-- section to display table -->
+  <section class="top-3">
+    <table id="dispalySection">
+      <thead>
+        <tr id="dispalySectionHead"></tr>
+      </thead>
+      <tbody id="dispalySectionBody"></tbody>
+    </table>
+  </section>
 
-              <div class="inputBox">
-                <input type="text" placeholder="Model.........." id="bikeModel"/>
-              </div>
-              <div class="inputBox">
-                <input type="file" placeholder="image.........." id="bikeImage"/>
-              </div>
-              <div class="inputBox">
-                <input type="number" placeholder="Rate per hour..." id="ratePerHour"/>
-              </div>
-              <button class="enter">Submit</button>
+  <!-- The Modal to add Bikes-->
+  <div id="addBikeModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close" id="addBikesClose">&times;</span>
+      <form id="addBikeForm">
+        <div class="container">
+          <div class="card">
+            <div class="inputBox">
+              <input type="text" placeholder="Brand.........." id="bikeBrand" />
             </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <!-- end of add bikes modal -->
+            <div class="inputBox">
+              <input type="text" placeholder="Type.........." id="bikeType" />
+            </div>
 
-    <!-- the modal to add units to the bikes -->
-    <div id="addUnitsModal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content" style="width:40vw">
-        <span class="close" id="addUnitsClose">&times;</span>
-          <div class="container" id="AddbikeViewPage">
-         
+            <div class="inputBox">
+              <input type="text" placeholder="Model.........." id="bikeModel" />
+            </div>
+            <div class="inputBox">
+              <input type="file" placeholder="image.........." id="bikeImage" />
+            </div>
+            <div class="inputBox">
+              <input type="number" placeholder="Rate per hour..." id="ratePerHour" />
+            </div>
+            <button class="enter">Submit</button>
           </div>
-          <div class="container" id="AddtoInventory"></div>
-      </div>
+        </div>
+      </form>
     </div>
+  </div>
+  <!-- end of add bikes modal -->
 
-    <script src="./dashboard.js"></script>
-  </body>
+  <!-- the modal to add units to the bikes -->
+  <div id="addUnitsModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content" style="width:40vw">
+      <span class="close" id="addUnitsClose">&times;</span>
+      <div class="container" id="AddbikeViewPage">
+
+      </div>
+      <div class="container" id="AddtoInventory"></div>
+    </div>
+  </div>
+
+  <script src="./dashboard.js"></script>
+</body>
+
 </html>
