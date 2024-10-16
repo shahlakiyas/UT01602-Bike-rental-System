@@ -29,29 +29,27 @@ async function fetchBikes() {
     bikeContent.insertAdjacentHTML("beforeend", bikeBoxHtml);
   });
   let confirmRent = document.getElementById("confirmRent");
-var bookBtn = document.getElementById("book-btn");
-console.log(bookBtn);
-// var closeSpan = document.getElementsByClassName("closeModel")[0];
+  var bookBtn = document.getElementById("book-btn");
+  console.log(bookBtn);
+  // var closeSpan = document.getElementsByClassName("closeModel")[0];
 
-// bookBtn.onclick = function() {
-//     confirmRent.style.display = "block";
-// }
+  // bookBtn.onclick = function() {
+  //     confirmRent.style.display = "block";
+  // }
 
-bookBtn.addEventListener("click", (event) => displayRentalModal(event));
-function displayRentalModal(event) {
-  confirmRent.style.display = "block";
-  //console.log(event);
-  let bikeId = event.target.getAttribute("data-index");
-  console.log(bikeId);
-  fetchbikeById(bikeId);
+  bookBtn.addEventListener("click", (event) => displayRentalModal(event));
+  function displayRentalModal(event) {
+    confirmRent.style.display = "block";
+    //console.log(event);
+    let bikeId = event.target.getAttribute("data-index");
+    console.log(bikeId);
+    fetchbikeById(bikeId);
+  }
 }
-}
 
 
 
-// closeSpan.onclick = function() {
-//     confirmRent.style.display = "none";
-// }
+
 
 window.onclick = function (event) {
   if (event.target == confirmRent) {
@@ -60,8 +58,8 @@ window.onclick = function (event) {
 };
 
 async function fetchbikeById(id) {
-   const response = await fetch(`${getAllBikesURL}${id}`);
-   const bike = await response.json();
+  const response = await fetch(`${getAllBikesURL}${id}`);
+  const bike = await response.json();
   console.log(bike);
   let modelContent = document.getElementById("modelContent");
   printConfirmRent(bike, modelContent);
@@ -69,25 +67,57 @@ async function fetchbikeById(id) {
 
 function printConfirmRent(bikeObj, rentalDiv) {
   rentalDiv.innerHTML = "";
+  console.log(bikeObj);
   rentalDiv.innerHTML += `
             
         
         <div class="bike-box">
-        <div class="closeModel">&times;</div>
-        <p>Hello customer</p>
-        <img src="${bikeObj.bikeImages[0].imagePath}" alt="" class="rent-img""/>    
+          <div class="closeModel">&times;</div>
+          <div class="flex-modal">
+              <div>
+              <h3>${bikeObj.brand}  ${bikeObj.modal}</h3><br>
+              <div class="img-box"></div>
+              </div>
+              <div>
+                <form>
+                  <br><br>
+                    <label>Rent Date: </label>
+                    <input id="datepicker" onchange="checkDate()" class="datepicker-input" type="date" required />
+                    <button type="submit" class="requestBtn">Request</button>
+                </form>
+              </div>
+              <div></div>
+       
+        </div>    
         </div> 
       `;
   var closeSpan = document.getElementsByClassName("closeModel")[0];
 
   closeSpan.onclick = function () {
     confirmRent.style.display = "none";
-  };
 
+    ;
+  };
+  let bikeImagesBox = document.querySelector(".img-box");
+  bikeImagesBox.addEventListener('click' , (event)=> changeImage(event))
+ let index = 0
+  bikeObj.bikeImages.forEach(image => {
+    let img = document.createElement('img');
+   
+    img.setAttribute('data-index' , index);
+    img.src = `${image.imagePath}`;
+    bikeImagesBox.append(img);
+    console.log(`${image.imagePath}`);
+    index++;
+  })
   console.log(bikeObj);
+  
 }
 
- 
+function changeImage(event){
+  console.log(event.target);
+}
+
 
 
 

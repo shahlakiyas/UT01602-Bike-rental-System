@@ -1,3 +1,5 @@
+let user = null;
+
 //slide show
 let slideIndex = 0;
 showSlides();

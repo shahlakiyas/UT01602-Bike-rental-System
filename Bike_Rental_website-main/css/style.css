@@ -220,9 +220,10 @@ section {
   font-weight: bold;
   width: 100%;
   position: absolute;
-  top: 10px;
-  left: 10px;
-  margin-left: 75vw;
+  /* top: 10px;
+  left: 10px; */;
+  left:36vw;
+  float:left;
   
 }
 
@@ -905,3 +906,9 @@ section {
   transition: 0.3s;
   width: 40%;
 }
+
+.flex-modal{
+  display: flex;
+  justify-content: space-around;
+}
+

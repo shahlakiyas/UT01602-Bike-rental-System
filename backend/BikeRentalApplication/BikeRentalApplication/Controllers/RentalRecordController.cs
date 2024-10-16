@@ -38,7 +38,9 @@ namespace BikeRentalApplication.Controllers
             return Ok(data);
         }
 
-        public async Task<IActionResult> CompleteRentalRecord(decimal payment , int RecordId)
+        [HttpGet("Complete-Rental-Record")]
+
+        public async Task<IActionResult> CompleteRentalRecord(decimal payment, int RecordId)
         {
             var data = await _recordRepository.CompleteRentalRecord(payment, RecordId);
             return Ok(data);
@@ -46,16 +48,16 @@ namespace BikeRentalApplication.Controllers
 
         [HttpPut("Update-Rental-Out")]
 
-        public async Task<IActionResult>UpdateRentalOutTime(DateTime outTime,string BikeRegNo , int RecordId)
+        public async Task<IActionResult> UpdateRentalOutTime(DateTime outTime, string BikeRegNo, int RecordId)
         {
             var data = await _recordRepository.UpdateRentalOut(outTime, BikeRegNo, RecordId);
             return Ok(data);
         }
 
-       
+
 
         [HttpGet("Get-records-of-A-User")]
-        public async Task<IActionResult>GetRecordsOfAUser(string NICNo)
+        public async Task<IActionResult> GetRecordsOfAUser(string NICNo)
         {
             var data = await _recordRepository.GetRecordsOfUser(NICNo);
             return Ok(data);
@@ -68,7 +70,7 @@ namespace BikeRentalApplication.Controllers
             return Ok(data);
         }
 
-        [HttpGet]
+        [HttpGet("Get-OverDue-Rentals")]
         public async Task<IActionResult> GetOverDueRentals()
         {
             var data = await _recordRepository.GetOverDueRentals();
