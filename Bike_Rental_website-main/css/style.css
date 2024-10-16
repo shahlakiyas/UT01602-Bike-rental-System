@@ -396,6 +396,7 @@ section {
   padding: 15px;
   background: var(--bg-color);
   border: 1px solid hsl(0deg 0% 54% / 14%);
+
 }
 
 .bike-box:hover {
@@ -899,9 +900,27 @@ section {
 
 
 /* ........................................................................... */
+
+.bike-content{
+  width: 5px;
+  height: 5vh;
+}
+
 .rent-img{
   width: 100%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 40%;
+  background-color: red;
 }
+
+.row-items {
+  display: flex;
+  justify-content: space-around;
+}
+
+.RequestRentBtn{
+  margin-left: 25%;
+  margin-bottom: 100px;
+}
+

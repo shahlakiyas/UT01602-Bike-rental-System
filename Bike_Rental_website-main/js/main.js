@@ -165,7 +165,6 @@ function loadSignUpModal() {
     getUserData(userData);
     signUpForm.reset();
     verificationForm.style.display = "block";
-
   })
 }
 
