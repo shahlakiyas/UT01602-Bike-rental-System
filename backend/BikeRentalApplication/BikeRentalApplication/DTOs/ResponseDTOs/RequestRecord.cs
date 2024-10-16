@@ -13,5 +13,7 @@
         public DateTime? RentalReturn { get; set; }
         public decimal Payment { get; set; }
 
+        public string RegistrationNumber { get; set; }  
+
     }
 }

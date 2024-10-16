@@ -93,6 +93,34 @@ namespace BikeRentalApplication.Repositories
             }
         }
 
+        // Read available Units by Bike ID
+        public async Task<List<Inventory>> GetAvailableUnitsByBikeId(int BikeId)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(@"select * from Bikes inner join Inventory on Bikes.Id = Inventory.BikeId where Inventory.Availability = 1 and isDeleted= 0 and Bikes.Id = @BikeId", connection);
+                command.Parameters.AddWithValue("@BikeId", BikeId);
+                var Units = new List<Inventory>();
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                {
+
+                    var unit = new Inventory()
+                    {
+                        RegistrationNumber = reader["RegistrationNumber"].ToString(),
+                        YearOfManufacture = (int)reader["YearOfManufacture"],
+                        // Availability = (bool)reader["Availability"],
+                        DateAdded = (DateTime)reader["DateAdded"],
+                        BikeId = (int)reader["BikeId"]
+                    };
+
+                    Units.Add(unit);
+                }
+                return Units;
+            }
+        }
+
 
     }
 }

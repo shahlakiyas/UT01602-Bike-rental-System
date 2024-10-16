@@ -87,6 +87,7 @@ namespace BikeRentalApplication.Dbset
                   Status Bit NOT NULL,
                   BikeId INT NOT NULL,
                   NICNumber NvarChar(50) NOT NULL,
+                  UserAlert BIT,
                   FOREIGN KEY (BikeId) REFERENCES Bikes(Id),
                   FOREIGN KEY (NICNumber) REFERENCES Users(NICNumber)
                 );
@@ -101,7 +102,9 @@ namespace BikeRentalApplication.Dbset
                   RentalReturn DATE ,
                   Payment DECIMAL(18, 2),
                   RentalId INT NOT NULL,
-                  FOREIGN KEY (RentalId) REFERENCES RentalRequests(RentalId)
+                  RegistrationNumber NvarChar(50),
+                  FOREIGN KEY (RentalId) REFERENCES RentalRequests(RentalId),
+                  FOREIGN KEY (RegistrationNumber) REFERENCES Inventory(RegistrationNumber)
                 );", connection);
 
                 await connection.OpenAsync();
