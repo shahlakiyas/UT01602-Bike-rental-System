@@ -1,4 +1,3 @@
-
 //slide show
 let slideIndex = 0;
 showSlides();
@@ -228,11 +227,10 @@ function getUserData(userData) {
       ContactNO: U_contactNO,
       Address: U_address,
       isAdmin: isAdmin
-    //  Password: U_password
     };
     console.log(user);
-    // let verificationForm = document.getElementById("verificationForm");
-    // verificationForm.reset();
+    let verificationForm = document.getElementById("verificationForm");
+    verificationForm.reset();
       setupPassword(user);
     
   }
@@ -257,20 +255,15 @@ function setupPassword(userObj) {
     
       let verificationForm = document.getElementById("verificationForm");
       console.log(verificationForm)
-     // verificationForm.reset()
+      verificationForm.reset()
   
       userObj.password = U_password
   
       console.log(userObj);
-      //alert("User registration successfull!");
+      alert("User registration successfull!");
     } else {
       alert("Please set up your password correctly.");
     }
   }
 
 }
-
-
-
-
-
