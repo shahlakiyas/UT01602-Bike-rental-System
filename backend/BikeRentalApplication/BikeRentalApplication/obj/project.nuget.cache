@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AsVfLiurJYE=",
+  "dgSpecHash": "mryhqwAvpYQ=",
   "success": true,
-  "projectFilePath": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj",
+  "projectFilePath": "X:\\Milestone2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\UT01373\\.nuget\\packages\\microsoft.aspnetcore.cors\\2.2.0\\microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",
     "C:\\Users\\UT01373\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.2.0\\microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",

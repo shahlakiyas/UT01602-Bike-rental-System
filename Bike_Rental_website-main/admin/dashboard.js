@@ -10,13 +10,13 @@ document.querySelectorAll(".sidebar ul li a").forEach((link) => {
 const BikesWithUnitsURL = "http://localhost:5263/api/Bikes/Get-All-bikes-With-Images";
 const GetAllUsersURL = "http://localhost:5263/api/User/Get-All-Users";
 const GetALLRentalRequestsURL = "http://localhost:5263/api/RentalRequest";
-const GetRequestsForPortalURL = "http://localhost:5263/api/RentalRecord/Get-Records-For-Portal"; 
+const GetRequestsForPortalURL = "http://localhost:5263/api/RentalRecord/Get-Records-For-Portal";
 const GetRequestsForReturnURL = "http://localhost:5263/api/RentalRecord/Get-Records-For-Return";
 const UpdateOnRentalOutURL = "http://localhost:5263/api/RentalRecord/Update-Rental-Out";
 const UpdateonRentalReturnURL = "http://localhost:5263/api/RentalRecord/Complete-Rental-Record";
 const GetAllRentalRecordsURL = "http://localhost:5263/api/RentalRecord/Get-Rental-records";
 const PostBikeURL = "http://localhost:5263/api/Bikes";
-const InventoryCreateURL = "http://localhost:5263/api/Inventory/Create-Inventory-Item"; 
+const InventoryCreateURL = "http://localhost:5263/api/Inventory/Create-Inventory-Item";
 const GetRentalRecordsURL = "http://localhost:5263/api/RentalRecord/Get-Rental-records";
 
 
@@ -50,16 +50,16 @@ let viewBikesBtn = document.getElementById("viewBikes");
 viewBikesBtn.addEventListener("click", displayBikes);
 
 let viewCustomersBtn = document.getElementById('viewCustomers');
-viewCustomersBtn.addEventListener('click' , displayCustomers)
+viewCustomersBtn.addEventListener('click', displayCustomers)
 
 let viewRentalRequestsBtn = document.getElementById('viewRentalRequests');
-viewRentalRequestsBtn.addEventListener('click' , displayRentalRequests )
+viewRentalRequestsBtn.addEventListener('click', displayRentalRequests)
 
 let viewRentalPortalBtn = document.getElementById('viewRentalPortal');
-viewRentalPortalBtn.addEventListener('click' , displayRentalPortal )
+viewRentalPortalBtn.addEventListener('click', displayRentalPortal)
 
 let viewRentalReturnsBtn = document.getElementById('viewRentalReturns');
-viewRentalReturnsBtn.addEventListener('click' , displayRentalReturns)
+viewRentalReturnsBtn.addEventListener('click', displayRentalReturns)
 
 let viewRentalRecordsBtn = document.getElementById('viewRentalRecords');
 viewRentalRecordsBtn.addEventListener('click', displayRentalRecords)
@@ -73,10 +73,10 @@ function addBikeModalFunctions() {
 
   let addBikeForm = document.getElementById('addBikeForm');
   console.log(addBikeForm);
-  addBikeForm.addEventListener('submit', (event) =>{
-    
+  addBikeForm.addEventListener('submit', (event) => {
+
     postBike(event)
-  } );
+  });
   const bikeImageInput = document.getElementById("bikeImage");
   bikeImageInput.addEventListener('change', (event) => getInputImage(event))
   closeBtn.onclick = function () {
@@ -125,7 +125,7 @@ async function postBike(event) {
       bikeId: resposeBikeId
     }
     if (resposeBikeId != null) {
-      const response2 = await fetch(BikesWithUnitsURL, {
+      const response2 = await fetch("http://localhost:5263/api/Images/Add-Image", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(image)
@@ -160,8 +160,8 @@ function getInputImage(event) {
 //fetch API get method to retrive bikes
 async function displayBikes() {
 
-   const response = await fetch(BikesWithUnitsURL);
-   const bikes = await response.json();
+  const response = await fetch(BikesWithUnitsURL);
+  const bikes = await response.json();
 
   console.log(bikes);
   dispalySectionHead.innerHTML = "";
@@ -191,10 +191,13 @@ async function displayBikes() {
             </tr>
         `;
   });
-  let addUnitsBtn = document.getElementById("addUnitsBtn");
-  addUnitsBtn.addEventListener("click", (event) => {
-    addUnitsModalFunctions(event); //Modal Display
-  });
+
+  dispalySectionBody.addEventListener("click", (event) => {
+    if (event.target.getAttribute("id") == "addUnitsBtn") {
+      addUnitsModalFunctions(event); //Modal Display
+    }
+  })
+
 }
 
 
@@ -219,8 +222,8 @@ function addUnitsModalFunctions(event) {
 
 //fetch API get METHOD 
 async function fetchbikeById(id) {
-   const response = await fetch(`${BikesWithUnitsURL}${id}`);
-   const bike = await response.json();
+  const response = await fetch(`${BikesWithUnitsURL}${id}`);
+  const bike = await response.json();
 
   console.log(bike);
 
@@ -240,20 +243,20 @@ async function fetchbikeById(id) {
       </thead>`
 
   let tableBody = document.createElement('tbody');
-  tableBody.setAttribute('id' , "unitsTBody")
+  tableBody.setAttribute('id', "unitsTBody")
   let table = document.getElementById('unitsTable');
 
-    bike.units.forEach(element => {
-      tableBody.innerHTML += `
+  bike.units.forEach(element => {
+    tableBody.innerHTML += `
       <tr>
       <td>${element.registrationNumber}</td>
       <td>${element.yearOfManufacture}</td>
       </tr>  
       `
-    });
-    table.append(tableBody);
-  
- 
+  });
+  table.append(tableBody);
+
+
 
   generateRows(id);
 }
@@ -268,24 +271,24 @@ function generateRows(id) {
   </form>`
 
   let unitsForm = document.getElementById('unitsForm');
-  unitsForm.addEventListener('submit', (event) =>{
+  unitsForm.addEventListener('submit', (event) => {
 
-    addUnitsToBike(event , id)
+    addUnitsToBike(event, id)
   })
 }
 
 
 //Post  method to add units
-async function addUnitsToBike(event , unitBikeId) {
+async function addUnitsToBike(event, unitBikeId) {
   event.preventDefault();
   console.log(event.target);
   let regNo = document.getElementById('regNo').value;
   let manufacturedYear = document.getElementById('manufacturedYear').value;
 
-  let bikeUnit ={
-    registrationNumber : regNo,
-    yearOfManufacture : manufacturedYear,
-    bikeId : unitBikeId
+  let bikeUnit = {
+    registrationNumber: regNo,
+    yearOfManufacture: manufacturedYear,
+    bikeId: unitBikeId
   }
   const response = await fetch(InventoryCreateURL, {
     method: 'POST',
@@ -297,23 +300,23 @@ async function addUnitsToBike(event , unitBikeId) {
     await response.json().then(data => {
       console.log(data);
 
-    let tBody =  document.getElementById('unitsTBody');
-    let row = document.createElement('tr');
-    row.innerHTML = `<td>${data.registrationNumber}</td>
+      let tBody = document.getElementById('unitsTBody');
+      let row = document.createElement('tr');
+      row.innerHTML = `<td>${data.registrationNumber}</td>
     <td>${data.yearOfManufacture}</td>`;
-    tBody.appendChild(row);
+      tBody.appendChild(row);
       generateRows(unitBikeId)
     })
   }
 
 }
 
-async function displayCustomers(){
+async function displayCustomers() {
   console.log('hello customers');
 
-   const response = await fetch(GetAllUsersURL);
-   const users = await response.json();
-    console.log(users);
+  const response = await fetch(GetAllUsersURL);
+  const users = await response.json();
+  console.log(users);
   dispalySectionHead.innerHTML = "";
   dispalySectionHead.innerHTML = `<th>N.I.C Number</th>
   <th>Full Name</th>
@@ -341,18 +344,18 @@ async function displayCustomers(){
             </tr>
         `;
   });
-  
+
 }
 
-async function displayRentalRequests(){
+async function displayRentalRequests() {
 
   console.log('hello rental requests')
   const response = await fetch(GetALLRentalRequestsURL);
   const rentalRequests = await response.json();
- 
- dispalySectionHead.innerHTML = "";
- dispalySectionHead.innerHTML = 
- `
+
+  dispalySectionHead.innerHTML = "";
+  dispalySectionHead.innerHTML =
+    `
  <th>Rental Id</th>
  <th>Request Time</th>
  <th>Status</th>
@@ -362,9 +365,9 @@ async function displayRentalRequests(){
  `
 
 
- dispalySectionBody.innerHTML = "";
- rentalRequests.forEach((rentalRequest) => {
-   dispalySectionBody.innerHTML += `
+  dispalySectionBody.innerHTML = "";
+  rentalRequests.forEach((rentalRequest) => {
+    dispalySectionBody.innerHTML += `
            <tr>
                <td>${rentalRequest.rentalId}</td>
                <td>${rentalRequest.requestTime}</td>
@@ -378,16 +381,16 @@ async function displayRentalRequests(){
                </td>
            </tr>
        `;
- });
+  });
 }
 
-async function displayRentalPortal(){
+async function displayRentalPortal() {
   console.log('hello rental portal')
   const response = await fetch(GetRequestsForPortalURL);
   const rentalsPortal = await response.json();
- 
- dispalySectionHead.innerHTML = "";
- dispalySectionHead.innerHTML = `
+
+  dispalySectionHead.innerHTML = "";
+  dispalySectionHead.innerHTML = `
  <th>Request Time</th>
  <th>Bike Id</th>
  <th>Nic Number</th>
@@ -396,9 +399,9 @@ async function displayRentalPortal(){
  `
 
 
- dispalySectionBody.innerHTML = "";
- rentalsPortal.forEach((rentalPortal) => {
-   dispalySectionBody.innerHTML += `
+  dispalySectionBody.innerHTML = "";
+  rentalsPortal.forEach((rentalPortal) => {
+    dispalySectionBody.innerHTML += `
            <tr>
                <td>${rentalPortal.requestTime}</td>
                <td>${rentalPortal.bikeId}</td> 
@@ -411,16 +414,16 @@ async function displayRentalPortal(){
                </td>
            </tr>
        `;
- });
+  });
 }
 
-async function displayRentalReturns(){
+async function displayRentalReturns() {
   console.log('hello rental returns')
   const response = await fetch(GetRequestsForReturnURL);
   const rentalReturns = await response.json();
- 
- dispalySectionHead.innerHTML = "";
- dispalySectionHead.innerHTML = `
+
+  dispalySectionHead.innerHTML = "";
+  dispalySectionHead.innerHTML = `
  <th>Bike Id</th>
  <th>Nic Number</th>
  <th>Record Id</th>
@@ -428,9 +431,9 @@ async function displayRentalReturns(){
  <th>Action</th>`
 
 
- dispalySectionBody.innerHTML = "";
- rentalReturns.forEach((rentalReturn) => {
-   dispalySectionBody.innerHTML += `
+  dispalySectionBody.innerHTML = "";
+  rentalReturns.forEach((rentalReturn) => {
+    dispalySectionBody.innerHTML += `
            <tr>
                <td>${rentalReturn.bikeId}</td> 
                <td>${rentalReturn.nicNumber}</td>
@@ -443,16 +446,16 @@ async function displayRentalReturns(){
                </td>
            </tr>
        `;
- });
+  });
 }
 
-async function displayRentalRecords(){
+async function displayRentalRecords() {
   console.log('hello rental records')
   const response = await fetch(GetRentalRecordsURL);
   const returnRecords = await response.json();
- console.log(returnRecords);
- dispalySectionHead.innerHTML = "";
- dispalySectionHead.innerHTML = `
+  console.log(returnRecords);
+  dispalySectionHead.innerHTML = "";
+  dispalySectionHead.innerHTML = `
  <th>Bike Id</th>
  <th>Nic Number</th>
  <th>Record Id</th>
@@ -463,9 +466,9 @@ async function displayRentalRecords(){
  <th>Action</th>`
 
 
- dispalySectionBody.innerHTML = "";
- returnRecords.forEach((returnRecords) => {
-   dispalySectionBody.innerHTML += `
+  dispalySectionBody.innerHTML = "";
+  returnRecords.forEach((returnRecords) => {
+    dispalySectionBody.innerHTML += `
            <tr>
                <td>${returnRecords.bikeId}</td> 
                <td>${returnRecords.nicNumber}</td>
@@ -481,6 +484,6 @@ async function displayRentalRecords(){
                </td>
            </tr>
        `;
- });
+  });
 }
 

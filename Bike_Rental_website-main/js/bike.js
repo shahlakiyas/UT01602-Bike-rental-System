@@ -147,7 +147,7 @@ function printConfirmRent(bikeObj, rentalDiv) {
   let index = 0
   bikeObj.bikeImages.forEach(image => {
     let img = document.createElement('img');
-
+    console.log(image);
     img.setAttribute('data-index', index);
     img.src = `${image.imagePath}`;
     bikeImagesBox.append(img);

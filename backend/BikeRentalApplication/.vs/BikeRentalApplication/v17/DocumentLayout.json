@@ -1,21 +1,21 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\",
+  "WorkspaceRootPath": "X:\\Milestone2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|x:\\edits\\ut01602-bike-rental-system-2024-10-17-12-00\\backend\\bikerentalapplication\\bikerentalapplication\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|x:\\milestone2\\ut01602-bike-rental-system\\backend\\bikerentalapplication\\bikerentalapplication\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|solutionrelative:bikerentalapplication\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|x:\\edits\\ut01602-bike-rental-system-2024-10-17-12-00\\backend\\bikerentalapplication\\bikerentalapplication\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|x:\\milestone2\\ut01602-bike-rental-system\\backend\\bikerentalapplication\\bikerentalapplication\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|solutionrelative:bikerentalapplication\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|x:\\edits\\ut01602-bike-rental-system-2024-10-17-12-00\\backend\\bikerentalapplication\\bikerentalapplication\\repositories\\rentalrecordrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|x:\\milestone2\\ut01602-bike-rental-system\\backend\\bikerentalapplication\\bikerentalapplication\\repositories\\rentalrecordrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|solutionrelative:bikerentalapplication\\repositories\\rentalrecordrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|x:\\edits\\ut01602-bike-rental-system-2024-10-17-12-00\\backend\\bikerentalapplication\\bikerentalapplication\\controllers\\rentalrecordcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|x:\\milestone2\\ut01602-bike-rental-system\\backend\\bikerentalapplication\\bikerentalapplication\\controllers\\rentalrecordcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{42680707-9148-4C58-976F-7338C7E9AF82}|BikeRentalApplication\\BikeRentalApplication.csproj|solutionrelative:bikerentalapplication\\controllers\\rentalrecordcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -32,9 +32,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "UserController.cs",
-              "DocumentMoniker": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\Controllers\\UserController.cs",
+              "DocumentMoniker": "X:\\Milestone2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "BikeRentalApplication\\Controllers\\UserController.cs",
-              "ToolTip": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\Controllers\\UserController.cs",
+              "ToolTip": "X:\\Milestone2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\Controllers\\UserController.cs",
               "RelativeToolTip": "BikeRentalApplication\\Controllers\\UserController.cs",
               "ViewState": "AQIAABMAAAAAAAAAAAAgwCgAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -45,35 +45,33 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "UserRepository.cs",
-              "DocumentMoniker": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\Repositories\\UserRepository.cs",
+              "DocumentMoniker": "X:\\Milestone2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\Repositories\\UserRepository.cs",
               "RelativeDocumentMoniker": "BikeRentalApplication\\Repositories\\UserRepository.cs",
-              "ToolTip": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\Repositories\\UserRepository.cs",
+              "ToolTip": "X:\\Milestone2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\Repositories\\UserRepository.cs",
               "RelativeToolTip": "BikeRentalApplication\\Repositories\\UserRepository.cs",
               "ViewState": "AQIAACsAAAAAAAAAAAAiwC0AAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T06:51:22.593Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-17T06:51:22.593Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "RentalRecordRepository.cs",
-              "DocumentMoniker": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\Repositories\\RentalRecordRepository.cs",
+              "DocumentMoniker": "X:\\Milestone2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\Repositories\\RentalRecordRepository.cs",
               "RelativeDocumentMoniker": "BikeRentalApplication\\Repositories\\RentalRecordRepository.cs",
-              "ToolTip": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\Repositories\\RentalRecordRepository.cs",
+              "ToolTip": "X:\\Milestone2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\Repositories\\RentalRecordRepository.cs",
               "RelativeToolTip": "BikeRentalApplication\\Repositories\\RentalRecordRepository.cs",
               "ViewState": "AQIAABAAAAAAAAAAAAAgwCsAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-16T09:12:52.086Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-16T09:12:52.086Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "RentalRecordController.cs",
-              "DocumentMoniker": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\Controllers\\RentalRecordController.cs",
+              "DocumentMoniker": "X:\\Milestone2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\Controllers\\RentalRecordController.cs",
               "RelativeDocumentMoniker": "BikeRentalApplication\\Controllers\\RentalRecordController.cs",
-              "ToolTip": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\Controllers\\RentalRecordController.cs",
+              "ToolTip": "X:\\Milestone2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\Controllers\\RentalRecordController.cs",
               "RelativeToolTip": "BikeRentalApplication\\Controllers\\RentalRecordController.cs",
               "ViewState": "AQIAACYAAAAAAAAAAAAAAE0AAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
