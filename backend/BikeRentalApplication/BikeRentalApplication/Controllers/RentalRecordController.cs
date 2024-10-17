@@ -9,10 +9,11 @@ namespace BikeRentalApplication.Controllers
     public class RentalRecordController : ControllerBase
     {
         private RentalRecordRepository _recordRepository;
-
-        public RentalRecordController(RentalRecordRepository recordRepository)
+        private InventoryRepository _inventoryRepository;
+        public RentalRecordController(RentalRecordRepository recordRepository , InventoryRepository inventoryRepository)
         {
             _recordRepository = recordRepository;
+            _inventoryRepository = inventoryRepository;
         }
 
 
@@ -48,9 +49,11 @@ namespace BikeRentalApplication.Controllers
 
         [HttpPut("Update-Rental-Out")]
 
-        public async Task<IActionResult> UpdateRentalOutTime(DateTime outTime, string BikeRegNo, int RecordId)
+        public async Task<IActionResult> UpdateRentalOutTime(string BikeRegNo, int RecordId)
         {
-            var data = await _recordRepository.UpdateRentalOut(outTime, BikeRegNo, RecordId);
+            var data = await _recordRepository.UpdateRentalOut(BikeRegNo, RecordId);
+
+            var ChangeStatus = await _inventoryRepository.ChangeAvailabilty(BikeRegNo);
             return Ok(data);
         }
 

@@ -72,7 +72,7 @@ namespace BikeRentalApplication.Repositories
             var rentalRequests = new List<RentalRequest>();
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand("SELECT * FROM RentalRequests", connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM RentalRequests where UserAlert = 0 ", connection);
                 await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 while (reader.Read())

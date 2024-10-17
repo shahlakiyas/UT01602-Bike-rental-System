@@ -45,6 +45,14 @@ namespace BikeRentalApplication.Controllers
             }
             return Ok(inventoryItem);
         }
+
+        [HttpGet("Get-Available-Units{id}")]
+
+        public async Task<IActionResult> GetAvailableUnitsById(int id)
+        {
+            var data = await _inventoryRepository.GetAvailableUnitsByBikeId(id);
+            return Ok(data);
+        }
     }
 
 
