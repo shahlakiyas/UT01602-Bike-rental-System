@@ -1,5 +1,3 @@
-
-
 //slide show
 let slideIndex = 0;
 showSlides();
@@ -11,7 +9,9 @@ function showSlides() {
     slides[i].style.display = "none";
   }
   slideIndex++;
-  if (slideIndex > slides.length) { slideIndex = 1 }
+  if (slideIndex > slides.length) {
+    slideIndex = 1;
+  }
   slides[slideIndex - 1].style.display = "block";
   setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
@@ -23,8 +23,8 @@ let navbar = document.querySelector(".navbar");
 
 menu.onclick = () => {
   navbar.classList.toggle("open-menu");
-  menu.classList.toggle("move")
-}
+  menu.classList.toggle("move");
+};
 
 // Get the modal
 var modal = document.getElementById("myModal");
@@ -38,35 +38,26 @@ var span = document.getElementsByClassName("close")[0];
 // When the user clicks on the button, open the modal
 btn.onclick = function () {
   modal.style.display = "block";
-}
+};
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
   modal.style.display = "none";
-}
+};
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
-}
+};
 let modalFormDiv = document.querySelector(".form-div");
 loadLogInModal();
-let signUpBtn = document.querySelector('#signUpBtn');
-signUpBtn.addEventListener('click', loadLogInModal);
+let signUpBtn = document.querySelector("#signUpBtn");
+signUpBtn.addEventListener("click", loadLogInModal);
 
-
-let logInBtn = document.querySelector('#logInBtn');
-logInBtn.addEventListener('click', loadSignUpModal)
-
-
-
-
-
-
-
-
+let logInBtn = document.querySelector("#logInBtn");
+logInBtn.addEventListener("click", loadSignUpModal);
 
 function loadSignUpModal() {
   modalFormDiv.innerHTML = "";
@@ -98,7 +89,7 @@ function loadSignUpModal() {
       </div>
       <div class='form-item'>
       <label for="address">Address:</label>
-      <input type="email" id="address" placeholder="Enter the Address" required>
+      <input type="text" id="address" placeholder="Enter the Address" required>
       </div>
       <div class='form-item'>
       <label for="userRole">I am a</label>
@@ -134,15 +125,13 @@ function loadSignUpModal() {
       </label>
       <input type="password" id="repeatUserPassword" required>
       </div>
-      <button type="submit" class="btn" >Submit</button>
+      <button type="submit" class="btn" id="submitBtn">Submit</button>
   </div>
 </form>
-  `
-
+  `;
 
   let verificationForm = document.getElementById("verificationForm");
   verificationForm.style.display = "none";
-
 
   let nextTabBtn = document.getElementById("nextTabBtn");
   let signUpForm = document.getElementById("signUpForm");
@@ -153,8 +142,12 @@ function loadSignUpModal() {
   let contactNO = document.getElementById("contact");
   let address = document.getElementById("address");
   let userRole = document.getElementById("userRole");
-  nextTabBtn.addEventListener('click', (event) => {
-    event.preventDefault();
+  let submitBtn = document.getElementById("submitBtn");
+  let userPassword = document.getElementById("userPassword");
+  let repeatUserPassword = document.getElementById("repeatUserPassword");
+
+  nextTabBtn.addEventListener("click", (event) => {
+     event.preventDefault();
     let userData = {
       userNIC,
       firstName,
@@ -162,15 +155,17 @@ function loadSignUpModal() {
       email,
       contactNO,
       address,
-      userRole
-    }
+      userRole,
+    };
 
     getUserData(userData);
     signUpForm.reset();
-    verificationForm.style.display = "block";
+    verificationForm.style.display = "block";    
+  });
 
-  })
 }
+
+
 
 function loadLogInModal() {
   modalFormDiv.innerHTML = "";
@@ -191,30 +186,32 @@ function loadLogInModal() {
   <h4 id="msg"></h4>
   <button type="submit" class="btn" id="submitBtn">Submit</button>
   </form>
-  `
-  let logInForm = document.getElementById('logInForm');
-  logInForm.addEventListener('submit', (event) => logIn(event))
+  `;
+  let logInForm = document.getElementById("logInForm");
+  logInForm.addEventListener("submit", (event) => logIn(event));
 }
 
 function logIn(event) {
   event.preventDefault();
   let NIC = document.getElementById("nic").value;
-  let password = document.getElementById('password').value;
+  let password = document.getElementById("password").value;
   LogIN();
-  async function LogIN(){
-    let response = await fetch(`http://localhost:5263/api/User/Log-In?NICno=${NIC}&Password=${password}`)
+  async function LogIN() {
+    let response = await fetch(
+      `http://localhost:5263/api/User/Log-In?NICno=${NIC}&Password=${password}`
+    );
     if (response.ok) {
-      await response.json().then(data => {
-        sessionStorage.setItem('currentUser' , JSON.stringify(data));
-      }).catch((err)=>{
-        console.log(err);
-      })
+      await response
+        .json()
+        .then((data) => {
+          sessionStorage.setItem("currentUser", JSON.stringify(data));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-
-    
   }
 }
-
 
 function getUserData(userData) {
   console.log(userData);
@@ -225,9 +222,10 @@ function getUserData(userData) {
     userData.email.value.trim() === "" &&
     userData.contactNO.value.trim() === "" &&
     userData.address.value.trim() === "" &&
-    userData.userRole.value.trim() === ""
+    userData.userRole.value.trim() === "" 
+    
   ) {
-    alert('No fields can be empty');
+    alert("No fields can be empty");
   } else {
     let U_userNIC = userData.userNIC.value;
     let U_firstName = userData.firstName.value;
@@ -237,6 +235,7 @@ function getUserData(userData) {
     let U_address = userData.address.value;
     let U_userRole = userData.userRole.value;
     let isAdmin;
+
 
     if (U_userRole === "manager") {
       isAdmin = true;
@@ -257,48 +256,40 @@ function getUserData(userData) {
     let verificationForm = document.getElementById("verificationForm");
     verificationForm.reset();
     setupPassword(user);
-
   }
-
-
-
 }
-
 
 function setupPassword(userObj) {
   console.log(userObj);
   let passwordFld = document.getElementById("userPassword");
   let repeatPasswordFld = document.getElementById("repeatUserPassword");
-  repeatPasswordFld.addEventListener('change', checkPassword);
+  repeatPasswordFld.addEventListener("change", checkPassword);
 
   function checkPassword() {
     let U_password = passwordFld.value;
     let U_repeatPassword = repeatPasswordFld.value;
 
     if (U_password === U_repeatPassword) {
-
-
       let verificationForm = document.getElementById("verificationForm");
-      console.log(verificationForm)
-      verificationForm.reset()
+      console.log(verificationForm);
+      verificationForm.reset();
 
-      userObj.password = U_password
+      userObj.password = U_password;
 
       console.log(userObj);
       postUser();
       async function postUser() {
         const response = await fetch("http://localhost:5263/api/User", {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(userObj)
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userObj),
         });
-        console.log(response)
+        console.log(response);
 
         if (response.ok) {
-          await response.json().then(data => {
+          await response.json().then((data) => {
             console.log(data);
-          })
-
+          });
         }
       }
       alert("User registration successfull!");
@@ -306,5 +297,4 @@ function setupPassword(userObj) {
       alert("Please set up your password correctly.");
     }
   }
-
 }
