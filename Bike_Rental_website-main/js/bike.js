@@ -34,7 +34,7 @@ async function fetchBikes() {
       if(JSON.parse(sessionStorage.getItem("currentUser")) != null){
          displayRentalModal(event)
       }else{
-        console.log("Error");
+        alert("Log in / Sign up to Rent a Bike");
       }
      
     }
