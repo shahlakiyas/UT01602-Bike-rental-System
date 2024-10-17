@@ -74,8 +74,9 @@ function addBikeModalFunctions() {
   let addBikeForm = document.getElementById('addBikeForm');
   console.log(addBikeForm);
   addBikeForm.addEventListener('submit', (event) => {
-
-    postBike(event)
+    event.preventDefault();
+    postBike(event);
+    event.target.reset();
   });
   const bikeImageInput = document.getElementById("bikeImage");
   bikeImageInput.addEventListener('change', (event) => getInputImage(event))
@@ -124,6 +125,7 @@ async function postBike(event) {
       imagePath: bikeImg,
       bikeId: resposeBikeId
     }
+    console.log(image);
     if (resposeBikeId != null) {
       const response2 = await fetch("http://localhost:5263/api/Images/Add-Image", {
         method: 'POST',
@@ -222,10 +224,12 @@ function addUnitsModalFunctions(event) {
 
 //fetch API get METHOD 
 async function fetchbikeById(id) {
+  console.log(id);
   const response = await fetch(`${BikesWithUnitsURL}${id}`);
   const bike = await response.json();
 
   console.log(bike);
+  console.log(bike.images);
 
   let AddbikeViewPage = document.getElementById("AddbikeViewPage"); //Add bike id defind
 
