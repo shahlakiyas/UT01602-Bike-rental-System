@@ -34,7 +34,7 @@ async function fetchBikes() {
       if(JSON.parse(sessionStorage.getItem("currentUser")) != null){
          displayRentalModal(event)
       }else{
-        alert("Log in / Sign up to Rent a Bike");
+        alert("Log in / Sign up to rent a bike");
       }
      
     }
@@ -131,8 +131,7 @@ function printConfirmRent(bikeObj, rentalDiv) {
     if (selDate == "") {
       return
     } else {
-      let userNIC = currentUser;
-
+      let currentUser =  JSON.parse(sessionStorage.getItem("currentUser"));
       let rentalRequest = {
         requestTime: selDate,
         bikeId: currentBikeId,
