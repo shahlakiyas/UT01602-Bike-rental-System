@@ -912,3 +912,7 @@ section {
   justify-content: space-around;
 }
 
+.select{
+  width:80px;
+}
+

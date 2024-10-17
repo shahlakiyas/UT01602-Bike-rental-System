@@ -110,7 +110,6 @@ namespace BikeRentalApplication.Repositories
                     {
                         RegistrationNumber = reader["RegistrationNumber"].ToString(),
                         YearOfManufacture = (int)reader["YearOfManufacture"],
-                        // Availability = (bool)reader["Availability"],
                         DateAdded = (DateTime)reader["DateAdded"],
                         BikeId = (int)reader["BikeId"]
                     };
@@ -118,6 +117,21 @@ namespace BikeRentalApplication.Repositories
                     Units.Add(unit);
                 }
                 return Units;
+            }
+
+
+            
+        }
+
+        public async Task<bool> ChangeAvailabilty(string bikeRegNo)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("UPDATE Inventory SET Availabilty = @Availabilty WHERE RegistrationNumber  = @RegistrationNumber", connection);
+                command.Parameters.AddWithValue("@RegistrationNumber", false);
+                await connection.OpenAsync();
+                var result = await command.ExecuteNonQueryAsync();
+                return result > 0;
             }
         }
 

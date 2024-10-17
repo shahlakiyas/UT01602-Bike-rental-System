@@ -63,7 +63,7 @@ namespace BikeRentalApplication.Repositories
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(@"SELECT * FROM RentalRecords  inner join RentalRequests on RentalRecords.RentalId = RentalRequests.RentalId
-                                                       where RentalRecords.RentalReturn is null  ;", connection);
+                                                       where RentalRecords.RentalReturn is null and RentalOut is Not Null ;", connection);
                 await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 while (reader.Read())
@@ -137,21 +137,19 @@ namespace BikeRentalApplication.Repositories
 
         // Update the rentalOut time
 
-        public async Task<DateTime> UpdateRentalOut(DateTime outTime ,string BikeRegNo , int RecordId)
+        public async Task<DateTime> UpdateRentalOut(string BikeRegNo , int RecordId)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand("UPDATE RentalRecords SET RentalOut = @RentalOut , RegistrationNumber = @RegistrationNumber  WHERE RecordId = @RecordId", connection);
-                command.Parameters.AddWithValue("@RentalOut", outTime);
+                command.Parameters.AddWithValue("@RentalOut", DateTime.Now);
                 command.Parameters.AddWithValue("@RegistrationNumber", BikeRegNo);
                 command.Parameters.AddWithValue("@RecordId", RecordId);
-
-
                 await connection.OpenAsync();
                 var rowsAffected = await command.ExecuteNonQueryAsync();
                 if(rowsAffected > 0)
                 {
-                    return outTime;
+                    return DateTime.Now;
                 }
                 else
                 {

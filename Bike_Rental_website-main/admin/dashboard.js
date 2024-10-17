@@ -18,6 +18,9 @@ const GetAllRentalRecordsURL = "http://localhost:5263/api/RentalRecord/Get-Renta
 const PostBikeURL = "http://localhost:5263/api/Bikes";
 const InventoryCreateURL = "http://localhost:5263/api/Inventory/Create-Inventory-Item";
 const GetRentalRecordsURL = "http://localhost:5263/api/RentalRecord/Get-Rental-records";
+const AcceptRentalRequestURL = "http://localhost:5263/api/RentalRequest/Accept-Rental-Request";
+const declineREntalRequestURL = "http://localhost:5263/api/RentalRequest/Decline-Rental-Request"
+const GetRentalRequestByIdURL = "http://localhost:5263/api/RentalRequest/"
 
 
 //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
@@ -39,6 +42,24 @@ for (i = 0; i < dropdown.length; i++) {
 let dispalySection = document.getElementById("dispalySection");
 let dispalySectionHead = document.getElementById("dispalySectionHead");
 let dispalySectionBody = document.getElementById("dispalySectionBody");
+
+dispalySectionBody.addEventListener("click", (event) => {
+  if (event.target.getAttribute("id") == "addUnitsBtn") {
+    addUnitsModalFunctions(event); //Modal Display
+  }else if(event.target.getAttribute("id") == "acceptRequest"){
+    acceptRequest(event);
+ 
+  }else if(event.target.getAttribute("id") == "declineRequest"){
+    declineRequest(event);
+ 
+  }else if(event.target.getAttribute("class")== "select"){
+    populateRegNo(event);
+  }else if(event.target.getAttribute("class")== "cofirmRegNo"){
+   confirmRent(event);
+  }else if(event.target.getAttribute("id")== "returnBtn"){
+    returnRent(event);
+  }
+})
 
 
 let addModalBtn = document.getElementById("addModalBtn");
@@ -194,11 +215,7 @@ async function displayBikes() {
         `;
   });
 
-  dispalySectionBody.addEventListener("click", (event) => {
-    if (event.target.getAttribute("id") == "addUnitsBtn") {
-      addUnitsModalFunctions(event); //Modal Display
-    }
-  })
+
 
 }
 
@@ -341,14 +358,26 @@ async function displayCustomers() {
                 <td>${user.address}</td>
                 <td>${user.password}</td>
                 <td>
-                    <button type="button" id="" data-index="${user.bikeId}">Add</button>
-                    <button type="button">Edit</button>
-                    <button type="button">Delete</button>
+                    <button type="button" id="blockUser" data-index="${user.bikeId}">Block User</button>
+                    
                 </td>
             </tr>
         `;
   });
 
+}
+// Fetch rental request details by ID
+async function returnBikeById(id) {
+  const response = await fetch(`${BikesWithUnitsURL}${id}`);
+
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } else {
+    console.error("Failed to fetch rental request:", response.status);
+    return null;
+  }
 }
 
 async function displayRentalRequests() {
@@ -379,9 +408,8 @@ async function displayRentalRequests() {
                <td>${rentalRequest.bikeId}</td> 
                <td>${rentalRequest.nicNumber}</td>
                <td>
-                   <button type="button" id="" data-index="${rentalRequest.bikeId}">Add</button>
-                   <button type="button">Edit</button>
-                   <button type="button">Delete</button>
+                   <button type="button" id="acceptRequest" data-index="${rentalRequest.rentalId}">Accept</button>
+                   <button type="button" id="declineRequest" data-index="${rentalRequest.rentalId}">Decline</button>
                </td>
            </tr>
        `;
@@ -392,6 +420,7 @@ async function displayRentalPortal() {
   console.log('hello rental portal')
   const response = await fetch(GetRequestsForPortalURL);
   const rentalsPortal = await response.json();
+  console.log(rentalsPortal);
 
   dispalySectionHead.innerHTML = "";
   dispalySectionHead.innerHTML = `
@@ -412,14 +441,72 @@ async function displayRentalPortal() {
                <td>${rentalPortal.nicNumber}</td>
                <td>${rentalPortal.recordId}</td>
                <td>
-                   <button type="button" id="" data-index="${rentalPortal.bikeId}">Add</button>
-                   <button type="button">Edit</button>
-                   <button type="button">Delete</button>
+
+               <select id="${rentalPortal.recordId}" data-index="${rentalPortal.bikeId}" class="select">
+                </select>
+                <button class="cofirmRegNo" id="${rentalPortal.recordId}" >Confirm</button>
                </td>
            </tr>
        `;
   });
 }
+
+
+async function populateRegNo(event){
+  let bikeId = (event.target.getAttribute("data-index"));
+  let recordId = event.target.getAttribute("id");
+
+  let bike = await returnBikeById(bikeId);
+      console.log(bike.units)
+  let selectTag = event.target;
+  selectTag.innerHTML = "";
+
+    let AvailableUnits = await returnavailableUnits(bikeId)
+    AvailableUnits.forEach(unit => {
+    let option = document.createElement("option");
+    option.value = unit.registrationNumber;
+    option.innerText = unit.registrationNumber;
+    selectTag.append(option);
+  });
+}
+const GetAvailableUnitsByIdURL = "http://localhost:5263/api/Inventory/Get-Available-Units"
+async function returnavailableUnits(BikeId){
+  const response = await fetch(`${GetAvailableUnitsByIdURL}${BikeId}`);
+
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } else {
+    console.error("Failed to fetch rental request:", response.status);
+    return null;
+  }
+}
+
+async function confirmRent(event){
+  let selRecordId = event.target.getAttribute("id");
+  console.log(selRecordId);
+  let bikeRegNo = document.getElementById(selRecordId).value;
+  console.log(bikeRegNo);
+  let URLpart = "http://localhost:5263/api/RentalRecord/Update-Rental-Out"
+  let URL = "http://localhost:5263/api/RentalRecord/Update-Rental-Out?BikeRegNo=JC-0961&RecordId=1"
+  const response = await fetch(`${URLpart}?BikeRegNo=${bikeRegNo}&RecordId=${selRecordId}`, {
+    method: 'PUT', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ }) 
+  });
+
+  if (response.ok) {
+    console.log(`Request with ID ${selRecordId} accepted successfully.`);
+  } else {
+    console.error("Failed to accept rental request:", response.status);
+  }
+
+}
+
+
 
 async function displayRentalReturns() {
   console.log('hello rental returns')
@@ -444,9 +531,8 @@ async function displayRentalReturns() {
                <td>${rentalReturn.recordId}</td>
                <td>${rentalReturn.registrationNumber}</td> 
                <td>
-                   <button type="button" id="" data-index="${rentalReturn.bikeId}">Add</button>
-                   <button type="button">Edit</button>
-                   <button type="button">Delete</button>
+                   <button type="button" id="returnBtn" data-index="${rentalReturn.recordId}">Return</button>
+                   
                </td>
            </tr>
        `;
@@ -491,3 +577,74 @@ async function displayRentalRecords() {
   });
 }
 
+// Fetch rental request details by ID
+async function getRentalRequestById(id) {
+  const response = await fetch(`${GetRentalRequestByIdURL}${id}`);
+
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } else {
+    console.error("Failed to fetch rental request:", response.status);
+    return null;
+  }
+}
+
+// Accept a rental request
+async function acceptRequest(event) {
+  const requestId = event.target.getAttribute("data-index");
+  console.log(`Accepting request with ID: ${requestId}`);
+
+  const rentalRequest = await getRentalRequestById(requestId);
+  if (rentalRequest) {
+    await updateRentalOnAccept(requestId);
+  }
+}
+
+// Decline a rental request
+async function declineRequest(event) {
+  const requestId = event.target.getAttribute("data-index");
+  console.log(`Declining request with ID: ${requestId}`);
+
+  await updateRentalOnDecline(requestId);
+}
+
+// Update rental on acceptance (PUT request)
+async function updateRentalOnAccept(requestId) {
+  const response = await fetch(`${AcceptRentalRequestURL}${requestId}`, {
+    method: 'PUT', 
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status: true }) 
+  });
+
+  if (response.ok) {
+    console.log(`Request with ID ${requestId} accepted successfully.`);
+  } else {
+    console.error("Failed to accept rental request:", response.status);
+  }
+}
+
+
+async function updateRentalOnDecline(requestId) {
+  const response = await fetch(`${declineREntalRequestURL}${requestId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status: false})
+  });
+
+  if (response.ok) {
+    console.log(`Request with ID ${requestId} declined successfully.`);
+  } else {
+    console.error("Failed to decline rental request:", response.status);
+  }
+}
+
+
+async function returnRent(event){
+  console.log(event);
+}
