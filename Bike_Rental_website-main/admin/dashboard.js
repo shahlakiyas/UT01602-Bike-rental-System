@@ -8,16 +8,16 @@ document.querySelectorAll(".sidebar ul li a").forEach((link) => {
 });
 
 const BikesWithUnitsURL = "http://localhost:5263/api/Bikes/Get-All-bikes-With-Images";
-const GetAllUsersURL = "";
-const GetALLRentalRequestsURL = "";
-const GetRequestsForPortalURL = "";
-const GetRequestsForReturnURL = "";
-const UpdateOnRentalOutURL = "";
-const UpdateonRentalReturnURL = "";
-const GetAllRentalRecordsURL = "";
-
-
-
+const GetAllUsersURL = "http://localhost:5263/api/User/Get-All-Users";
+const GetALLRentalRequestsURL = "http://localhost:5263/api/RentalRequest";
+const GetRequestsForPortalURL = "http://localhost:5263/api/RentalRecord/Get-Records-For-Portal"; 
+const GetRequestsForReturnURL = "http://localhost:5263/api/RentalRecord/Get-Records-For-Return";
+const UpdateOnRentalOutURL = "http://localhost:5263/api/RentalRecord/Update-Rental-Out";
+const UpdateonRentalReturnURL = "http://localhost:5263/api/RentalRecord/Complete-Rental-Record";
+const GetAllRentalRecordsURL = "http://localhost:5263/api/RentalRecord/Get-Rental-records";
+const PostBikeURL = "http://localhost:5263/api/Bikes";
+const InventoryCreateURL = "http://localhost:5263/api/Inventory/Create-Inventory-Item"; 
+const GetRentalRecordsURL = "http://localhost:5263/api/RentalRecord/Get-Rental-records";
 
 
 //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
@@ -61,6 +61,9 @@ viewRentalPortalBtn.addEventListener('click' , displayRentalPortal )
 let viewRentalReturnsBtn = document.getElementById('viewRentalReturns');
 viewRentalReturnsBtn.addEventListener('click' , displayRentalReturns)
 
+let viewRentalRecordsBtn = document.getElementById('viewRentalRecords');
+viewRentalRecordsBtn.addEventListener('click', displayRentalRecords)
+
 let bikeImg;
 
 function addBikeModalFunctions() {
@@ -102,7 +105,7 @@ async function postBike(event) {
     ratePerHour: ratePerHour
   }
 
-  const response = await fetch("http://localhost:5263/api/Bikes", {
+  const response = await fetch(PostBikeURL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(bike)
@@ -122,7 +125,7 @@ async function postBike(event) {
       bikeId: resposeBikeId
     }
     if (resposeBikeId != null) {
-      const response2 = await fetch("http://localhost:5263/api/Images/Add-Image", {
+      const response2 = await fetch(BikesWithUnitsURL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(image)
@@ -157,7 +160,7 @@ function getInputImage(event) {
 //fetch API get method to retrive bikes
 async function displayBikes() {
 
-   const response = await fetch("http://localhost:5263/api/Bikes/Get-All-bikes-With-Images");
+   const response = await fetch(BikesWithUnitsURL);
    const bikes = await response.json();
 
   console.log(bikes);
@@ -284,7 +287,7 @@ async function addUnitsToBike(event , unitBikeId) {
     yearOfManufacture : manufacturedYear,
     bikeId : unitBikeId
   }
-  const response = await fetch("http://localhost:5263/api/Inventory/Create-Inventory-Item", {
+  const response = await fetch(InventoryCreateURL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(bikeUnit)
@@ -308,25 +311,28 @@ async function addUnitsToBike(event , unitBikeId) {
 async function displayCustomers(){
   console.log('hello customers');
 
-   const response = await fetch("http://localhost:5263/api/User/Get-All-Users");
+   const response = await fetch(GetAllUsersURL);
    const users = await response.json();
     console.log(users);
   dispalySectionHead.innerHTML = "";
   dispalySectionHead.innerHTML = `<th>N.I.C Number</th>
   <th>Full Name</th>
   <th>Email</th>
+  <th>Contact No</th>
   <th>Address</th>
-  <th>Telephone Number</th>`
+  <th>Password</th>`
 
 
   dispalySectionBody.innerHTML = "";
   users.forEach((user) => {
     dispalySectionBody.innerHTML += `
             <tr>
-                <td>${user.brand}</td>
-                <td>${user.model}</td>
-                <td>${user.type}</td>
-                <td>${user.ratePerHour}</td> 
+                <td>${user.nicNumber}</td>
+                <td>${user.firstName} ${user.lastName}</td>
+                <td>${user.email}</td>
+                <td>${user.contactNo}</td> 
+                <td>${user.address}</td>
+                <td>${user.password}</td>
                 <td>
                     <button type="button" id="" data-index="${user.bikeId}">Add</button>
                     <button type="button">Edit</button>
@@ -341,25 +347,30 @@ async function displayCustomers(){
 async function displayRentalRequests(){
 
   console.log('hello rental requests')
-  const response = await fetch();
+  const response = await fetch(GetALLRentalRequestsURL);
   const rentalRequests = await response.json();
  
  dispalySectionHead.innerHTML = "";
- dispalySectionHead.innerHTML = `<th>N.I.C Number</th>
- <th>Full Name</th>
- <th>Email</th>
- <th>Address</th>
- <th>Telephone Number</th>`
+ dispalySectionHead.innerHTML = 
+ `
+ <th>Rental Id</th>
+ <th>Request Time</th>
+ <th>Status</th>
+ <th>Bike Id</th>
+ <th>User Nic Number</th>
+ <th>Action</th>
+ `
 
 
  dispalySectionBody.innerHTML = "";
  rentalRequests.forEach((rentalRequest) => {
    dispalySectionBody.innerHTML += `
            <tr>
-               <td>${rentalRequest.brand}</td>
-               <td>${rentalRequest.model}</td>
-               <td>${rentalRequest.type}</td>
-               <td>${rentalRequest.ratePerHour}</td> 
+               <td>${rentalRequest.rentalId}</td>
+               <td>${rentalRequest.requestTime}</td>
+               <td>${rentalRequest.status}</td>
+               <td>${rentalRequest.bikeId}</td> 
+               <td>${rentalRequest.nicNumber}</td>
                <td>
                    <button type="button" id="" data-index="${rentalRequest.bikeId}">Add</button>
                    <button type="button">Edit</button>
@@ -372,25 +383,27 @@ async function displayRentalRequests(){
 
 async function displayRentalPortal(){
   console.log('hello rental portal')
-  const response = await fetch();
+  const response = await fetch(GetRequestsForPortalURL);
   const rentalsPortal = await response.json();
  
  dispalySectionHead.innerHTML = "";
- dispalySectionHead.innerHTML = `<th>N.I.C Number</th>
- <th>Full Name</th>
- <th>Email</th>
- <th>Address</th>
- <th>Telephone Number</th>`
+ dispalySectionHead.innerHTML = `
+ <th>Request Time</th>
+ <th>Bike Id</th>
+ <th>Nic Number</th>
+ <th>Record Id</th>
+ <th>Action</th>
+ `
 
 
  dispalySectionBody.innerHTML = "";
  rentalsPortal.forEach((rentalPortal) => {
    dispalySectionBody.innerHTML += `
            <tr>
-               <td>${rentalPortal.brand}</td>
-               <td>${rentalPortal.model}</td>
-               <td>${rentalPortal.type}</td>
-               <td>${rentalPortal.ratePerHour}</td> 
+               <td>${rentalPortal.requestTime}</td>
+               <td>${rentalPortal.bikeId}</td> 
+               <td>${rentalPortal.nicNumber}</td>
+               <td>${rentalPortal.recordId}</td>
                <td>
                    <button type="button" id="" data-index="${rentalPortal.bikeId}">Add</button>
                    <button type="button">Edit</button>
@@ -403,25 +416,26 @@ async function displayRentalPortal(){
 
 async function displayRentalReturns(){
   console.log('hello rental returns')
-  const response = await fetch();
+  const response = await fetch(GetRequestsForReturnURL);
   const rentalReturns = await response.json();
  
  dispalySectionHead.innerHTML = "";
- dispalySectionHead.innerHTML = `<th>N.I.C Number</th>
- <th>Full Name</th>
- <th>Email</th>
- <th>Address</th>
- <th>Telephone Number</th>`
+ dispalySectionHead.innerHTML = `
+ <th>Bike Id</th>
+ <th>Nic Number</th>
+ <th>Record Id</th>
+ <th>Registration Number</th>
+ <th>Action</th>`
 
 
  dispalySectionBody.innerHTML = "";
  rentalReturns.forEach((rentalReturn) => {
    dispalySectionBody.innerHTML += `
            <tr>
-               <td>${rentalReturn.brand}</td>
-               <td>${rentalReturn.model}</td>
-               <td>${rentalReturn.type}</td>
-               <td>${rentalReturn.ratePerHour}</td> 
+               <td>${rentalReturn.bikeId}</td> 
+               <td>${rentalReturn.nicNumber}</td>
+               <td>${rentalReturn.recordId}</td>
+               <td>${rentalReturn.registrationNumber}</td> 
                <td>
                    <button type="button" id="" data-index="${rentalReturn.bikeId}">Add</button>
                    <button type="button">Edit</button>
@@ -431,3 +445,42 @@ async function displayRentalReturns(){
        `;
  });
 }
+
+async function displayRentalRecords(){
+  console.log('hello rental records')
+  const response = await fetch(GetRentalRecordsURL);
+  const returnRecords = await response.json();
+ console.log(returnRecords);
+ dispalySectionHead.innerHTML = "";
+ dispalySectionHead.innerHTML = `
+ <th>Bike Id</th>
+ <th>Nic Number</th>
+ <th>Record Id</th>
+ <th>Registration Number</th>
+ <th>Rental Out</th>
+ <th>Rental Return</th>
+ <th>Payment</th>
+ <th>Action</th>`
+
+
+ dispalySectionBody.innerHTML = "";
+ returnRecords.forEach((returnRecords) => {
+   dispalySectionBody.innerHTML += `
+           <tr>
+               <td>${returnRecords.bikeId}</td> 
+               <td>${returnRecords.nicNumber}</td>
+               <td>${returnRecords.recordId}</td>
+               <td>${returnRecords.registrationNumber}</td> 
+               <td>${returnRecords.rentalOut}</td>
+               <td>${returnRecords.rentalReturn}</td>
+               <td>${returnRecords.payment}</td> 
+               <td>
+                   <button type="button" id="" data-index="${returnRecords.bikeId}">Add</button>
+                   <button type="button">Edit</button>
+                   <button type="button">Delete</button>
+               </td>
+           </tr>
+       `;
+ });
+}
+
