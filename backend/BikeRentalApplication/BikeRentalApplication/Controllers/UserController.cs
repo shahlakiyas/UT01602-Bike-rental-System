@@ -25,6 +25,21 @@ namespace BikeRentalApplication.Controllers
             var NICNo = await _userRepository.CreateUserAsync(user);
             return Ok(NICNo);
         }
+        [HttpGet("Log-In")]
+
+        public async Task<IActionResult> LogIn(string NICno, string Password)
+        {
+            try
+            {
+                var data = await _userRepository.LogIn(NICno, Password);
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         //Read User by id 
         [HttpGet]
@@ -65,8 +80,8 @@ namespace BikeRentalApplication.Controllers
             {
                 return NotFound(ex.Message);
             };
-           
-            
+
+
         }
 
 
