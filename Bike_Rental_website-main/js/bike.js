@@ -1,7 +1,7 @@
 const getAllBikesURL = "http://localhost:5263/api/Bikes/Get-All-bikes-With-Images";
 
 //get current user with session storage;
-let currentUser = {}
+let currentUser =  JSON.parse(sessionStorage.getItem("currentUser")) || {}
 
 fetchBikes();
 async function fetchBikes() {
@@ -29,8 +29,8 @@ async function fetchBikes() {
   const bikeContent = document.querySelector(".bikes-content");
   bikeContent.addEventListener('click', (event) => {
     if (event.target.getAttribute('class') == "book-btn") {
-     let abc = JSON.parse(sessionStorage.getItem("currentUser"));
-     console.log(abc);
+    
+    
       if(JSON.parse(sessionStorage.getItem("currentUser")) != null){
          displayRentalModal(event)
       }else{
@@ -105,11 +105,28 @@ function printConfirmRent(bikeObj, rentalDiv) {
   closeSpan.onclick = function () {
     confirmRent.style.display = "none";
   };
+  let currentBikeId;
+  //Creating images dynamically onloading
+  let bikeImagesBox = document.querySelector(".img-box");
+  bikeImagesBox.addEventListener('click', (event) => changeImage(event))
+  let index = 0
+  bikeObj.bikeImages.forEach(image => {
+    let img = document.createElement('img');
+    console.log(image);
+    img.setAttribute('data-index', index);
+    img.src = `${image.imagePath}`;
+    currentBikeId = image.bikeId
+    bikeImagesBox.append(img);
+    console.log(`${image.imagePath}`);
+    index++;
+  })
+  console.log(bikeObj);
+
   // Event Listener function to post rentalrequest
   const rentRequestForm = document.getElementById('rentRequestForm');
   rentRequestForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    let selBikeId = event.target.getAttribute("data-index");
+   // let selBikeId = event.target.getAttribute("data-index");
     let selDate = document.getElementById('datepicker').value;
     if (selDate == "") {
       return
@@ -118,8 +135,8 @@ function printConfirmRent(bikeObj, rentalDiv) {
 
       let rentalRequest = {
         requestTime: selDate,
-        bikeId: selBikeId,
-        nicNumber: userNIC
+        bikeId: currentBikeId,
+        nicNumber: currentUser.nicNumber
       };
       console.log(rentalRequest);
       postRentalRequest();
@@ -141,20 +158,7 @@ function printConfirmRent(bikeObj, rentalDiv) {
 
   })
 
-  //Creating images dynamically onloading
-  let bikeImagesBox = document.querySelector(".img-box");
-  bikeImagesBox.addEventListener('click', (event) => changeImage(event))
-  let index = 0
-  bikeObj.bikeImages.forEach(image => {
-    let img = document.createElement('img');
-    console.log(image);
-    img.setAttribute('data-index', index);
-    img.src = `${image.imagePath}`;
-    bikeImagesBox.append(img);
-    console.log(`${image.imagePath}`);
-    index++;
-  })
-  console.log(bikeObj);
+
 
 }
 
