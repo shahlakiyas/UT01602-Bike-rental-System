@@ -148,7 +148,8 @@ namespace BikeRentalApplication.Repositories
          
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand("select * from Bikes", connection);
+                SqlCommand command = new SqlCommand("select * from Bikes wher Id =@Id", connection);
+                command.Parameters.AddWithValue("@Id", id);
                 await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.Read())
