@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "X:\\MileStone_2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj": {}
+    "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj": {}
   },
   "projects": {
-    "X:\\MileStone_2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj": {
+    "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "X:\\MileStone_2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj",
+        "projectUniqueName": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj",
         "projectName": "BikeRentalApplication",
-        "projectPath": "X:\\MileStone_2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj",
-        "packagesPath": "C:\\Users\\UT01317\\.nuget\\packages\\",
-        "outputPath": "X:\\MileStone_2\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\obj\\",
+        "projectPath": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj",
+        "packagesPath": "C:\\Users\\UT01373\\.nuget\\packages\\",
+        "outputPath": "X:\\edits\\UT01602-Bike-rental-System-2024-10-17-12-00\\backend\\BikeRentalApplication\\BikeRentalApplication\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\UT01317\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\UT01373\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

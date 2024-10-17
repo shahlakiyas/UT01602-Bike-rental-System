@@ -42,6 +42,41 @@ namespace BikeRentalApplication.Repositories
 
         }
 
+        //LogIn API
+        public async Task<User> LogIn(string NIC , string Password)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("  SELECT * FROM Users WHERE NICNumber = @NICnumber and password = @Password ", connection);
+                command.Parameters.AddWithValue("@NICnumber", NIC);
+                command.Parameters.AddWithValue ("@Password", Password);
+                User user = new User();
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                if (reader.Read())
+                {
+
+                    user.NICNumber = reader.GetString(0);
+                    user.FirstName = reader.GetString(1);
+                    user.LastName = reader.GetString(2);
+                    user.Email = reader.GetString(3);
+                    user.ContactNo = reader.GetString(4);
+                    user.Address = reader.GetString(5);
+                    user.Password = reader.GetString(6);
+                    user.IsAdmin = reader.GetBoolean(7);
+                    user.AccountCreated = reader.GetDateTime(8);
+
+                }
+                else
+                {
+                    throw new Exception();
+                }
+                return user;
+            }
+
+        }
+
         //Read User by id
         public async Task<User> GetUserByIdAsync(string NIC)
         {
@@ -72,9 +107,7 @@ namespace BikeRentalApplication.Repositories
                     throw new Exception();
                 }
                 return user;
-
             }
-
 
         }
 
