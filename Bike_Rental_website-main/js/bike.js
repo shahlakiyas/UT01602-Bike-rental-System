@@ -2,7 +2,8 @@ const getAllBikesURL = "http://localhost:5263/api/Bikes/Get-All-bikes-With-Image
 
 //get current user with session storage;
 let currentUser =  JSON.parse(sessionStorage.getItem("currentUser")) || {}
-
+  //Creating display Bikes
+  let displayBikes = [];
 fetchBikes();
 async function fetchBikes() {
 
@@ -39,11 +40,23 @@ async function fetchBikes() {
      
     }
   })
+
+
+
   // create bike box and show in bikecontent div
   bikes.forEach((bike) => {
-    const bikeBoxHtml = createBikeBox(bike);
-    bikeContent.insertAdjacentHTML("beforeend", bikeBoxHtml);
+    let displayUnits = bike.units.filter(b => b.avilabilty == true)
+    console.log(displayUnits);
+
+    if(displayUnits.length > 0){
+      displayBikes.push(bike)
+    }
+    console.log(displayBikes);
   });
+ 
+
+  displayBikesforRental();
+
   let confirmRent = document.getElementById("confirmRent");
   var bookBtn = document.getElementById("book-btn");
   console.log(bookBtn);
@@ -58,7 +71,14 @@ async function fetchBikes() {
 }
 
 
-
+function displayBikesforRental(){
+  if(displayBikes.length > 0){
+    displayBikes.forEach(bike => {
+      const bikeBoxHtml = createBikeBox(bike);
+      bikeContent.insertAdjacentHTML("beforeend", bikeBoxHtml);
+    });
+  }
+}
 
 
 window.onclick = function (event) {
