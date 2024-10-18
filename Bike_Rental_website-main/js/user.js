@@ -98,7 +98,7 @@ function loadSignUpModal() {
       </div>
       <div class='form-item'>
       <label for="address">Address:</label>
-      <input type="email" id="address" placeholder="Enter the Address" required>
+      <input type="text" id="address" placeholder="Enter the Address" required>
       </div>
       <div class='form-item'>
       <label for="userRole">I am a</label>
@@ -113,38 +113,21 @@ function loadSignUpModal() {
 
       </select>
       </div>
-  </div>
-  <button type="submit" id="nextTabBtn" class="btn">Next &nbsp; ></button>
-</form>
-<form id="verificationForm" class="modal-form">
-  <div class="tab-2" id="verification">
-    
-   <h2>Setup Your Account</h2>
-      <div id="info"></div>
-     
+
       <div class='form-item'>
       <label for="userPassword">
           Password:
       </label>
       <input type="password" id="userPassword" required>
       </div>
-      <div class='form-item'>
-      <label for="repeatUserPassword">
-        Confirm Password:
-      </label>
-      <input type="password" id="repeatUserPassword" required>
-      </div>
+
       <button type="submit" class="btn" >Submit</button>
-  </div>
+      <div id="info" class="signup-msg"></div>
+
+  </div>  
 </form>
   `
 
-
-  let verificationForm = document.getElementById("verificationForm");
-  verificationForm.style.display = "none";
-
-
-  let nextTabBtn = document.getElementById("nextTabBtn");
   let signUpForm = document.getElementById("signUpForm");
   let userNIC = document.getElementById("userNIC");
   let firstName = document.getElementById("firstName");
@@ -153,7 +136,9 @@ function loadSignUpModal() {
   let contactNO = document.getElementById("contact");
   let address = document.getElementById("address");
   let userRole = document.getElementById("userRole");
-  nextTabBtn.addEventListener('click', (event) => {
+  let userPassword = document.getElementById("userPassword");
+
+  signUpForm.addEventListener('submit', (event) => {
     event.preventDefault();
     let userData = {
       userNIC,
@@ -162,13 +147,16 @@ function loadSignUpModal() {
       email,
       contactNO,
       address,
-      userRole
+      userRole,
+      userPassword,
     }
 
     getUserData(userData);
     signUpForm.reset();
-    verificationForm.style.display = "block";
+    console.log("User data" + userData);
 
+    let signUpMsg = document.getElementById("info");
+    signUpMsg.innerHTML = `<h2>Sign Up Successfull</h2>`
   })
 }
 
@@ -194,6 +182,7 @@ function loadLogInModal() {
   `
   let logInForm = document.getElementById('logInForm');
   logInForm.addEventListener('submit', (event) => logIn(event))
+  
 }
 
 function logIn(event) {
@@ -201,18 +190,30 @@ function logIn(event) {
   let NIC = document.getElementById("nic").value;
   let password = document.getElementById('password').value;
   LogIN();
-  async function LogIN(){
+  async function LogIN() {
+    let loginMsg = document.getElementById("msg");
+    loginMsg.innerHTML = "";
     let response = await fetch(`http://localhost:5263/api/User/Log-In?NICno=${NIC}&Password=${password}`)
     if (response.ok) {
       await response.json().then(data => {
-        sessionStorage.setItem('currentUser' , JSON.stringify(data));
-      }).catch((err)=>{
+        sessionStorage.setItem('currentUser', JSON.stringify(data));
+        if(data.isAdmin == true){
+          window.location.href = "../admin/dashboard.html"
+        }
+        loginMsg.style.color = "green";
+        loginMsg.innerHTML =  `<h2>Login Successfull</h2>`;
+
+      }).catch((err) => {
         console.log(err);
       })
+    }else{
+      loginMsg.style.color = "red";
+      loginMsg.innerHTML =  `<h2>Login Failed</h2>`;
     }
-
-    
   }
+  event.target.reset();
+
+
 }
 
 
@@ -225,7 +226,8 @@ function getUserData(userData) {
     userData.email.value.trim() === "" &&
     userData.contactNO.value.trim() === "" &&
     userData.address.value.trim() === "" &&
-    userData.userRole.value.trim() === ""
+    userData.userRole.value.trim() === "" &&
+    userData.userPassword.value.trim() === ""
   ) {
     alert('No fields can be empty');
   } else {
@@ -237,9 +239,11 @@ function getUserData(userData) {
     let U_address = userData.address.value;
     let U_userRole = userData.userRole.value;
     let isAdmin;
+    let U_password = userData.userPassword.value;
 
     if (U_userRole === "manager") {
       isAdmin = true;
+     
     } else if (U_userRole === "customer") {
       isAdmin = false;
     }
@@ -250,61 +254,37 @@ function getUserData(userData) {
       email: U_email,
       contactNo: U_contactNO,
       address: U_address,
-      isAdmin: isAdmin
+      isAdmin: isAdmin,
+      password: U_password
     };
 
     console.log(user);
-    let verificationForm = document.getElementById("verificationForm");
-    verificationForm.reset();
-    setupPassword(user);
+    let signUpForm = document.getElementById("signUpForm");
+    signUpForm.reset();
+    // setupPassword(user);
 
-  }
+    postUser();
+    async function postUser() {
+      const response = await fetch("http://localhost:5263/api/User", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+      });
+      console.log(response)
 
-
-
-}
-
-
-function setupPassword(userObj) {
-  console.log(userObj);
-  let passwordFld = document.getElementById("userPassword");
-  let repeatPasswordFld = document.getElementById("repeatUserPassword");
-  repeatPasswordFld.addEventListener('change', checkPassword);
-
-  function checkPassword() {
-    let U_password = passwordFld.value;
-    let U_repeatPassword = repeatPasswordFld.value;
-
-    if (U_password === U_repeatPassword) {
-
-
-      let verificationForm = document.getElementById("verificationForm");
-      console.log(verificationForm)
-      verificationForm.reset()
-
-      userObj.password = U_password
-
-      console.log(userObj);
-      postUser();
-      async function postUser() {
-        const response = await fetch("http://localhost:5263/api/User", {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(userObj)
-        });
-        console.log(response)
-
-        if (response.ok) {
-          await response.json().then(data => {
-            console.log(data);
-          })
-
-        }
+      if (response.ok) {
+        await response.json().then(data => {
+          console.log(data);
+        })
+        alert("User registration successfull!");
       }
-      alert("User registration successfull!");
-    } else {
-      alert("Please set up your password correctly.");
     }
+
   }
 
 }
+
+
+
+
+
