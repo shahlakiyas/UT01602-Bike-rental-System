@@ -42,22 +42,23 @@ for (i = 0; i < dropdown.length; i++) {
 let dispalySection = document.getElementById("dispalySection");
 let dispalySectionHead = document.getElementById("dispalySectionHead");
 let dispalySectionBody = document.getElementById("dispalySectionBody");
+const paymentModal = document.getElementById("paymentModal");
 
 dispalySectionBody.addEventListener("click", (event) => {
   if (event.target.getAttribute("id") == "addUnitsBtn") {
     addUnitsModalFunctions(event); //Modal Display
-  }else if(event.target.getAttribute("id") == "acceptRequest"){
+  } else if (event.target.getAttribute("id") == "acceptRequest") {
     acceptRequest(event);
- 
-  }else if(event.target.getAttribute("id") == "declineRequest"){
+
+  } else if (event.target.getAttribute("id") == "declineRequest") {
     declineRequest(event);
- 
-  }else if(event.target.getAttribute("class")== "select"){
+
+  } else if (event.target.getAttribute("class") == "select") {
     populateRegNo(event);
-  }else if(event.target.getAttribute("class")== "cofirmRegNo"){
-   confirmRent(event);
-  }else if(event.target.getAttribute("id")== "returnBtn"){
-    returnRent(event);
+  } else if (event.target.getAttribute("class") == "cofirmRegNo") {
+    confirmRent(event);
+  } else if (event.target.getAttribute("id") == "returnBtn") {
+    paymentModalFunctions(event);
   }
 })
 
@@ -452,17 +453,17 @@ async function displayRentalPortal() {
 }
 
 
-async function populateRegNo(event){
+async function populateRegNo(event) {
   let bikeId = (event.target.getAttribute("data-index"));
   let recordId = event.target.getAttribute("id");
 
   let bike = await returnBikeById(bikeId);
-      console.log(bike.units)
+  console.log(bike.units)
   let selectTag = event.target;
   selectTag.innerHTML = "";
 
-    let AvailableUnits = await returnavailableUnits(bikeId)
-    AvailableUnits.forEach(unit => {
+  let AvailableUnits = await returnavailableUnits(bikeId)
+  AvailableUnits.forEach(unit => {
     let option = document.createElement("option");
     option.value = unit.registrationNumber;
     option.innerText = unit.registrationNumber;
@@ -470,7 +471,7 @@ async function populateRegNo(event){
   });
 }
 const GetAvailableUnitsByIdURL = "http://localhost:5263/api/Inventory/Get-Available-Units"
-async function returnavailableUnits(BikeId){
+async function returnavailableUnits(BikeId) {
   const response = await fetch(`${GetAvailableUnitsByIdURL}${BikeId}`);
 
   if (response.ok) {
@@ -483,7 +484,7 @@ async function returnavailableUnits(BikeId){
   }
 }
 
-async function confirmRent(event){
+async function confirmRent(event) {
   let selRecordId = event.target.getAttribute("id");
   console.log(selRecordId);
   let bikeRegNo = document.getElementById(selRecordId).value;
@@ -491,11 +492,11 @@ async function confirmRent(event){
   let URLpart = "http://localhost:5263/api/RentalRecord/Update-Rental-Out"
   let URL = "http://localhost:5263/api/RentalRecord/Update-Rental-Out?BikeRegNo=JC-0961&RecordId=1"
   const response = await fetch(`${URLpart}?BikeRegNo=${bikeRegNo}&RecordId=${selRecordId}`, {
-    method: 'PUT', 
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ }) 
+    body: JSON.stringify({})
   });
 
   if (response.ok) {
@@ -531,8 +532,7 @@ async function displayRentalReturns() {
                <td>${rentalReturn.recordId}</td>
                <td>${rentalReturn.registrationNumber}</td> 
                <td>
-                   <button type="button" id="returnBtn" data-index="${rentalReturn.recordId}">Return</button>
-                   
+                   <button type="button" id="returnBtn" data-index="${rentalReturn.recordId}">Return</button>            
                </td>
            </tr>
        `;
@@ -552,8 +552,7 @@ async function displayRentalRecords() {
  <th>Registration Number</th>
  <th>Rental Out</th>
  <th>Rental Return</th>
- <th>Payment</th>
- <th>Action</th>`
+ <th>Payment</th>`
 
 
   dispalySectionBody.innerHTML = "";
@@ -567,11 +566,6 @@ async function displayRentalRecords() {
                <td>${returnRecords.rentalOut}</td>
                <td>${returnRecords.rentalReturn}</td>
                <td>${returnRecords.payment}</td> 
-               <td>
-                   <button type="button" id="" data-index="${returnRecords.bikeId}">Add</button>
-                   <button type="button">Edit</button>
-                   <button type="button">Delete</button>
-               </td>
            </tr>
        `;
   });
@@ -613,11 +607,11 @@ async function declineRequest(event) {
 // Update rental on acceptance (PUT request)
 async function updateRentalOnAccept(requestId) {
   const response = await fetch(`${AcceptRentalRequestURL}${requestId}`, {
-    method: 'PUT', 
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ status: true }) 
+    body: JSON.stringify({ status: true })
   });
 
   if (response.ok) {
@@ -634,7 +628,7 @@ async function updateRentalOnDecline(requestId) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ status: false})
+    body: JSON.stringify({ status: false })
   });
 
   if (response.ok) {
@@ -645,6 +639,67 @@ async function updateRentalOnDecline(requestId) {
 }
 
 
-async function returnRent(event){
-  console.log(event);
+const GetRecordByIdURL = "http://localhost:5263/api/RentalRecord?"
+
+async function paymentModalFunctions(event) {
+
+  paymentModal.style.display = "block";
+  let RecordId = event.target.getAttribute("data-index");
+  console.log(RecordId);
+
+  let rentalRecord = await returnRent(RecordId);
+  let paymentProcessing = document.getElementById('paymentProcessing');
+  paymentProcessing.innerHTML = `<h3>Record Id : ${rentalRecord.recordId}</h3>
+
+  <h4 id="rentDuration${rentalRecord.recordId}"> </h4>
+  <h5>Payment : ${rentalRecord.rentalPayment} </h5>
+
+  <button id="btn${rentalRecord.recordId}" class="paymentBtn">Confirm Payment</button>`;
+ let rentDuration = document.getElementById(`rentDuration${rentalRecord.recordId}`);
+ rentDuration.innerText = "";
+ const d = new Date();
+  let text = d.toLocaleString();
+ rentDuration.innerText = "Duration : " + rentalRecord.rentalOut.toLocaleString() + " - " + text ;
+  let confirmRecord = document.getElementById(`btn${rentalRecord.recordId}`);
+  confirmRecord.addEventListener('click' , (event)=> completeRecord(RecordId,rentalRecord.rentalPayment ))
+}
+paymentClose.onclick = function () {
+  paymentModal.style.display = "none";
+}
+
+window.onclick = function (event) {
+  if (event.target == paymentModal) {
+    paymentModal.style.display = "none";
+  }
+}
+ const paymentURL = 'http://localhost:5263/api/RentalRecord/Complete-Rental-Record?'
+
+async function completeRecord(selRecordId , selPayment){
+console.log(selRecordId);
+const response = await fetch(`${paymentURL}payment=${selPayment}&RecordId=${selRecordId}`);
+
+if (response.ok) {
+  const data = await response.json();
+  console.log(data);
+  return data;
+} else {
+  console.error("Failed to fetch rental record:", response.status);
+  return null;
+}
+
+}
+
+
+async function returnRent(recordId) {
+  const response = await fetch(`${GetRecordByIdURL}recordId=${recordId}`);
+
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } else {
+    console.error("Failed to fetch rental record:", response.status);
+    return null;
+  }
+
 }

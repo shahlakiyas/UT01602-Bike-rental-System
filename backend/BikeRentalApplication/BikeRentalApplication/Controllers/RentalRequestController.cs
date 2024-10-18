@@ -13,7 +13,7 @@ namespace BikeRentalApplication.Controllers
         private readonly RentalRequestRepository _rentalRequestRepository;
         private readonly RentalRecordRepository _rentalRecordRepository;
 
-        public RentalRequestController(RentalRequestRepository rentalRequestRepository , RentalRecordRepository rentalRecordRepository)
+        public RentalRequestController(RentalRequestRepository rentalRequestRepository, RentalRecordRepository rentalRecordRepository)
         {
             _rentalRequestRepository = rentalRequestRepository;
             _rentalRecordRepository = rentalRecordRepository;
@@ -51,7 +51,7 @@ namespace BikeRentalApplication.Controllers
         public async Task<IActionResult> AcceptRentalRequest(int id)
         {
             try
-            { 
+            {
                 var getRequest = await _rentalRequestRepository.GetRequestByIdAsync(id);
                 if (getRequest != null)
                 {
@@ -64,21 +64,22 @@ namespace BikeRentalApplication.Controllers
                         {
                             RentalId = id
                         };
-                        
+
                         var record = await _rentalRecordRepository.AddRentalRecord(rentalRecord);
                         return Ok(data);
                     }
                 }
                 else
                 {
-                    return Ok(null);    
+                    return Ok(null);
                 }
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
-            
+
             return NotFound();
         }
 
@@ -108,6 +109,27 @@ namespace BikeRentalApplication.Controllers
 
             return NotFound();
         }
+
+        [HttpGet("Get-Notifiactions{NICNo}")]
+
+        public async Task<IActionResult> GetNotifiactions(string NICNo)
+        {
+            try
+            {
+                var data = await _rentalRequestRepository.NotifyUser(NICNo);
+                if (data != null)
+                {
+                    return Ok(data);
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception ex) {
+                return BadRequest();
+            }
+            }
 
 
     }

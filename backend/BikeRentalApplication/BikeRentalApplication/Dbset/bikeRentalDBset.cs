@@ -83,7 +83,7 @@ namespace BikeRentalApplication.Dbset
                 CREATE TABLE RentalRequests
                 (
                   RentalId INT primary key IDENTITY(1,1),
-                  RequestTime DATE NOT NULL,
+                  RequestTime DATETIME NOT NULL,
                   Status Bit NOT NULL,
                   BikeId INT NOT NULL,
                   NICNumber NvarChar(50) NOT NULL,
@@ -98,8 +98,8 @@ namespace BikeRentalApplication.Dbset
                   CREATE TABLE RentalRecords
                 (
                   RecordId INT primary key IDENTITY(1,1),
-                  RentalOut DATE ,
-                  RentalReturn DATE ,
+                  RentalOut DATETIME ,
+                  RentalReturn DATETIME ,
                   Payment DECIMAL(18, 2),
                   RentalId INT NOT NULL,
                   RegistrationNumber NvarChar(50),

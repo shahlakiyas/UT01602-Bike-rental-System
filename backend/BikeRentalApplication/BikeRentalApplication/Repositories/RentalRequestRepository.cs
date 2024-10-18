@@ -115,7 +115,28 @@ namespace BikeRentalApplication.Repositories
             }
         }
 
-        // Pass to the rental record on update of Status
-       // public async Task<bool>
+         public async Task<List<RentalRequest>> NotifyUser(string NICNo)
+        {
+            var rentalRequests = new List<RentalRequest>();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("SELECT * FROM RentalRequests where UserAlert = 1 and NICNumber = @NICNumber ", connection);
+                command.Parameters.AddWithValue("@NICNumber" , NICNo);
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                {
+                    rentalRequests.Add(new RentalRequest
+                    {
+                        RentalId = (int)reader["RentalId"],
+                        RequestTime = (DateTime)reader["RequestTime"],
+                        Status = (bool)reader["Status"],
+                        BikeId = (int)reader["BikeId"],
+                        NICNumber = reader["NICNumber"].ToString(),
+                    });
+                }
+            }
+            return rentalRequests;
+        }
     }
 }
