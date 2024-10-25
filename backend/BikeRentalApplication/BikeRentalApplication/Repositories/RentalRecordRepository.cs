@@ -31,7 +31,7 @@ namespace BikeRentalApplication.Repositories
 
 
 
-       // get Accepted RentalRecords with their rentalRequests for rental portal
+        // get Accepted RentalRecords with their rentalRequests for rental portal
         public async Task<List<RequestRecord>> GetRentalRecordsforPortal()
         {
             var records = new List<RequestRecord>();
@@ -49,7 +49,7 @@ namespace BikeRentalApplication.Repositories
                         RequestTime = (DateTime)reader["RequestTime"],
                         NICNumber = reader["NICNumber"].ToString(),
                         BikeId = (int)reader["BikeId"]
-                        
+
                     });
                 }
             }
@@ -96,7 +96,7 @@ namespace BikeRentalApplication.Repositories
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.Read())
                 {
-                   
+
                     paymentRecord.RecordId = (int)reader["RecordId"];
                     paymentRecord.RentalOut = (DateTime)reader["RentalOut"];
                     decimal ratePerHour = (decimal)reader["RatePerHour"];
@@ -109,7 +109,7 @@ namespace BikeRentalApplication.Repositories
 
         //Complete RentalRecord 
 
-        public async Task<int> CompleteRentalRecord(decimal Payment, int RecordId)
+        public async Task<int> CompleteRentalRecord(decimal Payment, int RecordId, string RegistrationNo)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -118,12 +118,43 @@ namespace BikeRentalApplication.Repositories
                 command.Parameters.AddWithValue("@Payment", Payment);
                 command.Parameters.AddWithValue("@RecordId", RecordId);
 
+                bool result = await this.UpdateRentalRequestToTrue(RegistrationNo);
+                if (result)
+                {
+                    await connection.OpenAsync();
+                    var rowsAffected = await command.ExecuteNonQueryAsync();
+                    if (rowsAffected > 0)
+                    {
+                        return RecordId;
+                    }
+                    else
+                    {
+                        throw new Exception("Record already completed");
+                    }
+                }
+                else
+                {
+                    throw new Exception("No bike in the registration number");
+                }
+
+
+
+            }
+        }
+
+        public async Task<bool> UpdateRentalRequestToTrue(string registartionNo)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand("UPDATE Inventory SET Availability = @Status Where RegistrationNumber = @RegistrationNumber", connection);
+                command.Parameters.AddWithValue("@Status", true);
+                command.Parameters.AddWithValue("@RegistrationNumber", registartionNo);
 
                 await connection.OpenAsync();
                 var rowsAffected = await command.ExecuteNonQueryAsync();
                 if (rowsAffected > 0)
                 {
-                    return RecordId;
+                    return true;
                 }
                 else
                 {
@@ -133,11 +164,29 @@ namespace BikeRentalApplication.Repositories
             }
         }
 
+        public async Task<string> GetBikeByRecordId(int RecordId)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+
+                SqlCommand command = new SqlCommand(@"SELECT RegistrationNumber FROM RentalRecords  inner join RentalRequests on RentalRecords.RentalId = RentalRequests.RentalId
+                                                       inner join Bikes on RentalRequests.BikeId = Bikes.Id where RentalRecords.RecordId=@RecordId;", connection);
+                command.Parameters.AddWithValue("@RecordId", RecordId);
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                if (reader.Read())
+                {
+                    return reader["RegistrationNumber"].ToString();
+                }
+                return null;
+            }
+
+        }
 
 
         // Update the rentalOut time
 
-        public async Task<DateTime> UpdateRentalOut(string BikeRegNo , int RecordId)
+        public async Task<DateTime> UpdateRentalOut(string BikeRegNo, int RecordId)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -147,7 +196,7 @@ namespace BikeRentalApplication.Repositories
                 command.Parameters.AddWithValue("@RecordId", RecordId);
                 await connection.OpenAsync();
                 var rowsAffected = await command.ExecuteNonQueryAsync();
-                if(rowsAffected > 0)
+                if (rowsAffected > 0)
                 {
                     return DateTime.Now;
                 }
@@ -155,12 +204,12 @@ namespace BikeRentalApplication.Repositories
                 {
                     throw new Exception();
                 }
-               
+
             }
         }
 
         //Get rental Records of a user 
-        public async Task<List<RequestRecord>>GetRecordsOfUser(string NICNo)
+        public async Task<List<RequestRecord>> GetRecordsOfUser(string NICNo)
         {
             var records = new List<RequestRecord>();
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -205,7 +254,7 @@ namespace BikeRentalApplication.Repositories
                     record.RecordId = (int)reader["RecordId"];
                     record.RegistrationNumber = reader["RegistrationNumber"].ToString();
 
-                    if(DateTime.Now.Subtract((DateTime)reader["RentalOut"]).Hours > 24)
+                    if (DateTime.Now.Subtract((DateTime)reader["RentalOut"]).Hours > 24)
                     {
                         record.RentalOut = (DateTime)reader["RentalOut"];
                     }
@@ -213,7 +262,7 @@ namespace BikeRentalApplication.Repositories
                     {
                         throw new Exception();
                     }
-                    
+
                 }
             }
             return records;

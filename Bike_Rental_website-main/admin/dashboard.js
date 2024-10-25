@@ -52,9 +52,6 @@ dispalySectionBody.addEventListener("click", (event) => {
 
   } else if (event.target.getAttribute("id") == "declineRequest") {
     declineRequest(event);
-
-  } else if (event.target.getAttribute("class") == "select") {
-    populateRegNo(event);
   } else if (event.target.getAttribute("class") == "cofirmRegNo") {
     confirmRent(event);
   } else if (event.target.getAttribute("id") == "returnBtn") {
@@ -434,49 +431,54 @@ async function displayRentalPortal() {
 
 
   dispalySectionBody.innerHTML = "";
-  rentalsPortal.forEach((rentalPortal) => {
+  rentalsPortal.forEach(async (rentalPortal) => {
     dispalySectionBody.innerHTML += `
            <tr>
                <td>${rentalPortal.requestTime}</td>
                <td>${rentalPortal.bikeId}</td> 
                <td>${rentalPortal.nicNumber}</td>
                <td>${rentalPortal.recordId}</td>
-               <td>
-
-               <select id="${rentalPortal.recordId}" data-index="${rentalPortal.bikeId}" class="select">
-                </select>
-                <button class="cofirmRegNo" id="${rentalPortal.recordId}" >Confirm</button>
+               <td id="${rentalPortal.recordId}">
+              
                </td>
            </tr>
        `;
+    await appendUnits(rentalPortal.bikeId, rentalPortal.recordId);
+
   });
 }
 
 
-async function populateRegNo(event) {
-  let bikeId = (event.target.getAttribute("data-index"));
-  let recordId = event.target.getAttribute("id");
-
-  let bike = await returnBikeById(bikeId);
-  console.log(bike.units)
-  let selectTag = event.target;
-  selectTag.innerHTML = "";
-
-  let AvailableUnits = await returnavailableUnits(bikeId)
-  AvailableUnits.forEach(unit => {
+async function appendUnits(bikeId, recordId) {
+  let availableUnits = await returnavailableUnits(bikeId)
+  console.log(availableUnits);
+  let tD = document.getElementById(`${recordId}`);
+  console.log(tD);
+  let selectTag = document.createElement('select');
+  selectTag.setAttribute("id", `.${recordId}`);
+  availableUnits.forEach(unit => {
     let option = document.createElement("option");
     option.value = unit.registrationNumber;
     option.innerText = unit.registrationNumber;
     selectTag.append(option);
   });
+  console.log(selectTag);
+  tD.append(selectTag);
+  let confirmBtn = document.createElement('button');
+  confirmBtn.setAttribute('id', recordId);
+  confirmBtn.innerText = "Confirm"
+  confirmBtn.addEventListener('click', (event) => confirmRent(event));
+  tD.append(confirmBtn);
 }
+
+
 const GetAvailableUnitsByIdURL = "http://localhost:5263/api/Inventory/Get-Available-Units"
 async function returnavailableUnits(BikeId) {
   const response = await fetch(`${GetAvailableUnitsByIdURL}${BikeId}`);
 
   if (response.ok) {
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } else {
     console.error("Failed to fetch rental request:", response.status);
@@ -487,10 +489,10 @@ async function returnavailableUnits(BikeId) {
 async function confirmRent(event) {
   let selRecordId = event.target.getAttribute("id");
   console.log(selRecordId);
-  let bikeRegNo = document.getElementById(selRecordId).value;
+  let bikeRegNo = document.getElementById(`.${selRecordId}`).value;
   console.log(bikeRegNo);
   let URLpart = "http://localhost:5263/api/RentalRecord/Update-Rental-Out"
-  let URL = "http://localhost:5263/api/RentalRecord/Update-Rental-Out?BikeRegNo=JC-0961&RecordId=1"
+
   const response = await fetch(`${URLpart}?BikeRegNo=${bikeRegNo}&RecordId=${selRecordId}`, {
     method: 'PUT',
     headers: {
@@ -532,7 +534,7 @@ async function displayRentalReturns() {
                <td>${rentalReturn.recordId}</td>
                <td>${rentalReturn.registrationNumber}</td> 
                <td>
-                   <button type="button" id="returnBtn" data-index="${rentalReturn.recordId}">Return</button>            
+                   <button type="button" id="returnBtn" data-index="${rentalReturn.recordId}" data="${rentalReturn.registrationNumber}">Return</button>            
                </td>
            </tr>
        `;
@@ -645,7 +647,9 @@ async function paymentModalFunctions(event) {
 
   paymentModal.style.display = "block";
   let RecordId = event.target.getAttribute("data-index");
+  let registrationNumber = event.target.getAttribute('data');
   console.log(RecordId);
+  console.log(registrationNumber);
 
   let rentalRecord = await returnRent(RecordId);
   let paymentProcessing = document.getElementById('paymentProcessing');
@@ -655,13 +659,13 @@ async function paymentModalFunctions(event) {
   <h5>Payment : ${rentalRecord.rentalPayment} </h5>
 
   <button id="btn${rentalRecord.recordId}" class="paymentBtn">Confirm Payment</button>`;
- let rentDuration = document.getElementById(`rentDuration${rentalRecord.recordId}`);
- rentDuration.innerText = "";
- const d = new Date();
+  let rentDuration = document.getElementById(`rentDuration${rentalRecord.recordId}`);
+  rentDuration.innerText = "";
+  const d = new Date();
   let text = d.toLocaleString();
- rentDuration.innerText = "Duration : " + rentalRecord.rentalOut.toLocaleString() + " - " + text ;
+  rentDuration.innerText = "Duration : " + rentalRecord.rentalOut.toLocaleString() + " - " + text;
   let confirmRecord = document.getElementById(`btn${rentalRecord.recordId}`);
-  confirmRecord.addEventListener('click' , (event)=> completeRecord(RecordId,rentalRecord.rentalPayment ))
+  confirmRecord.addEventListener('click', (event) => completeRecord(RecordId, rentalRecord.rentalPayment,registrationNumber ))
 }
 paymentClose.onclick = function () {
   paymentModal.style.display = "none";
@@ -672,20 +676,20 @@ window.onclick = function (event) {
     paymentModal.style.display = "none";
   }
 }
- const paymentURL = 'http://localhost:5263/api/RentalRecord/Complete-Rental-Record?'
+const paymentURL = 'http://localhost:5263/api/RentalRecord/Complete-Rental-Record?'
 
-async function completeRecord(selRecordId , selPayment){
-console.log(selRecordId);
-const response = await fetch(`${paymentURL}payment=${selPayment}&RecordId=${selRecordId}`);
+async function completeRecord(selRecordId, selPayment , selUnit) {
+  console.log(selRecordId);
+  const response = await fetch(`${paymentURL}payment=${selPayment}&RecordId=${selRecordId}&RegistrationNo=${selUnit}`);
 
-if (response.ok) {
-  const data = await response.json();
-  console.log(data);
-  return data;
-} else {
-  console.error("Failed to fetch rental record:", response.status);
-  return null;
-}
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } else {
+    console.error("Failed to fetch rental record:", response.status);
+    return null;
+  }
 
 }
 

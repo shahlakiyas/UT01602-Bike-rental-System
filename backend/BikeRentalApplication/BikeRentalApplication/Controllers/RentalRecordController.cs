@@ -41,9 +41,9 @@ namespace BikeRentalApplication.Controllers
 
         [HttpGet("Complete-Rental-Record")]
 
-        public async Task<IActionResult> CompleteRentalRecord(decimal payment, int RecordId)
+        public async Task<IActionResult> CompleteRentalRecord(decimal payment, int RecordId , string RegistrationNo)
         {
-            var data = await _recordRepository.CompleteRentalRecord(payment, RecordId);
+            var data = await _recordRepository.CompleteRentalRecord(payment, RecordId , RegistrationNo);
             return Ok(data);
         }
 
