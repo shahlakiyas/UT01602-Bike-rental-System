@@ -127,8 +127,9 @@ namespace BikeRentalApplication.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand("UPDATE Inventory SET Availabilty = @Availabilty WHERE RegistrationNumber  = @RegistrationNumber", connection);
-                command.Parameters.AddWithValue("@RegistrationNumber", false);
+                SqlCommand command = new SqlCommand("UPDATE Inventory SET Availability = @Availability WHERE RegistrationNumber  = @RegistrationNumber", connection);
+                command.Parameters.AddWithValue("@RegistrationNumber", bikeRegNo);
+                command.Parameters.AddWithValue("@Availability", false);
                 await connection.OpenAsync();
                 var result = await command.ExecuteNonQueryAsync();
                 return result > 0;
