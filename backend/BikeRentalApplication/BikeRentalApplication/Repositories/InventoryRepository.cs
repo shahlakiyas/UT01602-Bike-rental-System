@@ -111,7 +111,8 @@ namespace BikeRentalApplication.Repositories
                         RegistrationNumber = reader["RegistrationNumber"].ToString(),
                         YearOfManufacture = (int)reader["YearOfManufacture"],
                         DateAdded = (DateTime)reader["DateAdded"],
-                        BikeId = (int)reader["BikeId"]
+                        BikeId = (int)reader["BikeId"],
+                        Availability = (bool)reader["Availability"]
                     };
 
                     Units.Add(unit);

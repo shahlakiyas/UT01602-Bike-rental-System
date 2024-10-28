@@ -63,7 +63,7 @@ namespace BikeRentalApplication.Repositories
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(@"SELECT * FROM RentalRecords  inner join RentalRequests on RentalRecords.RentalId = RentalRequests.RentalId
-                                                       where RentalRecords.RentalReturn is null and RentalOut is Not Null ;", connection);
+                                                       where RentalRecords.RentalReturn is null and RentalRecords.RentalOut is Not Null;", connection);
                 await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 while (reader.Read())
@@ -276,7 +276,7 @@ namespace BikeRentalApplication.Repositories
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand(@"select RecordId,RentalOut , RentalReturn ,Payment ,  BikeId ,RegistrationNumber,NICNumber  from RentalRecords
-                                                      inner join RentalRequests on RentalRecords.RentalId = RentalRequests.RentalId;", connection);
+                                                      inner join RentalRequests on RentalRecords.RentalId = RentalRequests.RentalId where RentalRecords.RentalReturn is not null  ;", connection);
                 await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 while (reader.Read())

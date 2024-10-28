@@ -35,9 +35,9 @@ namespace BikeRentalApplication.Controllers
 
         //Update Bikes
         [HttpPut("Update-Bike")]
-        public async Task<IActionResult> UpdateBike(int id, Bike bike)
+        public async Task<IActionResult> UpdateBike(int id, BikeRequest bike)
         {
-            var updated = await _bikesRepository.UpdateBike(bike);
+            var updated = await _bikesRepository.UpdateBike( id ,bike);
             var updatedBike = await _bikesRepository.GetBikeById(id);
             return Ok(updatedBike);
         }

@@ -21,7 +21,7 @@ const GetRentalRecordsURL = "http://localhost:5263/api/RentalRecord/Get-Rental-r
 const AcceptRentalRequestURL = "http://localhost:5263/api/RentalRequest/Accept-Rental-Request";
 const declineREntalRequestURL = "http://localhost:5263/api/RentalRequest/Decline-Rental-Request"
 const GetRentalRequestByIdURL = "http://localhost:5263/api/RentalRequest/"
-
+const UpdateBikeURL = "http://localhost:5263/api/Bikes/Update-Bike"
 
 //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
 var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -47,9 +47,11 @@ const paymentModal = document.getElementById("paymentModal");
 dispalySectionBody.addEventListener("click", (event) => {
   if (event.target.getAttribute("id") == "addUnitsBtn") {
     addUnitsModalFunctions(event); //Modal Display
-  } else if (event.target.getAttribute("id") == "acceptRequest") {
+  }else if(event.target.getAttribute("id") == "editBikeBtn"){
+    editBike(event);
+  }
+   else if (event.target.getAttribute("id") == "acceptRequest") {
     acceptRequest(event);
-
   } else if (event.target.getAttribute("id") == "declineRequest") {
     declineRequest(event);
   } else if (event.target.getAttribute("class") == "cofirmRegNo") {
@@ -69,19 +71,19 @@ let viewBikesBtn = document.getElementById("viewBikes");
 viewBikesBtn.addEventListener("click", displayBikes);
 
 let viewCustomersBtn = document.getElementById('viewCustomers');
-viewCustomersBtn.addEventListener('click', displayCustomers)
+viewCustomersBtn.addEventListener('click', displayCustomers);
 
 let viewRentalRequestsBtn = document.getElementById('viewRentalRequests');
-viewRentalRequestsBtn.addEventListener('click', displayRentalRequests)
+viewRentalRequestsBtn.addEventListener('click', displayRentalRequests);
 
 let viewRentalPortalBtn = document.getElementById('viewRentalPortal');
-viewRentalPortalBtn.addEventListener('click', displayRentalPortal)
+viewRentalPortalBtn.addEventListener('click', displayRentalPortal);
 
 let viewRentalReturnsBtn = document.getElementById('viewRentalReturns');
-viewRentalReturnsBtn.addEventListener('click', displayRentalReturns)
+viewRentalReturnsBtn.addEventListener('click', displayRentalReturns);
 
 let viewRentalRecordsBtn = document.getElementById('viewRentalRecords');
-viewRentalRecordsBtn.addEventListener('click', displayRentalRecords)
+viewRentalRecordsBtn.addEventListener('click', displayRentalRecords);
 
 let bikeImg;
 
@@ -206,8 +208,8 @@ async function displayBikes() {
                 <td>${bike.ratePerHour}</td> 
                 <td>
                     <button type="button" id="addUnitsBtn" data-index="${bike.bikeId}">Add</button>
-                    <button type="button">Edit</button>
-                    <button type="button">Delete</button>
+                    <button type="button" id="editBikeBtn" data-index="${bike.bikeId}">Edit</button>
+                    <button type="button" id="delBikeBtn" data-index="${bike.bikeId}">Delete</button>
                 </td>
             </tr>
         `;
@@ -244,7 +246,7 @@ async function fetchbikeById(id) {
   const bike = await response.json();
 
   console.log(bike);
-  console.log(bike.images);
+  console.log(bike.bikeImages);
 
   let AddbikeViewPage = document.getElementById("AddbikeViewPage"); //Add bike id defind
 
@@ -274,9 +276,6 @@ async function fetchbikeById(id) {
       `
   });
   table.append(tableBody);
-
-
-
   generateRows(id);
 }
 
@@ -291,11 +290,19 @@ function generateRows(id) {
 
   let unitsForm = document.getElementById('unitsForm');
   unitsForm.addEventListener('submit', (event) => {
-
     addUnitsToBike(event, id)
   })
 }
 
+
+async function editBike(event){
+  const selBikeId = event.target.getAttribute('data-index');
+  console.log(selBikeId);
+
+  let bike = await returnBikeById(selBikeId);
+  console.log(bike);
+
+}
 
 //Post  method to add units
 async function addUnitsToBike(event, unitBikeId) {
@@ -478,7 +485,6 @@ async function returnavailableUnits(BikeId) {
 
   if (response.ok) {
     const data = await response.json();
-    // console.log(data);
     return data;
   } else {
     console.error("Failed to fetch rental request:", response.status);
@@ -487,10 +493,14 @@ async function returnavailableUnits(BikeId) {
 }
 
 async function confirmRent(event) {
-  let selRecordId = event.target.getAttribute("id");
-  console.log(selRecordId);
+
+  event.target.style.background = "green";
+  console.log(event.target);
+  event.target.innerText = "Confirmed";
   let bikeRegNo = document.getElementById(`.${selRecordId}`).value;
   console.log(bikeRegNo);
+
+
   let URLpart = "http://localhost:5263/api/RentalRecord/Update-Rental-Out"
 
   const response = await fetch(`${URLpart}?BikeRegNo=${bikeRegNo}&RecordId=${selRecordId}`, {
@@ -590,11 +600,17 @@ async function getRentalRequestById(id) {
 // Accept a rental request
 async function acceptRequest(event) {
   const requestId = event.target.getAttribute("data-index");
+
   console.log(`Accepting request with ID: ${requestId}`);
 
   const rentalRequest = await getRentalRequestById(requestId);
   if (rentalRequest) {
-    await updateRentalOnAccept(requestId);
+    const response = await updateRentalOnAccept(requestId);
+  
+      event.target.style.background = "green";
+      console.log(event.target);
+      event.target.innerText = "Accepted";
+    
   }
 }
 
@@ -602,8 +618,11 @@ async function acceptRequest(event) {
 async function declineRequest(event) {
   const requestId = event.target.getAttribute("data-index");
   console.log(`Declining request with ID: ${requestId}`);
-
-  await updateRentalOnDecline(requestId);
+  const response = await updateRentalOnDecline(requestId);
+  if (response.ok) {
+    event.target.style.background = "red";
+    event.target.innerText = "Declined";
+  }
 }
 
 // Update rental on acceptance (PUT request)
@@ -665,7 +684,7 @@ async function paymentModalFunctions(event) {
   let text = d.toLocaleString();
   rentDuration.innerText = "Duration : " + rentalRecord.rentalOut.toLocaleString() + " - " + text;
   let confirmRecord = document.getElementById(`btn${rentalRecord.recordId}`);
-  confirmRecord.addEventListener('click', (event) => completeRecord(RecordId, rentalRecord.rentalPayment,registrationNumber ))
+  confirmRecord.addEventListener('click', (event) => completeRecord(RecordId, rentalRecord.rentalPayment, registrationNumber))
 }
 paymentClose.onclick = function () {
   paymentModal.style.display = "none";
@@ -678,7 +697,7 @@ window.onclick = function (event) {
 }
 const paymentURL = 'http://localhost:5263/api/RentalRecord/Complete-Rental-Record?'
 
-async function completeRecord(selRecordId, selPayment , selUnit) {
+async function completeRecord(selRecordId, selPayment, selUnit) {
   console.log(selRecordId);
   const response = await fetch(`${paymentURL}payment=${selPayment}&RecordId=${selRecordId}&RegistrationNo=${selUnit}`);
 

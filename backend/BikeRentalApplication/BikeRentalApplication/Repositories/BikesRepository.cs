@@ -83,12 +83,12 @@ namespace BikeRentalApplication.Repositories
         }
 
         //Update Bike by ID
-        public async Task<bool> UpdateBike(Bike bike)
+        public async Task<bool> UpdateBike(BikeRequest bike , int Id)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand("UPDATE Bikes SET Brand = @Brand, Type = @Type,Modal = @Modal, RatePerHour = @RatePerHour WHERE Id = @Id", connection);
-                command.Parameters.AddWithValue("@Id", bike.Id);
+                command.Parameters.AddWithValue("@Id", Id);
                 command.Parameters.AddWithValue("@Brand", bike.Brand);
                 command.Parameters.AddWithValue("@Modal", bike.Modal);
                 command.Parameters.AddWithValue("@Type", bike.Type);
