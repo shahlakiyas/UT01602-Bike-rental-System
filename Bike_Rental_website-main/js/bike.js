@@ -10,6 +10,12 @@ async function fetchBikes() {
   const bikes = await response.json();
   console.log(bikes);
 
+ let available = bikes.filter((b)=> {
+  if( b.units.length > 0)
+    return b;
+  })
+  console.log(available);
+
   // Function to create bike box Element
   const createBikeBox = (bike) => `
             <div class="bike-box">
@@ -40,7 +46,7 @@ async function fetchBikes() {
     }
   })
   // create bike box and show in bikecontent div
-  bikes.forEach((bike) => {
+  available?.forEach((bike) => {
     const bikeBoxHtml = createBikeBox(bike);
     bikeContent.insertAdjacentHTML("beforeend", bikeBoxHtml);
   });
