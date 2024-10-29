@@ -39,7 +39,7 @@ namespace BikeRentalApplication
             builder.Services.AddScoped<bikeRentalDBset>();
 
 
-            builder.Services.AddSingleton<ProductRepository>();
+           
             builder.Services.AddSingleton<BikesRepository>();
             builder.Services.AddSingleton<ImagesRepository>();
             builder.Services.AddSingleton<InventoryRepository>();

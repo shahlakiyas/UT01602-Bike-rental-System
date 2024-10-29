@@ -21,7 +21,8 @@ const GetRentalRecordsURL = "http://localhost:5263/api/RentalRecord/Get-Rental-r
 const AcceptRentalRequestURL = "http://localhost:5263/api/RentalRequest/Accept-Rental-Request";
 const declineREntalRequestURL = "http://localhost:5263/api/RentalRequest/Decline-Rental-Request"
 const GetRentalRequestByIdURL = "http://localhost:5263/api/RentalRequest/"
-const UpdateBikeURL = "http://localhost:5263/api/Bikes/Update-Bike"
+const UpdateBikeURL = "http://localhost:5263/api/Bikes/Update-Bike?";
+
 
 //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
 var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -47,10 +48,10 @@ const paymentModal = document.getElementById("paymentModal");
 dispalySectionBody.addEventListener("click", (event) => {
   if (event.target.getAttribute("id") == "addUnitsBtn") {
     addUnitsModalFunctions(event); //Modal Display
-  }else if(event.target.getAttribute("id") == "editBikeBtn"){
+  } else if (event.target.getAttribute("id") == "editBikeBtn") {
     editBike(event);
   }
-   else if (event.target.getAttribute("id") == "acceptRequest") {
+  else if (event.target.getAttribute("id") == "acceptRequest") {
     acceptRequest(event);
   } else if (event.target.getAttribute("id") == "declineRequest") {
     declineRequest(event);
@@ -295,13 +296,78 @@ function generateRows(id) {
 }
 
 
-async function editBike(event){
+async function editBike(event) {
   const selBikeId = event.target.getAttribute('data-index');
   console.log(selBikeId);
 
   let bike = await returnBikeById(selBikeId);
   console.log(bike);
+  editBikeModalFunctions(bike);
 
+}
+
+async function editBikeModalFunctions(bike) {
+  const modal = document.getElementById("addBikeModal");
+  modal.style.display = "block";
+  const closeBtn = document.getElementById("addBikesClose");
+
+  let addBikeForm = document.getElementById('addBikeForm');
+  console.log(addBikeForm);
+  let bikeBrand = document.getElementById('bikeBrand');
+  let bikeType = document.getElementById('bikeType');
+  let bikeModel = document.getElementById('bikeModel');
+  let ratePerHour = document.getElementById('ratePerHour');
+  bikeBrand.value = bike.brand;
+  bikeType.value = bike.type;
+  bikeModel.value = bike.modal;
+  ratePerHour.value = bike.ratePerHour;
+  console.log(bike);
+
+  addBikeForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+  },
+    //  (event , bike) =>
+    //  {
+    //   event.preventDefault();
+    //   console.log(bike);
+    //   let bikeObj = {
+    //     id : bike.id,
+    //     brand : bikeBrand.value,
+    //     type : bikeType.value,
+    //     ratePerHour : ratePerHour.value
+    //   }
+    //   console.log(bike.id);
+    //   console.log(bikeObj);
+    //  //updateBike(bike.id , bikeObj);
+    //   event.target.reset();
+    // },
+
+  );
+  // const bikeImageInput = document.getElementById("bikeImage");
+  // bikeImageInput.addEventListener('change', (event) => getInputImage(event))
+  closeBtn.onclick = function () {
+    modal.style.display = "none";
+  };
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+}
+
+
+async function updateBike(bikeId, bikeObj) {
+  const response = await fetch(`${UpdateBikeURL}id=${bikeId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(bikeObj)
+  })
+  if (response.ok) {
+    console.log(bikeObj);
+  } else {
+    alert("error")
+  }
 }
 
 //Post  method to add units
@@ -606,11 +672,11 @@ async function acceptRequest(event) {
   const rentalRequest = await getRentalRequestById(requestId);
   if (rentalRequest) {
     const response = await updateRentalOnAccept(requestId);
-  
-      event.target.style.background = "green";
-      console.log(event.target);
-      event.target.innerText = "Accepted";
-    
+
+    event.target.style.background = "green";
+    console.log(event.target);
+    event.target.innerText = "Accepted";
+
   }
 }
 

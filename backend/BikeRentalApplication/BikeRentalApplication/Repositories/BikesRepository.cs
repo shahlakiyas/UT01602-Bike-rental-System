@@ -83,7 +83,7 @@ namespace BikeRentalApplication.Repositories
         }
 
         //Update Bike by ID
-        public async Task<bool> UpdateBike(BikeRequest bike , int Id)
+        public async Task<int> UpdateBike(BikeRequest bike , int Id)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -96,7 +96,7 @@ namespace BikeRentalApplication.Repositories
 
                 await connection.OpenAsync();
                 var result = await command.ExecuteNonQueryAsync();
-                return result > 0;
+                return result;
             }
         }
 
