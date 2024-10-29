@@ -12,6 +12,6 @@
         public DateTime AccountCreated { get; set; }
 
         public bool IsAdmin { get; set; }
-        public bool isBlocked { get; set; }
+        public bool IsBlocked { get; set; }
     }
 }
