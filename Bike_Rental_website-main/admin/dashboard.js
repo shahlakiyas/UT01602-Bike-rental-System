@@ -22,6 +22,7 @@ const AcceptRentalRequestURL = "http://localhost:5263/api/RentalRequest/Accept-R
 const declineREntalRequestURL = "http://localhost:5263/api/RentalRequest/Decline-Rental-Request"
 const GetRentalRequestByIdURL = "http://localhost:5263/api/RentalRequest/"
 const UpdateBikeURL = "http://localhost:5263/api/Bikes/Update-Bike?";
+const deleteBikeURL = ""
 
 
 //* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
@@ -185,38 +186,39 @@ function getInputImage(event) {
 async function displayBikes() {
 
   const response = await fetch(BikesWithUnitsURL);
-  const bikes = await response.json();
 
-  console.log(bikes);
-  dispalySectionHead.innerHTML = "";
-  dispalySectionHead.innerHTML = `
-  <th>ID</th>
-        <th>Brand</th>
-        <th>Model</th>
-        <th>Type</th>
-        <th>Rate per Hour</th>
-        <th>Actions</th>
+    const bikes = await response.json();
+
+    console.log(bikes);
+    dispalySectionHead.innerHTML = "";
+    dispalySectionHead.innerHTML = `
+    <th>ID</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Type</th>
+          <th>Rate per Hour</th>
+          <th>Actions</th>
+      `;
+
+    dispalySectionBody.innerHTML = "";
+    bikes.forEach((bike) => {
+        dispalySectionBody.innerHTML += `
+        <tr>
+        <td>${bike.bikeId}</td>
+            <td>${bike.brand}</td>
+            <td>${bike.modal}</td>
+            <td>${bike.type}</td>
+            <td>${bike.ratePerHour}</td> 
+            <td>
+                <button type="button" id="addUnitsBtn" data-index="${bike.bikeId}">Add</button>
+                <button type="button" id="editBikeBtn" data-index="${bike.bikeId}">Edit</button>
+                <button type="button" id="delBikeBtn" data-index="${bike.bikeId}">Delete</button>
+            </td>
+        </tr>
     `;
-
-  dispalySectionBody.innerHTML = "";
-  bikes.forEach((bike) => {
-    dispalySectionBody.innerHTML += `
-            <tr>
-            <td>${bike.bikeId}</td>
-                <td>${bike.brand}</td>
-                <td>${bike.modal}</td>
-                <td>${bike.type}</td>
-                <td>${bike.ratePerHour}</td> 
-                <td>
-                    <button type="button" id="addUnitsBtn" data-index="${bike.bikeId}">Add</button>
-                    <button type="button" id="editBikeBtn" data-index="${bike.bikeId}">Edit</button>
-                    <button type="button" id="delBikeBtn" data-index="${bike.bikeId}">Delete</button>
-                </td>
-            </tr>
-        `;
-  });
-
-
+    
+    });
+  
 
 }
 
@@ -324,28 +326,23 @@ async function editBikeModalFunctions(bike) {
   console.log(bike);
 
   addBikeForm.addEventListener('submit', (event) => {
+    console.log(bike);
     event.preventDefault();
+    let bikeObj = {
+      id: bike.id,
+      brand: bikeBrand.value,
+      type: bikeType.value,
+      ratePerHour: ratePerHour.value,
+      modal: bikeModel.value
+    }
 
+    updateBike(bike.bikeId, bikeObj);
+    modal.style.display = "none";
+    displayBikes();
   },
-    //  (event , bike) =>
-    //  {
-    //   event.preventDefault();
-    //   console.log(bike);
-    //   let bikeObj = {
-    //     id : bike.id,
-    //     brand : bikeBrand.value,
-    //     type : bikeType.value,
-    //     ratePerHour : ratePerHour.value
-    //   }
-    //   console.log(bike.id);
-    //   console.log(bikeObj);
-    //  //updateBike(bike.id , bikeObj);
-    //   event.target.reset();
-    // },
-
+    console.log(bike)
   );
-  // const bikeImageInput = document.getElementById("bikeImage");
-  // bikeImageInput.addEventListener('change', (event) => getInputImage(event))
+
   closeBtn.onclick = function () {
     modal.style.display = "none";
   };
@@ -358,6 +355,8 @@ async function editBikeModalFunctions(bike) {
 
 
 async function updateBike(bikeId, bikeObj) {
+  console.log(bikeObj);
+  console.log(bikeId);
   const response = await fetch(`${UpdateBikeURL}id=${bikeId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -561,7 +560,9 @@ async function returnavailableUnits(BikeId) {
 async function confirmRent(event) {
 
   event.target.style.background = "green";
+
   console.log(event.target);
+  let selRecordId = event.target.getAttribute("id");
   event.target.innerText = "Confirmed";
   let bikeRegNo = document.getElementById(`.${selRecordId}`).value;
   console.log(bikeRegNo);

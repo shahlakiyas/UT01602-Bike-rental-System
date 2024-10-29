@@ -70,7 +70,7 @@ namespace BikeRentalApplication.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand("SELECT * FROM Inventory WHERE BikeId = @BikeId;", connection);
+                SqlCommand command = new SqlCommand("SELECT * FROM Inventory WHERE BikeId = @BikeId and isDeleted = 0;", connection);
                 command.Parameters.AddWithValue("@BikeId", BikeId);
                 var Units = new List<Inventory>();  
                 await connection.OpenAsync();
@@ -134,6 +134,34 @@ namespace BikeRentalApplication.Repositories
                 await connection.OpenAsync();
                 var result = await command.ExecuteNonQueryAsync();
                 return result > 0;
+            }
+        }
+
+        public async Task<bool> CheckAvailability(string bikeRegNo)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                bool availability = false;
+                SqlCommand command = new SqlCommand(@"select Availability from Bikes inner join Inventory on Bikes.Id = Inventory.BikeId where Inventory.Availability = 1 and isDeleted= 0 and Inventory.RegistrationNumber = @RegistrationNumber", connection);
+                command.Parameters.AddWithValue("@RegistrationNumber", bikeRegNo);
+                var Units = new List<Inventory>();
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                {
+
+                    //var unit = new Inventory()
+                    //{
+                    //    RegistrationNumber = reader["RegistrationNumber"].ToString(),
+                    //    YearOfManufacture = (int)reader["YearOfManufacture"],
+                    //    DateAdded = (DateTime)reader["DateAdded"],
+                    //    BikeId = (int)reader["BikeId"],
+                    //    Availability = (bool)reader["Availability"]
+                    //};
+                 availability = (bool)reader["Availability"];
+                    //Units.Add(unit);
+                }
+                return availability;
             }
         }
 
