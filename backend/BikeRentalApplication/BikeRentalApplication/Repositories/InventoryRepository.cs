@@ -148,18 +148,8 @@ namespace BikeRentalApplication.Repositories
                 await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 while (reader.Read())
-                {
-
-                    //var unit = new Inventory()
-                    //{
-                    //    RegistrationNumber = reader["RegistrationNumber"].ToString(),
-                    //    YearOfManufacture = (int)reader["YearOfManufacture"],
-                    //    DateAdded = (DateTime)reader["DateAdded"],
-                    //    BikeId = (int)reader["BikeId"],
-                    //    Availability = (bool)reader["Availability"]
-                    //};
-                 availability = (bool)reader["Availability"];
-                    //Units.Add(unit);
+                {  
+                 availability = (bool)reader["Availability"];                
                 }
                 return availability;
             }

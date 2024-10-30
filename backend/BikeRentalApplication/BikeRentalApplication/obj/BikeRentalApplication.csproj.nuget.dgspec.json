@@ -10,11 +10,11 @@
         "projectUniqueName": "X:\\MileStone2.1\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj",
         "projectName": "BikeRentalApplication",
         "projectPath": "X:\\MileStone2.1\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\BikeRentalApplication.csproj",
-        "packagesPath": "C:\\Users\\Ut01373\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\UT01373\\.nuget\\packages\\",
         "outputPath": "X:\\MileStone2.1\\UT01602-Bike-rental-System\\backend\\BikeRentalApplication\\BikeRentalApplication\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ut01373\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\UT01373\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

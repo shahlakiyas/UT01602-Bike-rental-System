@@ -559,6 +559,7 @@ async function returnavailableUnits(BikeId) {
 
 async function confirmRent(event) {
 
+  checkAvailabiltyURL = "http://localhost:5263/api/Inventory/Check-availabilty?bikeRegNo="
   event.target.style.background = "green";
 
   console.log(event.target);
@@ -567,6 +568,12 @@ async function confirmRent(event) {
   let bikeRegNo = document.getElementById(`.${selRecordId}`).value;
   console.log(bikeRegNo);
 
+  const responseBool = await fetch(`${checkAvailabiltyURL}${bikeRegNo}`);
+    if(responseBool.ok){
+      await responseBool.json().then(data => {
+        console.log(data);
+      })
+    }
 
   let URLpart = "http://localhost:5263/api/RentalRecord/Update-Rental-Out"
 

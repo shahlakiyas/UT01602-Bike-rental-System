@@ -21,7 +21,10 @@
   --container-color: #faeee4;
 }
 
-
+.notifications{
+  background-color: yellow;
+  color:black;
+}
 
 img {
   width: 100%;
