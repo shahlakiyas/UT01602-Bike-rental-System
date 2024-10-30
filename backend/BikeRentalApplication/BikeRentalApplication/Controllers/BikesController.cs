@@ -57,15 +57,28 @@ namespace BikeRentalApplication.Controllers
         [HttpGet("Get-All-bikes-With-Images")]
         public async Task<IActionResult> GetAllBikesWithImages()
         {
-            var bikes = await _bikesRepository.GetAllBikesWithAsync();
-            return Ok(bikes);
+            try
+            {
+                var bikes = await _bikesRepository.GetAllBikesWithAsync();
+                return Ok(bikes);
+            }
+            catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpGet("Get-All-bikes-With-Images{id}")]
         public async Task<IActionResult> GetAllBikesWithImages(int id)
         {
-            var bikes = await _bikesRepository.GetBikeByIdWithImages(id);
-            return Ok(bikes);
+            try
+            {
+                var bikes = await _bikesRepository.GetBikeByIdWithImages(id);
+                return Ok(bikes);
+            }
+            catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
         }
 
 

@@ -11,11 +11,13 @@ namespace BikeRentalApplication.Repositories
         private readonly string _connectionString;
         private readonly ImagesRepository _imageRepository;
         private readonly InventoryRepository _inventoryRepository;
+   
         public BikesRepository(IConfiguration configuration , ImagesRepository imagesRepository , InventoryRepository inventoryRepository)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
             _imageRepository = imagesRepository;
             _inventoryRepository = inventoryRepository;
+     
         }
 
         public async Task<int> AddBikeAsync(BikeRequest bike)
@@ -60,6 +62,7 @@ namespace BikeRentalApplication.Repositories
         // Get Bike By Id
         public async Task<Bike> GetBikeById(int id)
         {
+          
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 SqlCommand command = new SqlCommand("SELECT * FROM Bikes WHERE Id = @Id", connection);
@@ -103,15 +106,26 @@ namespace BikeRentalApplication.Repositories
         //Delete Bike By Id 
         public async Task<bool> DeleteBikeAsync(int id)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            var units = await _inventoryRepository.GetUnitsByBikeId(id);
+            if(units == null) throw new Exception("Can not delete bike"); 
+            foreach (var unit in units)
             {
-                SqlCommand command = new SqlCommand("DELETE FROM Bikes WHERE Id = @Id", connection);
-                command.Parameters.AddWithValue("@Id", id);
+                var availabilty = await _inventoryRepository.CheckAvailability(unit.RegistrationNumber);
+                if (availabilty == true) {
+                    using (SqlConnection connection = new SqlConnection(_connectionString))
+                    {
+                        SqlCommand command = new SqlCommand("UPDATE Inventory SET isDeleted = @isDeleted  WHERE RegistrationNumber = @RegistrationNumber", connection);
+                        command.Parameters.AddWithValue("@RegistrationNumber", unit.RegistrationNumber);
+                        command.Parameters.AddWithValue("@isDeleted", 1);
 
-                await connection.OpenAsync();
-                var result = await command.ExecuteNonQueryAsync();
-                return result > 0;
+                        await connection.OpenAsync();
+                        var result = await command.ExecuteNonQueryAsync();
+                        return result > 0;
+                    }
+                }
             }
+            return false;
+       
         }
          //Get Bikes with Images
         public async Task<List<BikeImageUnit>> GetAllBikesWithAsync()
@@ -127,16 +141,19 @@ namespace BikeRentalApplication.Repositories
                 {
                     var images = await _imageRepository.GetProductByIdAsync((int)reader["Id"]);
                     var Availableunits = await _inventoryRepository.GetAvailableUnitsByBikeId((int)reader["Id"]);
-                    bikesWithImages.Add(new BikeImageUnit
-                    {
-                        BikeId = (int)reader["Id"],
-                        Brand = reader["Brand"].ToString(),
-                        Modal = reader["Modal"].ToString(),
-                        Type = reader["Type"].ToString(),
-                        RatePerHour = (decimal)reader["RatePerHour"],
-                        BikeImages = images,
-                        Units = Availableunits
-                    });  
+                    
+                        bikesWithImages.Add(new BikeImageUnit
+                        {
+                            BikeId = (int)reader["Id"],
+                            Brand = reader["Brand"].ToString(),
+                            Modal = reader["Modal"].ToString(),
+                            Type = reader["Type"].ToString(),
+                            RatePerHour = (decimal)reader["RatePerHour"],
+                            BikeImages = images,
+                            Units = Availableunits
+                        });
+                                       
+                  
                 
                 }
             }
@@ -156,16 +173,23 @@ namespace BikeRentalApplication.Repositories
                 {
                     var images = await _imageRepository.GetProductByIdAsync(id);
                     var units = await _inventoryRepository.GetUnitsByBikeId(id);
-                    return new BikeImageUnit
+                    if (units != null) {
+                        return new BikeImageUnit
+                        {
+                            BikeId = (int)reader["Id"],
+                            Brand = reader["Brand"].ToString(),
+                            Type = reader["Type"].ToString(),
+                            Modal = reader["Modal"].ToString(),
+                            RatePerHour = (decimal)reader["RatePerHour"],
+                            BikeImages = images,
+                            Units = units
+                        };
+                    }
+                    else
                     {
-                        BikeId = (int)reader["Id"],
-                        Brand = reader["Brand"].ToString(),
-                        Type = reader["Type"].ToString(),
-                        Modal = reader["Modal"].ToString(),
-                        RatePerHour = (decimal)reader["RatePerHour"],
-                        BikeImages = images,
-                        Units= units
-                    };
+                        throw new Exception();
+                    }
+                 
                 }
                 return null;
             }
