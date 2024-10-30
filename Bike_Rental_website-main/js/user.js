@@ -202,7 +202,7 @@ function logIn(event) {
         }
         loginMsg.style.color = "green";
         loginMsg.innerHTML =  `<h2>Login Successfull</h2>`;
-
+        getNotifications();
       }).catch((err) => {
         console.log(err);
       })
@@ -281,6 +281,37 @@ function getUserData(userData) {
     }
 
   }
+
+}
+async function getNotifications(){
+  let user = JSON.parse(sessionStorage.getItem('currentUser'));
+  if(user){
+    const NIC = user.nicNumber;
+    let response = await fetch(`http://localhost:5263/api/RentalRequest/Get-Notifiactions${NIC}`);
+    if(response.ok){
+      let notifications = response.json().then(data =>{
+        console.log(data);
+        let icon = document.getElementById('dropDown');
+        console.log(icon);
+       
+        icon.addEventListener('mouseenter',()=> {
+          icon.innerHTML = "";
+          icon.setAttribute("class" , "notifications");
+          console.log(data);
+          data.forEach(noti => {
+            if(noti.status == true){
+              icon.innerHTML += `${noti.requestTime}-has been accepted<br>`
+            }else if(noti.status == false){
+              icon.innerHTML += `${noti.requestTime}-has been rejected<br>`
+            }          
+          });
+        })   
+      })
+    }
+  }
+  
+
+ 
 
 }
 
